@@ -1,4 +1,4 @@
-# Peer Grading App (working title)
+# Peer Grading App
 
 GradeMePlease (working title) is a to be a platform for that makes grading
 a class much easier by providing a simple, intuitive UI for graders to 
@@ -7,5 +7,6 @@ for peer grading and self grading, that runs sophisticated algorithms to get
 accurate grades from imperfect peer gradings, or to monitor the quality of
 self grades.
 
-By [*Ajay Tripathi*](http://www.linkedin.com/pub/ajay-tripathi/3b/297/298/)
-Visit the site at [*here*](GradeMePlease.heroku.com)
+By [*Ajay Tripathi*](http://www.linkedin.com/pub/ajay-tripathi/3b/297/298/) 
+
+Visit the site [*here*](GradeMePlease.heroku.com)
