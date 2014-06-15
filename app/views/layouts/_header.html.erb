@@ -1,8 +1,13 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
+<div class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "Grade Me Please!", root_path, id: "logo" %>
-      <nav>
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <%= link_to "GradeMePlease!", root_path, id: "logo" %>
+      <div class="collapse nav-collapse">
         <ul class="nav pull-right">
           <li><%= link_to "Home", root_path %></li>
           <li><%= link_to "Help", help_path %></li>
@@ -19,7 +24,7 @@
                 <li>
                   <%= link_to "Sign out", signout_path, method: "delete" %>
                 </li>
-                <% if !current_user.admin? %>
+                <% unless current_user.admin? %>
                   <li class="divider"></li>
                   <li>
                     <%= link_to "Delete Account", current_user,   
@@ -33,7 +38,7 @@
             <li><%= link_to "Sign in", signin_path %></li>
           <% end %>
         </ul>
-      </nav>
+      </div>
     </div>
   </div>
-</header>
+</div>
