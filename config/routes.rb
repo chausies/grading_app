@@ -1,19 +1,5 @@
 Rails.application.routes.draw do
-
-  get 'courses/new'
-
-  get 'courses/create'
-
-  get 'courses/update'
-
-  get 'courses/edit'
-
-  get 'courses/destroy'
-
-  get 'courses/index'
-
-  get 'courses/show'
-
+  
   resources :users, except: :index
   resources :sessions, only: [:new, :create, :destroy]
   resources :courses
