@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  
+  has_many :enrollments, foreign_key: "participant_id", dependent: :destroy
+  has_many :courses, through: :enrollments
+
   before_save { self.email = email.downcase }
   before_create :create_remember_token
   
@@ -21,7 +23,15 @@ class User < ActiveRecord::Base
   def User.digest(token)
     Digest::SHA1.hexdigest(token.to_s)
   end
-  
+
+  def enrolled?(course_id)
+    self.enrollments.find_by(course_id: course_id)
+  end
+
+  def enroll!(course_id, status)
+    self.enrollments.create!(course_id: course_id, status: status)
+  end
+
   private
 
     def create_remember_token

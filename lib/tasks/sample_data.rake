@@ -2,6 +2,8 @@ namespace :db do
   desc "Fill database with sample data"
   task populate: :environment do
     make_users
+    make_courses
+    signup_users
   end
 end
 
@@ -21,3 +23,19 @@ def make_users
                  password_confirmation: password)
   end
 end
+
+def make_courses
+  number_of_classes = 4
+  number_of_classes.times do |n|
+    name = "name #{n+1}"
+    subject = "subject #{n+1}"
+    school = "school #{n+1}"
+    Course.create!( name: name,
+                    subject: subject,
+                    school: school)
+  end
+end
+
+def signup_users
+  number_of_classes = 4
+  
