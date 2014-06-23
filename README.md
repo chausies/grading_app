@@ -1,6 +1,6 @@
 # Peer Grading App
 
-GradeMePlease (working title) is a to be a platform for that makes grading
+MagicGrader (working title) is a to be a platform for that makes grading
 a class much easier by providing a simple, intuitive UI for graders to 
 grade assignments and tests. More importantly, it is to be a powerful platform
 for peer grading and self grading, that runs sophisticated algorithms to get
@@ -9,4 +9,4 @@ self grades.
 
 By [*Ajay Tripathi*](http://www.linkedin.com/pub/ajay-tripathi/3b/297/298/) 
 
-Visit the site [*here*](GradeMePlease.heroku.com)
+Visit the site [*here*](MagicGrader.heroku.com)
