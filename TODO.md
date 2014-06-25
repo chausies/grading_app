@@ -5,7 +5,8 @@ Temporary name: MagicGrader
 
 ~~Fix up stylings for various site pages (better navbar, better bootstrap, etc)~~
 
-Implement various models and their associations (User model, Course model, Grade model)
+~~Implement various models and their associations (User model, Course model)~~
+create more course models (grading model, assignment/submission models)
 
 Flush out Course pages (create a course, create assignments, add students, simple grading)
 
