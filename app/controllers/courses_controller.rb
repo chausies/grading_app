@@ -58,6 +58,7 @@ class CoursesController < ApplicationController
 
     def status_or_more(status)
       @course = Course.find(params[:id])
+      signed_in_user
       has_permission = current_user.enrollments.find_by(course_id: @course.id).status > status
       unless has_permission
         redirect_to root_url notice: "You ain't allowed to edit the course ಠ_ಠ"
