@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   
   resources :users, except: :index
   resources :sessions, only: [:new, :create, :destroy]
-  resources :courses
+  resources :courses do
+    member do
+      get :roster
+    end
+  end
+
 
   root 'static_pages#home'
   match '/signup',    to:   'users#new',            via:  'get'

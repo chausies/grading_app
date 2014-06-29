@@ -1,4 +1,6 @@
 class Course < ActiveRecord::Base
+  # Attributes: name, subject, school
+
   has_many :enrollments, foreign_key: "course_id", dependent: :destroy
   has_many :participants, through: :enrollments
 

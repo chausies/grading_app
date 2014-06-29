@@ -1,6 +1,7 @@
 class CoursesController < ApplicationController
+  before_action :get_course, only: [:update, :edit, :destroy, :show, :roster]
   before_action :instructor_or_more, only: :destroy
-  before_action :TA_or_more, only: [:update, :edit]
+  before_action :TA_or_more, only: [:update, :edit, :roster]
 
   def new
     @course = Course.new
@@ -39,10 +40,17 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = Course.find(params[:id])
+  end
+
+  def roster
+    @participants = @course.participants
   end
 
   private
+
+    def get_course
+      @course = Course.find(params[:id])
+    end
 
     def course_params
       params.require(:course).permit(:name, :subject, :school)
@@ -57,7 +65,6 @@ class CoursesController < ApplicationController
     end
 
     def status_or_more(status)
-      @course = Course.find(params[:id])
       signed_in_user
       has_permission = current_user.enrollments.find_by(course_id: @course.id).status > status
       unless has_permission
