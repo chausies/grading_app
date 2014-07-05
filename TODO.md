@@ -6,7 +6,10 @@ Temporary name: MagicGrader
 ~~Fix up stylings for various site pages (better navbar, better bootstrap, etc)~~
 
 ~~Implement various models and their associations (User model, Course model)~~
-create more course models (grading model, assignment/submission models)
+~~Implement roster and importing students~~
+Make importing students even more robust. Do more than just CSV
+
+Create more course models (grading model, assignment/submission models)
 
 Flush out Course pages (create a course, create assignments, add students, simple grading)
 
