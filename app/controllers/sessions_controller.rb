@@ -7,8 +7,10 @@ class SessionsController < ApplicationController
 		user = User.find_by(email: params[:session][:email].downcase)
 		if !user
 			flash.now[:error] = 'This email is not registered'
+			render 'new'
 		elsif !user.authenticate(params[:session][:password])
 			flash.now[:error] = 'Invalid password'
+			render 'new'
 		else
 	    	sign_in user
       		redirect_back_or user
