@@ -10,4 +10,20 @@ class Statuses
   #     user.enrollments.find_by(course_id: course_id).status?(Statuses::STUDENT)
   # Can compare statuses
   # e.g. #do stuff# if enrollment.status >= Statuses::STUDENT
+  def Statuses.status_string(status)
+    case status
+    when STUDENT
+      "student"
+    when READER
+      "reader" 
+    when TA
+      "teaching assistant"
+    when INSTRUCTOR
+      "instructor"
+    when ADMIN
+      "admin"
+    else
+      
+    end
+  end
 end

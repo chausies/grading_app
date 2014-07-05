@@ -1,6 +1,7 @@
 class CoursesController < ApplicationController
-  before_action :get_course, only: [:update, :edit, :destroy, :show, :roster]
-  before_action :instructor_or_more, only: :destroy
+  before_action :get_course, only: [:update, :edit, :destroy, :show, :roster, :import]
+  before_action :signed_in_user, except: [:index, :show]
+  before_action :instructor_or_more, only: [:destroy, :import]
   before_action :TA_or_more, only: [:update, :edit, :roster]
 
   def new
@@ -43,7 +44,26 @@ class CoursesController < ApplicationController
   end
 
   def roster
-    @participants = @course.participants
+    @enrollments = @course.enrollments
+    @enrollments = @enrollments.to_a.sort do |a, b|
+      if a.status?(b.status)
+        # ASC order of name
+        a.participant.name.downcase <=> b.participant.name.downcase
+      else
+        # DESC order of status
+        b.status <=> a.status
+      end
+    end
+  end
+
+  def import
+    message = @course.import(params[:file])
+    if message == true
+      flash[:success] = "Successfully imported students"
+    else
+      flash[:error] = message
+    end
+    redirect_to roster_course_path(@course)
   end
 
   private
@@ -65,10 +85,10 @@ class CoursesController < ApplicationController
     end
 
     def status_or_more(status)
-      signed_in_user
-      has_permission = current_user.enrollments.find_by(course_id: @course.id).status > status
+      enrollment = current_user.enrollments.find_by(course_id: @course.id)
+      has_permission = enrollment && enrollment.status > status
       unless has_permission
-        redirect_to root_url notice: "You ain't allowed to edit the course ಠ_ಠ"
+        redirect_to root_url, notice: "You ain't allowed to access this part of the course ಠ_ಠ"
       end
     end
 end

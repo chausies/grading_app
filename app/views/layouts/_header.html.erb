@@ -22,6 +22,9 @@
                 <li><%= link_to "All Courses", courses_path %></li>
               </ul>
             </li>
+            <% if @course and current_user.enrolled?(@course.id) and current_user.enrollments.find_by(@course.id).status > Statuses::TA%>
+              <li><%= link_to "View Roster", roster_course_path(@course) %> </li>
+            <% end %>
           <% else %>
             <li><%= link_to "All Courses", courses_path %></li>
           <% end %>

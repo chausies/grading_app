@@ -28,8 +28,8 @@ class User < ActiveRecord::Base
     self.enrollments.find_by(course_id: course_id)
   end
 
-  def enroll!(course_id, status)
-    self.enrollments.create!(course_id: course_id, status: status)
+  def enroll!(course_id, status, sid = "")
+    self.enrollments.create!(course_id: course_id, status: status, sid: sid)
   end
 
   private

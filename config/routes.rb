@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   resources :courses do
     member do
       get :roster
+      post :import
     end
-  end
+  end                                                                                                                               
 
 
   root 'static_pages#home'

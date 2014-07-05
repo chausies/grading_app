@@ -29,13 +29,14 @@ ActiveRecord::Schema.define(version: 20140629052138) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "SID"
+    t.string   "sid"
   end
 
-  add_index "enrollments", ["SID"], name: "index_enrollments_on_SID"
   add_index "enrollments", ["course_id"], name: "index_enrollments_on_course_id"
   add_index "enrollments", ["participant_id", "course_id"], name: "index_enrollments_on_participant_id_and_course_id", unique: true
   add_index "enrollments", ["participant_id"], name: "index_enrollments_on_participant_id"
+  add_index "enrollments", ["sid", "course_id"], name: "index_enrollments_on_sid_and_course_id", unique: true
+  add_index "enrollments", ["sid"], name: "index_enrollments_on_sid"
 
   create_table "users", force: true do |t|
     t.string   "name"
