@@ -9,6 +9,7 @@ class Enrollment < ActiveRecord::Base
   		self.id = ('a'..'z').to_a.shuffle[0..7].join
   	end
   end
+  
   validates :participant_id, presence: true
   validates :course_id, presence: true
 
