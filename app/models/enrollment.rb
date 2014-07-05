@@ -6,10 +6,10 @@ class Enrollment < ActiveRecord::Base
   before_save do
   	self.sid = sid.to_s.strip if self.sid
   	unless self.id
-  		self.id = ('a'..'z').to_a.shuffle[0..7].join
+  		self.sid = ('a'..'z').to_a.shuffle[0..7].join
   	end
   end
-  
+
   validates :participant_id, presence: true
   validates :course_id, presence: true
 
