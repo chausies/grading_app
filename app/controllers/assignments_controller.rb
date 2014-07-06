@@ -1,4 +1,5 @@
 class AssignmentsController < ApplicationController
+  before_action :set_course
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
   # GET /assignments
@@ -33,7 +34,8 @@ class AssignmentsController < ApplicationController
   # PATCH/PUT /assignments/1
   def update
     if @assignment.update(assignment_params)
-      redirect_to @assignment, notice: 'Assignment was successfully updated.'
+      flash[:success] = 'Assignment was successfully updated.'
+      redirect_to @assignment
     else
       render :edit
     end
@@ -42,13 +44,17 @@ class AssignmentsController < ApplicationController
   # DELETE /assignments/1
   def destroy
     @assignment.destroy
-    redirect_to assignments_url, notice: 'Assignment was successfully destroyed.'
+    redirect_to course_assignments_url, notice: 'Assignment was successfully destroyed.'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment
       @assignment = Assignment.find(params[:id])
+    end
+
+    def set_course
+      @course = Course.find(params[:course_id])
     end
 
     # Only allow a trusted parameter "white list" through.
