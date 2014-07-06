@@ -11,9 +11,15 @@
   <tbody>
     <% @courses.each do |course| %>
       <tr>
-        <td><%= course.name %></td>
-        <td><%= course.subject %></td>
-        <td><%= course.school %></td>
+        <td><%= link_to course.name, course %></td>
+        <td><%= link_to course.subject, course %></td>
+        <td><%= link_to course.school, course %></td>
+        <% if current_user and current_user.enrolled?(course) and current_user.enrollments.find_by(course_id: course.id).status > Statuses::INSTRUCTOR %>
+          <td>
+            <%= link_to "Edit", edit_course_path(course), type: "button", class: "btn btn-primary" %>
+            <%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
