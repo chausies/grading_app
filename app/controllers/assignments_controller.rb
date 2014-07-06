@@ -1,5 +1,7 @@
 class AssignmentsController < ApplicationController
   before_action :set_course
+  before_action :signed_in_user
+  before_action :set_enrollment
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
   # GET /assignments
@@ -56,6 +58,10 @@ class AssignmentsController < ApplicationController
 
     def set_course
       @course = Course.find(params[:course_id])
+    end
+
+    def set_enrollment
+      @enrollment = current_user.enrollments.find_by(course_id: @course.id)
     end
 
     # Only allow a trusted parameter "white list" through.
