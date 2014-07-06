@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/new
   def new
-    @assignment = @course.build
+    @assignment = @course.assignments.build
   end
 
   # GET /assignments/1/edit
@@ -22,11 +22,11 @@ class AssignmentsController < ApplicationController
 
   # POST /assignments
   def create
-    @assignment = @course.build(assignment_params)
+    @assignment = @course.assignments.build(assignment_params)
 
     if @assignment.save
       flash[:success] = 'Assignment was successfully created.'
-      redirect_to @assignment
+      redirect_to [@course, @assignment]
     else
       render :new
     end
@@ -36,7 +36,7 @@ class AssignmentsController < ApplicationController
   def update
     if @assignment.update(assignment_params)
       flash[:success] = 'Assignment was successfully updated.'
-      redirect_to @assignment
+      redirect_to [@course, @assignment]
     else
       render :edit
     end
@@ -45,7 +45,7 @@ class AssignmentsController < ApplicationController
   # DELETE /assignments/1
   def destroy
     @assignment.destroy
-    redirect_to course_assignments_url, notice: 'Assignment was successfully destroyed.'
+    redirect_to course_assignments_url(@course), notice: 'Assignment was successfully destroyed.'
   end
 
   private
@@ -60,6 +60,6 @@ class AssignmentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def assignment_params
-      params[:assignment]
+      params[:assignment].permit(:name)
     end
 end
