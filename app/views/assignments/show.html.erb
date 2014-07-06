@@ -2,7 +2,7 @@
 
 <h1><%= @assignment.name %></h1>
 <p>
-  <iframe src="http://docs.google.com/gview?url=magicgrader.heroku.com<%= @assignment.pdf_url %>&embedded=true" style="width:600px; height:500px;" frameborder="0" onload="javascript:this.contentWindow.location.hash=':0.page.1';"></iframe>
+  <iframe src="http://docs.google.com/gview?url=magicgrader.heroku.com<%= @assignment.pdf_url %>&embedded=true" frameborder="0" onload="javascript:this.contentWindow.location.hash=':0.page.1';"></iframe>
 </p>
 <p>
   <% if @enrollment and @enrollment.status > Statuses::READER %>
