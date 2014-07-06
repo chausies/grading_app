@@ -24,12 +24,13 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(token.to_s)
   end
 
-  def enrolled?(course_id)
-    self.enrollments.find_by(course_id: course_id)
+  def enrolled?(course_or_id)
+    self.enrollments.find_by(course_id: (course_or_id.is_a?(Integer) ? course_or_id : course_or_id.id))
   end
 
-  def enroll!(course_id, status, sid = "")
-    self.enrollments.create!(course_id: course_id, status: status, sid: sid)
+  def enroll!(course_or_id, status, sid = "")
+    self.enrollments.create!(course_id: (course_or_id.is_a?(Integer) ? course_or_id : course_or_id.id),
+                               status: status, sid: sid)
   end
 
   private
