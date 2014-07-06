@@ -1,17 +1,8 @@
-<%= form_for(@assignment) do |f| %>
-  <% if @assignment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
+<%= form_for [@course, @assignment] do |f| %>
+  <%= render 'shared/error_messages', object: @assignment%>
+  
+  <%= f.label :name %>
+  <%= f.text_field :name, placeholder: "e.g. Homework 1" %>
 
-      <ul>
-      <% @assignment.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>
 <% end %>
