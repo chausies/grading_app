@@ -1,6 +1,7 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:update, :edit, :destroy, :show, :roster, :import]
   before_action :signed_in_user, except: [:index, :show]
+  before_action :set_enrollment, except: [:index, :show]
   before_action :instructor_or_more, only: [:destroy, :import]
   before_action :TA_or_more, only: [:update, :edit, :roster]
 
@@ -34,6 +35,8 @@ class CoursesController < ApplicationController
   end
 
   def destroy
+    @course.destroy
+    redirect_to courses_url, notice: 'Course was successfully destroyed.'
   end
 
   def index
@@ -72,6 +75,10 @@ class CoursesController < ApplicationController
       @course = Course.find(params[:id])
     end
 
+    def set_enrollment
+      @enrollment = current_user and current_user.enrollments.find_by(course_id: @course.id)
+    end
+
     def course_params
       params.require(:course).permit(:name, :subject, :school)
     end
@@ -85,8 +92,7 @@ class CoursesController < ApplicationController
     end
 
     def status_or_more(status)
-      enrollment = current_user.enrollments.find_by(course_id: @course.id)
-      has_permission = enrollment && enrollment.status > status
+      has_permission = @enrollment && @enrollment.status > status
       unless has_permission
         redirect_to root_url, notice: "You ain't allowed to access this part of the course ಠ_ಠ"
       end
