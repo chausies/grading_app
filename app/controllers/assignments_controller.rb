@@ -4,7 +4,7 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments
   def index
-    @assignments = Assignment.all
+    @assignments = @course.assignments
   end
 
   # GET /assignments/1
@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/new
   def new
-    @assignment = Assignment.new
+    @assignment = @course.build
   end
 
   # GET /assignments/1/edit
@@ -22,10 +22,11 @@ class AssignmentsController < ApplicationController
 
   # POST /assignments
   def create
-    @assignment = Assignment.new(assignment_params)
+    @assignment = @course.build(assignment_params)
 
     if @assignment.save
-      redirect_to @assignment, notice: 'Assignment was successfully created.'
+      flash[:success] = 'Assignment was successfully created.'
+      redirect_to @assignment
     else
       render :new
     end
@@ -50,7 +51,7 @@ class AssignmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment
-      @assignment = Assignment.find(params[:id])
+      @assignment = @course.assignments.find(params[:id])
     end
 
     def set_course
