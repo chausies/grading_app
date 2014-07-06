@@ -1,13 +1,16 @@
 <% provide(:title, "#{@course.name} | #{@assignment.name}") %>
 
 <h1><%= @assignment.name %></h1>
-<p>
-  <!-- <iframe src="https://docs.google.com/gview?url=https://magicgrader.heroku.com<%#= @assignment.pdf_url %>&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe> -->
-  <iframe src="https://docs.google.com/gview?url=https://magicgrader.herokuapp.com/uploads/assignment/pdf/3/hw4.pdf&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>
-</p>
-<p>
+<div class="row">
+<div>
+  <!-- <iframe class="span8 pull-left" src="https://docs.google.com/gview?url=https://magicgrader.heroku.com<%#= @assignment.pdf_url %>&embedded=true" style="height:500px;" frameborder="0"></iframe> -->
+  <iframe class="span8 pull-left" src="https://docs.google.com/gview?url=https://magicgrader.herokuapp.com/uploads/assignment/pdf/3/hw4.pdf&embedded=true" style="height:500px;" frameborder="0"></iframe>
+</div>
+<div class="span4 pull-right" >
   <% if @enrollment and @enrollment.status > Statuses::READER %>
     <%= link_to "Edit", edit_course_assignment_path(@course, @assignment), type: "button", class: "btn btn-primary" %>
+    <br>
     <%= link_to 'Destroy', [@course, @assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
   <% end %>
-</p>
+</div>
+</div>
