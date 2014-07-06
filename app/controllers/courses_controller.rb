@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :get_course, only: [:update, :edit, :destroy, :show, :roster, :import]
+  before_action :set_course, only: [:update, :edit, :destroy, :show, :roster, :import]
   before_action :signed_in_user, except: [:index, :show]
   before_action :instructor_or_more, only: [:destroy, :import]
   before_action :TA_or_more, only: [:update, :edit, :roster]
@@ -68,7 +68,7 @@ class CoursesController < ApplicationController
 
   private
 
-    def get_course
+    def set_course
       @course = Course.find(params[:id])
     end
 
