@@ -1,2 +1,5 @@
-<h1>Courses#edit</h1>
-<p>Find me in app/views/courses/edit.html.erb</p>
+<% provide(:title, "#{@course.name} | Edit #{@course.name}") %>
+
+<h1>Edit course</h1>
+
+<%= render 'form' %>

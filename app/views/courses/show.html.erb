@@ -4,3 +4,8 @@
 <p><%= @course.school %></p>
 <h3>Description</h3>
 <p>This is a description :3</p>
+
+<% if !@enrollment.nil? and @enrollment.status > Statuses::READER %>
+  <%= link_to "Edit", edit_course_path(@course), type: "button", class: "btn btn-primary" %>
+  <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
+<% end %>

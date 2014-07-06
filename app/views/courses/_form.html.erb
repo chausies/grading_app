@@ -1,0 +1,14 @@
+<%= form_for @course do |f| %>
+  <%= render 'shared/error_messages', object: f.object%>
+  
+  <%= f.label "Name" %>
+  <%= f.text_field :name, placeholder: "e.g. Computer Science 70" %>
+
+  <%= f.label "Subject" %>
+  <%= f.text_field :subject, placeholder: "e.g. Logic, Discrete Math and Probability Theory" %>
+
+  <%= f.label "School" %>
+  <%= f.text_field :school, placeholder: "e.g. UC Berkeley" %>
+
+  <%= f.submit "Create Course", class: "btn btn-large btn-primary" %>
+<% end %>

@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:update, :edit, :destroy, :show, :roster, :import]
   before_action :signed_in_user, except: [:index, :show]
-  before_action :set_enrollment, except: [:index, :show]
+  before_action :set_enrollment, except: :index
   before_action :instructor_or_more, only: [:destroy, :import]
   before_action :TA_or_more, only: [:update, :edit, :roster]
 
@@ -76,7 +76,7 @@ class CoursesController < ApplicationController
     end
 
     def set_enrollment
-      @enrollment = current_user and current_user.enrollments.find_by(course_id: @course.id)
+      @enrollment = current_user.nil? ? false : current_user.enrollments.find_by(course_id: @course.id)
     end
 
     def course_params
