@@ -22,8 +22,22 @@
                 <li><%= link_to "All Courses", courses_path %></li>
               </ul>
             </li>
-            <% if @course and current_user.enrolled?(@course.id) and current_user.enrollments.find_by(course_id: @course.id).status > Statuses::TA%>
-              <li><%= link_to "View Roster", roster_course_path(@course) %> </li>
+            <% if @course %>
+              <% if @enrollment and @enrollment.status > Statuses::TA %>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Assignments <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "View Assignments", course_assignments_path(@course) %></li>
+                    <li class="divider"></li>
+                    <li><%= link_to "Create New Assignment", new_course_assignment_path(@course) %></li>
+                  </ul>
+                </li>
+                <li><%= link_to "View Roster", roster_course_path(@course) %> </li>
+              <% else %>
+                <li><%= link_to "View Assignments", course_assignments_path(@course) %></li>
+              <% end %>
             <% end %>
           <% else %>
             <li><%= link_to "All Courses", courses_path %></li>
