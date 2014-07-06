@@ -1,4 +1,8 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "#{@course.name} | #{@assignment.name}") %>
 
-<%= link_to 'Edit', edit_course_assignment_path(@course, @assignment) %> |
-<%= link_to 'Back', course_assignments_path(@course) %>
+<h1><%= @assignment.name %></h1>
+
+<% if !@enrollment.nil? and @enrollment.status > Statuses::READER %>
+  <%= link_to "Edit", edit_course_assignment_path(@course,assignment), type: "button", class: "btn btn-primary" %>
+  <%= link_to 'Destroy', [@course, assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
+<% end %>

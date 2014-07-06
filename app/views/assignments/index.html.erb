@@ -1,23 +1,26 @@
-<h1>Listing assignments</h1>
+<% provide(:title, "#{@course.name} | Assignments") %>
 
-<table>
+<h1>Assignments for <%= @course.name %></h1>
+
+<table class="table table-striped table-condensedr">
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th>Assignment name</th>
+      <th></th>
     </tr>
   </thead>
-
   <tbody>
     <% @assignments.each do |assignment| %>
       <tr>
-        <td><%= link_to 'Show', [@course, assignment] %></td>
-        <td><%= link_to 'Edit', edit_course_assignment_path(@course, assignment) %></td>
-        <td><%= link_to 'Destroy', [@course, assignment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to assignment.name, [@course, assignment] %></td>
+        <% if !@enrollment.nil? and @enrollment.status > Statuses::READER %>
+          <td>
+            <%= link_to "Edit", edit_course_assignment_path(@course,assignment), type: "button", class: "btn btn-primary" %>
+            <%= link_to 'Destroy', [@course, assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Assignment', new_course_assignment_path(@course) %>

@@ -1,6 +1,5 @@
-<h1>Editing assignment</h1>
+<% provide(:title, "#{@course.name} | Edit #{@assignment.name}") %>
+
+<h1>Edit the assignment</h1>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', [@course, @assignment] %> |
-<%= link_to 'Back', course_assignments_path(@course) %>
