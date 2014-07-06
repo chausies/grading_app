@@ -13,8 +13,7 @@ class CoursesController < ApplicationController
     @admin_users = User.where(admin: true)
     @course = Course.new(course_params)
     if @course.save
-      @admin_users.each { |admin| admin.enroll!(@course) }
-      sign_in @user
+      @admin_users.each { |admin| admin.enroll! @course, Statuses::ADMIN }
       flash[:success] = "Your course has been successfully created!"
       redirect_to @course
     else
@@ -76,7 +75,7 @@ class CoursesController < ApplicationController
     end
 
     def set_enrollment
-      @enrollment = current_user.nil? ? false : current_user.enrollments.find_by(course_id: @course.id)
+      @enrollment = (current_user and @course) ? current_user.enrollments.find_by(course_id: @course.id) : false
     end
 
     def course_params
@@ -92,7 +91,7 @@ class CoursesController < ApplicationController
     end
 
     def status_or_more(status)
-      has_permission = @enrollment && @enrollment.status > status
+      has_permission = (@enrollment and @enrollment.status >= status)
       unless has_permission
         redirect_to root_url, notice: "You ain't allowed to access this part of the course ಠ_ಠ"
       end

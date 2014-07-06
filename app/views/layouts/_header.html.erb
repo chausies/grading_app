@@ -22,7 +22,7 @@
                 <li><%= link_to "All Courses", courses_path %></li>
               </ul>
             </li>
-            <% if @course %>
+            <% if @course and !@course.new_record? %>
               <% if @enrollment and @enrollment.status > Statuses::TA %>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
