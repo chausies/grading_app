@@ -1,8 +1,13 @@
-<%= form_for [@course, @assignment] do |f| %>
+<%= form_for [@course, @assignment], multipart: true do |f| %>
   <%= render 'shared/error_messages', object: @assignment%>
-  
-  <%= f.label :name %>
-  <%= f.text_field :name, placeholder: "e.g. Homework 1" %>
-
-  <%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name, placeholder: "e.g. Homework 1" %>
+  </p>
+  <p>
+    <%= f.file_field :pdf %>
+  </p>
+  <p>
+    <%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>
+  </p>
 <% end %>

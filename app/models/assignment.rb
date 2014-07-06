@@ -3,4 +3,5 @@ class Assignment < ActiveRecord::Base
   belongs_to :course, class_name: "Course"
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :course_id, presence: true
+  mount_uploader :pdf, PdfUploader
 end
