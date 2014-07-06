@@ -61,7 +61,7 @@ class AssignmentsController < ApplicationController
     end
 
     def set_enrollment
-      @enrollment = current_user and current_user.enrollments.find_by(course_id: @course.id)
+      @enrollment = current_user.nil? ? false : current_user.enrollments.find_by(course_id: @course.id)
     end
 
     # Only allow a trusted parameter "white list" through.
