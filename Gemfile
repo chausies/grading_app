@@ -4,7 +4,7 @@ ruby '2.1.2'
 gem 'rails', '4.1.1'
 gem "therubyracer"
 gem "less-rails"
-gem "twitter-bootstrap-rails"
+gem 'twitter-bootstrap-rails', '~> 2.2.8'
 gem 'sprockets', '2.11.0'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'faker', '1.1.2'
