@@ -6,4 +6,5 @@ class Submission < ActiveRecord::Base
 
   validates :enrollment_id, presence: true
   validates :assignment_id, presence: true
+  mount_uploader :pdf, PdfUploader
 end
