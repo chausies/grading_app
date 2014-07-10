@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140709215231) do
+ActiveRecord::Schema.define(version: 20140706154427) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -47,16 +47,6 @@ ActiveRecord::Schema.define(version: 20140709215231) do
   add_index "enrollments", ["participant_id"], name: "index_enrollments_on_participant_id"
   add_index "enrollments", ["sid", "course_id"], name: "index_enrollments_on_sid_and_course_id", unique: true
   add_index "enrollments", ["sid"], name: "index_enrollments_on_sid"
-
-  create_table "submissions", force: true do |t|
-    t.integer  "assignment_id"
-    t.integer  "enrollment_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "submissions", ["assignment_id"], name: "index_submissions_on_assignment_id"
-  add_index "submissions", ["enrollment_id"], name: "index_submissions_on_enrollment_id"
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -6,7 +6,6 @@ class CreateSubmissions < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :submissions, :assignment_id
-    add_index :submissions, :enrollment_id
+    add_index :submissions, [:assignment_id, :enrollment_id, :created_at]
   end
 end
