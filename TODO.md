@@ -10,6 +10,7 @@ Temporary name: MagicGrader
 Make importing students even more robust. Do more than just CSV
 
 Create more course models (grading model, assignment/submission models)
+Make files submitted go to amazon s3, not stored locally.
 
 Flush out Course pages (create a course, create assignments, add students, simple grading)
 
