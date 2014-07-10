@@ -1,7 +1,8 @@
 class Submission < ActiveRecord::Base
-	belongs_to :enrollment, class_name: "Enrollment"
-	belongs_to :assignment, class_name: "Assignment"
+  # Attributes: assignment_id, course_id, created_at
+  belongs_to :enrollment, class_name: "Enrollment"
+  belongs_to :assignment, class_name: "Assignment"
 
-	validates :enrollment_id, presence: true
-	validates :assignment_id, presence: true
+  validates :enrollment_id, presence: true
+  validates :assignment_id, presence: true
 end

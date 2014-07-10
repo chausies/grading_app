@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   
+  get 'submission/new'
+
+  get 'submission/create'
+
+  get 'submission/show'
+
+  get 'submission/index'
+
   resources :users, except: :index
   resources :sessions, only: [:new, :create, :destroy]
   resources :courses do
