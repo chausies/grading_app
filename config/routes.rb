@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   resources :users, except: :index
   resources :sessions, only: [:new, :create, :destroy]
   resources :courses do
-    resources :assignments
+    resources :assignments do
+      resources :submissions, only: [:new, :create, :index, :show]
+    end
     member do
       get :roster
       post :import
