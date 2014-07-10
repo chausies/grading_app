@@ -9,7 +9,7 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    @submission = @assignment.submissions.build(pdf: params[:pdf])
+    @submission = @assignment.submissions.build(pdf: params[:pdf], enrollment_id: @enrollment.id)
 
     if @submission.save
       flash[:success] = 'Successfully submitted.'
