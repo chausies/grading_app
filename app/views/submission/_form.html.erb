@@ -1,0 +1,9 @@
+<%= form_for [@course, @assignment, @submission], multipart: true do |f| %>
+  <%= render 'shared/error_messages', object: @submission%>
+  <p>
+    <%= f.file_field :pdf %>
+  </p>
+  <p>
+    <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+  </p>
+<% end %>

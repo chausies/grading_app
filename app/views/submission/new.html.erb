@@ -1,2 +1,5 @@
-<h1>Submission#new</h1>
-<p>Find me in app/views/submission/new.html.erb</p>
+<% provide(:title, "#{@course.name} | #{@assignment.name} | New submission") %>
+
+<h1>New submission</h1>
+
+<%= render 'form' %>
