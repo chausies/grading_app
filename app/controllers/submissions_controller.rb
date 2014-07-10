@@ -1,4 +1,4 @@
-class SubmissionController < ApplicationController
+class SubmissionsController < ApplicationController
   before_action :set_course
   before_action :signed_in_user
   before_action :set_enrollment
