@@ -2,8 +2,9 @@
 
 <h1><%= @assignment.name %></h1>
 <div class="row">
-  <iframe class="span8 pull-left" src="https://docs.google.com/gview?url=https://magicgrader.heroku.com<%= @assignment.pdf_url %>&embedded=true" style="height:500px;" frameborder="0"></iframe>
-  <!-- <iframe class="span8 pull-left" src="https://docs.google.com/gview?url=https://magicgrader.herokuapp.com/uploads/assignment/pdf/3/hw4.pdf&embedded=true" style="height:500px;" frameborder="0"></iframe> -->
+  <iframe class="span8 pull-left" src="<%= @assignment.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+    Assignment
+  </iframe>
   <div class="span4 pull-right" >
     <% if @enrollment %>
       <% if @enrollment.status > Statuses::READER %>

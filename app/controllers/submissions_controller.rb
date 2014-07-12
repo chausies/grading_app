@@ -9,7 +9,7 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    @submission = @assignment.submissions.build(pdf: params[:pdf], enrollment_id: @enrollment.id)
+    @submission = @assignment.submissions.build(submission_params.merge(enrollment_id: @enrollment.id))
 
     if @submission.save
       flash[:success] = 'Successfully submitted.'
@@ -38,7 +38,7 @@ class SubmissionsController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def assignment_params
+    def submission_params
       params[:submission].permit(:pdf)
     end
 

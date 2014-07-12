@@ -3,6 +3,7 @@
 <h1>Submission for <%= @assignment.name %></h1>
 <h2>Submitted at <%= @submission.created_at.to_formatted_s(:long)%></h2>
 <div class="row">
-  <iframe class="span8 pull-left" src="https://docs.google.com/gview?url=https://magicgrader.heroku.com<%= @submission.pdf_url %>&embedded=true" style="height:500px;" frameborder="0"></iframe>
-  <!-- <iframe class="span8 pull-left" src="https://docs.google.com/gview?url=https://magicgrader.herokuapp.com/uploads/assignment/pdf/3/hw4.pdf&embedded=true" style="height:500px;" frameborder="0"></iframe> -->
+  <iframe class="span8 pull-left" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+  	Submission
+  </iframe>
 </div>
