@@ -54,17 +54,17 @@ ActiveRecord::Schema.define(version: 20140712181436) do
 
   create_table "gradings", force: true do |t|
     t.integer  "assignment_id"
-    t.integer  "gradee"
-    t.integer  "grader"
+    t.integer  "gradee_id"
+    t.integer  "grader_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "score"
   end
 
-  add_index "gradings", ["assignment_id", "gradee", "grader"], name: "index_gradings_on_assignment_id_and_gradee_and_grader", unique: true
+  add_index "gradings", ["assignment_id", "gradee_id", "grader_id"], name: "index_gradings_on_assignment_id_and_gradee_id_and_grader_id", unique: true
   add_index "gradings", ["assignment_id"], name: "index_gradings_on_assignment_id"
-  add_index "gradings", ["gradee"], name: "index_gradings_on_gradee"
-  add_index "gradings", ["grader"], name: "index_gradings_on_grader"
+  add_index "gradings", ["gradee_id"], name: "index_gradings_on_gradee_id"
+  add_index "gradings", ["grader_id"], name: "index_gradings_on_grader_id"
 
   create_table "submissions", force: true do |t|
     t.integer  "assignment_id"

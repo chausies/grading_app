@@ -3,7 +3,8 @@ class Enrollment < ActiveRecord::Base
   belongs_to :participant, class_name: "User"
   belongs_to :course, class_name: "Course"
 
-  has_many :gradings, dependent: :destroy
+  has_many :given_grades, class_name: "Grading", foreign_key: "grader_id", dependent: :destroy
+  has_many :received_grades, class_name: "Grading", foreign_key: "gradee_id", dependent: :destroy
   has_many :submissions, dependent: :destroy
   
   serialize :gradings_to_do, Array
@@ -23,6 +24,7 @@ class Enrollment < ActiveRecord::Base
   end
 
   def add_grading_to_do(assignment_id, gradee_id)
+    self.given_grades.create!(assignment_id: assignment_id, gradee: gradee_id)
     gradings_to_do << { assignment_id: assignment_id, gradee_id: gradee}
   end
 end
