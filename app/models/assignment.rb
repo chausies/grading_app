@@ -1,7 +1,9 @@
 class Assignment < ActiveRecord::Base
   # Attributes: name, course_id, pdf, min_points, max_points, began_grading
   belongs_to :course, class_name: "Course"
+  
   has_many :submissions, dependent: :destroy
+  has_many :gradings, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :course_id, presence: true

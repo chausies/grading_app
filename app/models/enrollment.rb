@@ -2,7 +2,8 @@ class Enrollment < ActiveRecord::Base
   # Attributes: participant_id, course_id, status, sid, gradings_to_do
   belongs_to :participant, class_name: "User"
   belongs_to :course, class_name: "Course"
-  
+
+  has_many :gradings, dependent: :destroy
   has_many :submissions, dependent: :destroy
   
   serialize :gradings_to_do, Array
