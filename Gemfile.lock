@@ -31,6 +31,11 @@ GEM
       tins (~> 1.0)
     arel (5.0.1.20140414130214)
     bcrypt-ruby (3.1.2)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     bootstrap-will_paginate (0.0.9)
       will_paginate
     builder (3.2.2)
@@ -41,6 +46,7 @@ GEM
       mime-types (>= 1.16)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -49,6 +55,7 @@ GEM
       execjs
     coffee-script-source (1.7.1)
     commonjs (0.2.7)
+    debug_inspector (0.0.2)
     erubis (2.7.0)
     excon (0.38.0)
     execjs (2.2.1)
@@ -187,6 +194,8 @@ PLATFORMS
 DEPENDENCIES
   amatch
   bcrypt-ruby (= 3.1.2)
+  better_errors
+  binding_of_caller
   bootstrap-will_paginate (= 0.0.9)
   carrierwave
   coffee-rails (= 4.0.1)
