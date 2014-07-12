@@ -2,7 +2,8 @@ class AssignmentsController < ApplicationController
   before_action :set_course
   before_action :signed_in_user
   before_action :set_enrollment
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy]
+  before_action :set_assignment, except: [:index, :new, :create]
+  before_action :TA_or_more, except: [:index, :show]
 
   # GET /assignments
   def index
@@ -48,6 +49,10 @@ class AssignmentsController < ApplicationController
   def destroy
     @assignment.destroy
     redirect_to course_assignments_url(@course), notice: 'Assignment was successfully destroyed.'
+  end
+
+  def begin_grading
+
   end
 
   private

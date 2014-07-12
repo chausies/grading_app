@@ -81,19 +81,4 @@ class CoursesController < ApplicationController
     def course_params
       params.require(:course).permit(:name, :subject, :school)
     end
-
-    def instructor_or_more
-      status_or_more Statuses::INSTRUCTOR
-    end
-
-    def TA_or_more
-      status_or_more Statuses::TA
-    end
-
-    def status_or_more(status)
-      has_permission = (@enrollment and @enrollment.status >= status)
-      unless has_permission
-        redirect_to root_url, notice: "You ain't allowed to access this part of the course ಠ_ಠ"
-      end
-    end
 end
