@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :courses do
     resources :assignments do
       resources :submissions, only: [:new, :create, :show]
-      members do
+      member do
         put :begin_grading
       end
     end
