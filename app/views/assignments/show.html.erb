@@ -9,7 +9,7 @@
     <% if @enrollment %>
       <% if @enrollment.status > Statuses::READER %>
         <%= link_to "Edit", edit_course_assignment_path(@course, @assignment), type: "button", class: "btn btn-primary" %>
-        <br>
+        &thinsp;
         <%= link_to 'Destroy', [@course, @assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
       <% elsif @enrollment.status?(Statuses::STUDENT) %>
         <%= link_to 'New Submission', new_course_assignment_submission_path(@course, @assignment), type: "button", class: "btn btn-success" %>

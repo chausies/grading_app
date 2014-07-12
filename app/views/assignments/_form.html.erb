@@ -5,7 +5,16 @@
     <%= f.text_field :name, placeholder: "e.g. Homework 1" %>
   </p>
   <p>
+    <%= f.label "Assignment file" %>
     <%= f.file_field :pdf %>
+  </p>
+  <p>
+    <%= f.label "Minimum score" %>
+    <%= f.number_field :min_points, step: 'any', class: 'text_field', value: 0 %>
+  </p>
+  <p>
+    <%= f.label "Maximum score" %>
+    <%= f.number_field :max_points, step: 'any', class: 'text_field', placeholder: 10 %>
   </p>
   <p>
     <%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>

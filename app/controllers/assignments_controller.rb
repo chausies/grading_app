@@ -66,6 +66,6 @@ class AssignmentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def assignment_params
-      params[:assignment].permit(:name, :pdf)
+      params[:assignment].permit(:name, :pdf, :max_points, :min_points)
     end
 end
