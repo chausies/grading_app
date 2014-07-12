@@ -1,7 +1,7 @@
 <% provide(:title, "#{@course.name} | #{@assignment.name} | Submission view") %>
 
 <h1>Submission for <%= @assignment.name %></h1>
-<h2>Submitted at <%= @submission.created_at.to_formatted_s(:long)%></h2>
+<h2>Submitted at <%= "#{@submission.created_at.getlocal.to_formatted_s(:long)} #{@submission.created_at.getlocal.zone}"%></h2>
 <div class="row">
   <iframe class="span8 pull-left" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
   	Submission

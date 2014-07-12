@@ -22,7 +22,7 @@
           <tbody>
             <% @assignment.submissions.where(enrollment_id: @enrollment.id).each do |submission| %>
               <tr>
-                <td><%= link_to submission.created_at.to_formatted_s(:long), [@course, @assignment, submission] %></td>
+                <td><%= link_to "#{submission.created_at.getlocal.to_formatted_s(:long)} #{submission.created_at.getlocal.zone}", [@course, @assignment, submission] %></td>
               </tr>
             <% end %>
           </tbody>
