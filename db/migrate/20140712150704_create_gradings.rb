@@ -7,5 +7,8 @@ class CreateGradings < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :gradings, :assignment_id
+    add_index :gradings, :grading_for
+    add_index :gradings, :grading_by
   end
 end

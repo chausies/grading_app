@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712124449) do
+ActiveRecord::Schema.define(version: 20140712150941) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20140712124449) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sid"
+    t.text     "gradings_to_do"
   end
 
   add_index "enrollments", ["course_id"], name: "index_enrollments_on_course_id"
@@ -49,6 +50,18 @@ ActiveRecord::Schema.define(version: 20140712124449) do
   add_index "enrollments", ["participant_id"], name: "index_enrollments_on_participant_id"
   add_index "enrollments", ["sid", "course_id"], name: "index_enrollments_on_sid_and_course_id", unique: true
   add_index "enrollments", ["sid"], name: "index_enrollments_on_sid"
+
+  create_table "gradings", force: true do |t|
+    t.integer  "assignment_id"
+    t.integer  "grading_for"
+    t.integer  "grading_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "gradings", ["assignment_id"], name: "index_gradings_on_assignment_id"
+  add_index "gradings", ["grading_by"], name: "index_gradings_on_grading_by"
+  add_index "gradings", ["grading_for"], name: "index_gradings_on_grading_for"
 
   create_table "submissions", force: true do |t|
     t.integer  "assignment_id"
