@@ -20,4 +20,8 @@ class Enrollment < ActiveRecord::Base
   def status?(status)
   	self.status == status
   end
+
+  def add_grading_to_do(assignment_id, gradee_id)
+    gradings_to_do << { assignment_id: assignment_id, gradee_id: gradee}
+  end
 end
