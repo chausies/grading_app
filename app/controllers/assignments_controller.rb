@@ -62,7 +62,7 @@ class AssignmentsController < ApplicationController
         end
       end
       if submissions_array.count < 4
-        flash[:error] = "Need at least 4 submissions to begin grading"
+        flash[:error] = "Need at least 4 submissions to begin grading. Only have #{submissions_array.count} so far."
         redirect_to [@course, @assignment]
       else
         submissions_array.shuffle!
