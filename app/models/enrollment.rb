@@ -24,7 +24,7 @@ class Enrollment < ActiveRecord::Base
   end
 
   def add_grading_to_do(assignment_id, gradee_id)
-    self.given_grades.create!(assignment_id: assignment_id, gradee: gradee_id)
-    gradings_to_do << { assignment_id: assignment_id, gradee_id: gradee}
+    grading = self.given_grades.create!(assignment_id: assignment_id, gradee_id: gradee_id)
+    gradings_to_do << { grading_id: grading.id }
   end
 end
