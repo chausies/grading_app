@@ -74,7 +74,7 @@ class AssignmentsController < ApplicationController
           end
           submissions_array.rotate!
         end
-        @assignment.began_grading = true
+        @assignment.update began_grading: true
         flash[:success] = "Assigned gradings to students"
         redirect_to [@course, @assignment]
       end

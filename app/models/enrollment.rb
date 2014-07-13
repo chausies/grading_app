@@ -10,7 +10,7 @@ class Enrollment < ActiveRecord::Base
   serialize :gradings_to_do, Array
 
   before_save do
-  	self.sid = sid.to_s.strip if self.sid
+  	self.sid = self.sid.to_s.strip if self.sid
   	unless self.id
   		self.sid = ('a'..'z').to_a.shuffle[0..7].join
   	end
@@ -25,6 +25,6 @@ class Enrollment < ActiveRecord::Base
 
   def add_grading_to_do(assignment_id, gradee_id)
     grading = self.given_grades.create!(assignment_id: assignment_id, gradee_id: gradee_id)
-    gradings_to_do << { grading_id: grading.id }
+    self.update gradings_to_do: self.gradings_to_do + [ grading_id: grading.id ]
   end
 end
