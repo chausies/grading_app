@@ -12,7 +12,7 @@
         &thinsp;
         <%= link_to 'Destroy', [@course, @assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
         <br>
-        <%= link_to 'Begin Grading', begin_grading_course_assignment_path(@course, @assignment), method: :post, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-success" %>
+        <%= link_to 'Begin Grading', begin_grading_course_assignment_path(@course, @assignment), method: :put, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-success" %>
       <% elsif @enrollment.status?(Statuses::STUDENT) %>
         <%= link_to 'New Submission', new_course_assignment_submission_path(@course, @assignment), type: "button", class: "btn btn-success" %>
         <table class="table table-striped table-condensed">

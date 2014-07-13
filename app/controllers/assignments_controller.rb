@@ -52,7 +52,7 @@ class AssignmentsController < ApplicationController
   end
 
   def begin_grading
-    unless began_grading
+    unless @assignment.began_grading
       enrollments = @course.enrollments
       submissions_array = []
       enrollments.each do |enrollment|
@@ -74,7 +74,7 @@ class AssignmentsController < ApplicationController
           end
           submissions_array.rotate!
         end
-        began_grading = true
+        @assignment.began_grading = true
         flash[:success] = "Assigned gradings to students"
         redirect_to [@course, @assignment]
       end
