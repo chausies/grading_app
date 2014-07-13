@@ -8,12 +8,15 @@
   <div class="span4 pull-right" >
     <% if @enrollment %>
       <% if @enrollment.status > Statuses::READER %>
-        <%= link_to "Edit", edit_course_assignment_path(@course, @assignment), type: "button", class: "btn btn-primary" %>
-        &thinsp;
-        <%= link_to 'Destroy', [@course, @assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
-        <br>
+        <p>
+          <%= link_to "Edit", edit_course_assignment_path(@course, @assignment), type: "button", class: "btn btn-primary" %>
+          &thinsp;
+          <%= link_to 'Destroy', [@course, @assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
+        </p>
         <% unless @assignment.began_grading %>
-          <%= link_to 'Begin Grading', begin_grading_course_assignment_path(@course, @assignment), method: :put, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-success" %>
+          <p>
+            <%= link_to 'Begin Grading', begin_grading_course_assignment_path(@course, @assignment), method: :put, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-success" %>
+          </p>
         <% end %>
       <% elsif @enrollment.status?(Statuses::STUDENT) %>
         <%= link_to 'New Submission', new_course_assignment_submission_path(@course, @assignment), type: "button", class: "btn btn-success" %>
