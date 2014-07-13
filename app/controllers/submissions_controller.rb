@@ -22,7 +22,7 @@ class SubmissionsController < ApplicationController
   def show
     @submission = @assignment.submissions.find(params[:id])
     unless @submission.enrollment_id == @enrollment.id or @enrollment.status > Statuses::READER
-      redirect_to [@course, @assignment]
+      redirect_to [@course, @assignment], notice: "You can't just look at student submissions that aren't yours ಠ_ಠ"
     end
   end
 
