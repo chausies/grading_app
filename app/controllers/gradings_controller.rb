@@ -1,4 +1,4 @@
-class GradingController < ApplicationController
+class GradingsController < ApplicationController
   before_action :set_grading, except: :index
   before_action :signed_in_user
   before_action :set_enrollment
