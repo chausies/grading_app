@@ -19,7 +19,7 @@ class GradingsController < ApplicationController
   private
     def set_grading
       @grading = Grading.find(params[:id])
-      @assignment = Assigment.find @grading.assignment_id
+      @assignment = Assignment.find @grading.assignment_id
       @course = @assignment.course_id
       @grader = Enrollment.find @grading.grader_id
       @gradee = Enrollment.find @grading.gradee_id
