@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       post :import
     end
   end                                                                                                                               
-  resources :gradings only: [:update, :edit, :index, :show]
+  resources :gradings, only: [:update, :edit, :index, :show]
 
   root 'static_pages#home'
   match '/signup',    to:   'users#new',            via:  'get'
