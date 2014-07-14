@@ -9,7 +9,7 @@
       <%= link_to full_title, root_path, id: "logo" %>
       <div class="collapse nav-collapse">
         <ul class="nav pull-left">
-          <% if signed_in? and !current_user.courses.empty?%>
+          <% if signed_in? and !current_user.courses.empty? %>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 My Courses <b class="caret"></b>
@@ -22,7 +22,7 @@
                 <li><%= link_to "All Courses", courses_path %></li>
               </ul>
             </li>
-            <% if @course and !@course.new_record? %>
+            <% if @course and @course.persisted? %>
               <% if @enrollment and @enrollment.status > Statuses::TA %>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
