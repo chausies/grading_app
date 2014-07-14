@@ -1,18 +1,22 @@
 <% provide(:title, "#{@course.name} | #{@assignment.name} | Grading") %>
 
 <h1>Grading for <%= @assignment.name %></h1>
-<p><span class="glyphicon glyphicon-fast-backward"></span></p>
+<p><%=  %></p>
 <div class="row">
-  <div class="span3 pull-left">
-    <%= link_to '<span class="glyphicon glyphicon-fast-backward"></span>', @enrollment.prev_grading_to_do, type: "button", class: "btn#{" disabled" if @enrollment.prev_grading_to_do.nil? }", rel: 'Previous ungraded assignment (ctrl+&#x2192;)' %>
-    <%= link_to '<span class="glyphicon glyphicon-backward"></span>', @enrollment.prev_grading, type: "button", class: "btn#{" disabled" if @enrollment.prev_grading.nil? }", rel: 'Previous assignment (&#x2192;)' %>
+  <div class="span3">
+    <div class="pull-left">
+      <%= link_to glyph(:fast_backward), @enrollment.prev_grading_to_do(@grading.id), type: "button", class: "btn#{" disabled" if @enrollment.prev_grading_to_do.nil? }", title: 'Previous ungraded assignment (ctrl + ←)' %>
+      <%= link_to glyph(:backward), @enrollment.prev_grading(@grading.id), type: "button", class: "btn#{" disabled" if @enrollment.prev_grading.nil? }", title: 'Previous assignment (←)' %>
+    </div>
   </div>
   <div class="span6">
     <%= render 'form' %>
   </div>
-  <div class="span3 pull-right">
-    <%= link_to '<span class="glyphicon glyphicon-forward"></span>', @enrollment.next_grading, type: "button", class: "btn#{" disabled" if @enrollment.next_grading.nil? }", rel: 'Next assignment (&#x2190;)' %>
-    <%= link_to '<span class="glyphicon glyphicon-fast-forward"></span>', @enrollment.next_grading_to_do, type: "button", class: "btn#{" disabled" if @enrollment.next_grading_to_do.nil? }", rel: 'Next ungraded assignment (ctrl + &#x2190;)' %>
+  <div class="span3">
+    <div class="pull-right">
+      <%= link_to glyph(:forward), @enrollment.next_grading(@grading.id), type: "button", class: "btn#{" disabled" if @enrollment.next_grading.nil? }", title: 'Next assignment (→)' %>
+      <%= link_to glyph(:fast_forward), @enrollment.next_grading_to_do(@grading.id), type: "button", class: "btn#{" disabled" if @enrollment.next_grading_to_do.nil? }", title: 'Next ungraded assignment (ctrl + →)' %>
+    </div>
   </div>
   <h2 class="span6">Assignment</h2>
   <h2 class="span6">Submission</h2>
