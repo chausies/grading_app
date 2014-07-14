@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:update, :edit, :destroy, :show, :roster, :import]
+  before_action :set_course, except: [:new, :create, :index]
   before_action :signed_in_user, except: [:index, :show]
   before_action :set_enrollment, except: :index
   before_action :instructor_or_more, only: [:destroy, :import]
