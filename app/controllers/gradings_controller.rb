@@ -7,10 +7,13 @@ class GradingsController < ApplicationController
   def show
   end
 
-  def edit
-  end
-
   def update
+    if @grading.update grading_params.merge(finished_grading: true)
+      flash[:success] = 'Assigned grading.'
+      redirect_to @grading
+    else
+      render :show
+    end
   end
 
   def index

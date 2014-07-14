@@ -1,13 +1,16 @@
 <% provide(:title, "#{@course.name} | #{@assignment.name} | Grading") %>
 
 <h1>Grading for <%= @assignment.name %></h1>
+<div class="span6 offset3">
+  <%= render 'form' %>
+</div>
 <div class="row">
-  <h2 class="span6 pull-left">Assignment</h2>
-  <iframe class="span6 pull-left" src="<%= @assignment.pdf_url.to_s %>" style="height:500px;" frameborder="0">
-    Assignment
+  <h2 class="span6">Assignment</h2>
+  <h2 class="span6">Submission</h2>
+  <iframe class="span6" src="<%= @assignment.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+  Assignment
   </iframe>
-  <h2 class="span6 offset6 pull-right">Submission</h2>
-  <iframe class="span6 offset6 pull-right" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
-    Submission
+  <iframe class="span6" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+  Submission
   </iframe>
 </div>
