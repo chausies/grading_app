@@ -1,10 +1,19 @@
 <% provide(:title, "#{@course.name} | #{@assignment.name} | Grading") %>
 
 <h1>Grading for <%= @assignment.name %></h1>
-<div class="span6 offset3">
-  <%= render 'form' %>
-</div>
+<p><span class="glyphicon glyphicon-fast-backward"></span></p>
 <div class="row">
+  <div class="span3 pull-left">
+    <%= link_to '<span class="glyphicon glyphicon-fast-backward"></span>', @enrollment.prev_grading_to_do, type: "button", class: "btn#{" disabled" if @enrollment.prev_grading_to_do.nil? }", rel: 'Previous ungraded assignment (ctrl+&#x2192;)' %>
+    <%= link_to '<span class="glyphicon glyphicon-backward"></span>', @enrollment.prev_grading, type: "button", class: "btn#{" disabled" if @enrollment.prev_grading.nil? }", rel: 'Previous assignment (&#x2192;)' %>
+  </div>
+  <div class="span6">
+    <%= render 'form' %>
+  </div>
+  <div class="span3 pull-right">
+    <%= link_to '<span class="glyphicon glyphicon-forward"></span>', @enrollment.next_grading, type: "button", class: "btn#{" disabled" if @enrollment.next_grading.nil? }", rel: 'Next assignment (&#x2190;)' %>
+    <%= link_to '<span class="glyphicon glyphicon-fast-forward"></span>', @enrollment.next_grading_to_do, type: "button", class: "btn#{" disabled" if @enrollment.next_grading_to_do.nil? }", rel: 'Next ungraded assignment (ctrl + &#x2190;)' %>
+  </div>
   <h2 class="span6">Assignment</h2>
   <h2 class="span6">Submission</h2>
   <iframe class="span6" src="<%= @assignment.pdf_url.to_s %>" style="height:500px;" frameborder="0">
