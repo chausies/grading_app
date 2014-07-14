@@ -24,4 +24,25 @@ class Enrollment < ActiveRecord::Base
   def add_grading_to_do(assignment_id, gradee_id)
     grading = self.given_grades.create!(assignment_id: assignment_id, gradee_id: gradee_id)
   end
+
+  def gradings_to_do
+    self.given_grades.where finished_grading: false
+  end
+
+  # next grading object after last_grading_id
+  def next_grading(last_grading_id = 0)
+    self.given_grades.bsearch { |grade| grade.id > last_grading_id }
+  end
+  def prev_grading(last_grading_id = Float::INFINITY)
+    self.given_grades.reverse.bsearch { |grade| grade.id < last_grading_id}
+  end
+  
+  # next unfinished grading object after last_grading_id
+  def next_grading_to_do(last_grading_id = 0)
+    self.gradings_to_do.bsearch { |grade| grade.id > last_grading_id }
+  end
+  def prev_grading_to_do(last_grading_id = Float::INFINITY)
+    self.gradings_to_do.reverse.bsearch { |grade| grade.id < last_grading_id}
+  end
+
 end
