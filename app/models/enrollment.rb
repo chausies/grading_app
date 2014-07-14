@@ -6,8 +6,6 @@ class Enrollment < ActiveRecord::Base
   has_many :given_grades, class_name: "Grading", foreign_key: "grader_id", dependent: :destroy
   has_many :received_grades, class_name: "Grading", foreign_key: "gradee_id", dependent: :destroy
   has_many :submissions, dependent: :destroy
-  
-  serialize :gradings_to_do, Array
 
   before_save do
   	self.sid = self.sid.to_s.strip if self.sid
@@ -25,6 +23,5 @@ class Enrollment < ActiveRecord::Base
 
   def add_grading_to_do(assignment_id, gradee_id)
     grading = self.given_grades.create!(assignment_id: assignment_id, gradee_id: gradee_id)
-    self.update gradings_to_do: self.gradings_to_do + [ grading_id: grading.id ]
   end
 end
