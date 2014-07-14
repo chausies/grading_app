@@ -1,0 +1,13 @@
+<% provide(:title, "#{@course.name} | #{@assignment.name} | Grading") %>
+
+<h1>Grading for <%= @assignment.name %></h1>
+<div class="row">
+  <h2 class="span6 pull-left">Assignment</h2>
+  <iframe class="span6 pull-left" src="<%= @assignment.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+    Assignment
+  </iframe>
+  <h2 class="span6 offset6 pull-right">Submission</h2>
+  <iframe class="span6 offset6 pull-right" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+    Submission
+  </iframe>
+</div>
