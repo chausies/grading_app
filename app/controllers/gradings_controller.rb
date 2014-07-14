@@ -19,10 +19,10 @@ class GradingsController < ApplicationController
   private
     def set_grading
       @grading = Grading.find(params[:id])
-      @assignment = Assignment.find @grading.assignment_id
-      @course = @assignment.course_id
-      @grader = Enrollment.find @grading.grader_id
-      @gradee = Enrollment.find @grading.gradee_id
+      @assignment = Assignment.find @grading.assignment
+      @course = @assignment.course
+      @grader = Enrollment.find @grading.grader
+      @gradee = Enrollment.find @grading.gradee
       @submission = @gradee.submissions.where(assignment_id: @assignment.id).first
     end
 
