@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710222636) do
+ActiveRecord::Schema.define(version: 20140712174618) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -19,6 +19,10 @@ ActiveRecord::Schema.define(version: 20140710222636) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "pdf"
+    t.decimal  "max_points"
+    t.decimal  "min_points"
+    t.boolean  "began_grading",    default: false
+    t.boolean  "finished_grading", default: false
   end
 
   add_index "assignments", ["course_id"], name: "index_assignments_on_course_id"
@@ -47,6 +51,22 @@ ActiveRecord::Schema.define(version: 20140710222636) do
   add_index "enrollments", ["participant_id"], name: "index_enrollments_on_participant_id"
   add_index "enrollments", ["sid", "course_id"], name: "index_enrollments_on_sid_and_course_id", unique: true
   add_index "enrollments", ["sid"], name: "index_enrollments_on_sid"
+
+  create_table "gradings", force: true do |t|
+    t.integer  "assignment_id"
+    t.integer  "gradee_id"
+    t.integer  "grader_id"
+    t.decimal  "score"
+    t.boolean  "finished_grading", default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "gradings", ["assignment_id", "gradee_id", "grader_id"], name: "index_gradings_on_assignment_id_and_gradee_id_and_grader_id", unique: true
+  add_index "gradings", ["assignment_id"], name: "index_gradings_on_assignment_id"
+  add_index "gradings", ["finished_grading"], name: "index_gradings_on_finished_grading"
+  add_index "gradings", ["gradee_id"], name: "index_gradings_on_gradee_id"
+  add_index "gradings", ["grader_id"], name: "index_gradings_on_grader_id"
 
   create_table "submissions", force: true do |t|
     t.integer  "assignment_id"
