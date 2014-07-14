@@ -24,9 +24,6 @@ class GradingsController < ApplicationController
       @grader = Enrollment.find @grading.grader_id
       @gradee = Enrollment.find @grading.gradee_id
       @submission = @gradee.submissions.where(assignment_id: @assignment.id).first
-      unless @submission.enrollment_id == @enrollment.id or @enrollment.status > Statuses::READER
-        redirect_to [@course, @assignment], notice: "You can't just look at student submissions that aren't yours ಠ_ಠ"
-      end
     end
 
     def set_enrollment
