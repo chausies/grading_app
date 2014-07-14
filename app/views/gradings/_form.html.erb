@@ -1,5 +1,5 @@
 <%= form_for @grading, url: { action: :update } do |f| %>
-  <%= render 'shared/error_messages', object: @grading%>
+  <%= render 'shared/error_messages', object: @grading %>
   <p>
     <%= f.label :score %>
     <%= f.number_field :score, step: 'any', class: 'text_field', placeholder: "Enter score value (e.g. 3)", autofocus: true %>
