@@ -19,6 +19,7 @@ gem 'jbuilder', '1.0.2'
 gem 'amatch'
 gem 'carrierwave'
 gem 'fog'
+gem 'mousetrap-rails'
 
 group :development, :test do
   gem 'better_errors'
