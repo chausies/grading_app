@@ -13,7 +13,7 @@ handleKeyBindings = ->
   $('a[data-keybinding]').each (i, el) ->
     bindedKey = $(el).data('keybinding')
     bindedKey = bindedKey.toString() if typeof(bindedKey) == 'number'
-    Mousetrap.bind bindedKey, (e) ->
+    Mousetrap.bindGlobal bindedKey, (e) ->
       if typeof(Turbolinks) == 'undefined'
         # Emulate click if turbolinks defined
         el.click()
