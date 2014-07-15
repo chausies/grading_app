@@ -1,7 +1,7 @@
 class GradingsController < ApplicationController
   before_action :set_grading, except: :index
   before_action :signed_in_user
-  before_action :set_enrollment
+  before_action :set_enrollment, except: :index
   before_action :has_permission, except: :index
 
   def show
@@ -17,6 +17,14 @@ class GradingsController < ApplicationController
   end
 
   def index
+    @enr_hash = {}
+    current_user.enrollments.reverse.each do |enrollment|
+      @enr_hash[enrollment] ||= {}
+      enrollment.given_gradings.reverse.each do |grading|
+        @enr_hash[enrollment][grading.assignment] ||= []
+        @enr_hash[enrollment][grading.assignment].append grading
+      end
+    end
   end
 
   private
