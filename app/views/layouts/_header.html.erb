@@ -9,7 +9,30 @@
       <%= link_to full_title, root_path, id: "logo" %>
       <div class="collapse nav-collapse">
         <ul class="nav pull-left">
-          <% if signed_in? and !current_user.courses.empty? %>
+          <% if signed_in? and current_user.courses.any? %>
+            <% if current_user.enrollments.any? %>
+              <% amount = (current_user.enrollments.map { |e| e.gradings_to_do.count }).sum %>
+              <% if amount > 0 %>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Gradings <span class="badge"><%= amount %></span> <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <% current_user.enrollments.each do |enrollment| %>
+                      <% if enrollment.gradings_to_do.any? %>
+                        <li>
+                          <%= link_to raw("#{enrollment.course.name} <span class='badge'>#{enrollment.gradings_to_do.count}</span>"), enrollment.next_grading_to_do %>
+                        </li>
+                      <% end %>
+                    <% end %>
+                    <li class="divider"></li>
+                    <li><%= link_to "View all gradings", gradings_path %></li>
+                  </ul>
+                </li>
+              <% else %>
+                <li><%= link_to "View all gradings", gradings_path %></li>
+              <% end %>
+            <% end %>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 My Courses <b class="caret"></b>
