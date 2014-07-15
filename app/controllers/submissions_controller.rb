@@ -13,7 +13,7 @@ class SubmissionsController < ApplicationController
 
     if @submission.save
       flash[:success] = 'Successfully submitted.'
-      redirect_to [@course, @assignment, @submission]
+      redirect_to [@course, @assignment]
     else
       render :new
     end
