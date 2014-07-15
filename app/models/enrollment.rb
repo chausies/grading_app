@@ -3,8 +3,8 @@ class Enrollment < ActiveRecord::Base
   belongs_to :participant, class_name: "User"
   belongs_to :course, class_name: "Course"
 
-  has_many :given_grades, class_name: "Grading", foreign_key: "grader_id", dependent: :destroy
-  has_many :received_grades, class_name: "Grading", foreign_key: "gradee_id", dependent: :destroy
+  has_many :given_gradings, class_name: "Grading", foreign_key: "grader_id", dependent: :destroy
+  has_many :received_gradings, class_name: "Grading", foreign_key: "gradee_id", dependent: :destroy
   has_many :submissions, dependent: :destroy
 
   before_save do
@@ -22,19 +22,19 @@ class Enrollment < ActiveRecord::Base
   end
 
   def add_grading_to_do(assignment_id, gradee_id)
-    grading = self.given_grades.create!(assignment_id: assignment_id, gradee_id: gradee_id)
+    grading = self.given_gradings.create!(assignment_id: assignment_id, gradee_id: gradee_id)
   end
 
   def gradings_to_do
-    self.given_grades.where finished_grading: false
+    self.given_gradings.where finished_grading: false
   end
 
   # next grading object after last_grading_id
   def next_grading(last_grading_id = 0)
-    self.given_grades.bsearch { |grade| grade.id > last_grading_id }
+    self.given_gradings.bsearch { |grade| grade.id > last_grading_id }
   end
   def prev_grading(last_grading_id = Float::INFINITY)
-    self.given_grades.reverse.bsearch { |grade| grade.id < last_grading_id}
+    self.given_gradings.reverse.bsearch { |grade| grade.id < last_grading_id}
   end
   
   # next unfinished grading object after last_grading_id
