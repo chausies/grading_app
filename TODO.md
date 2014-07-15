@@ -1,4 +1,4 @@
-~~Find a real name for the site~~
+~~Find a real name for the site~~  
 Temporary name: MagicGrader
 
 ~~Make basic site pages (home page, navbar, sign-in pages)~~  
