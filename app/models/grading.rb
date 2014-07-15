@@ -1,6 +1,7 @@
 class Grading < ActiveRecord::Base
   # Attributes: assignment_id, gradee_id (enrollment_id of gradee), grader_id (enrollment_id of grader),
   #               score, finished_grading
+  default_scope -> { order('id ASC') }
   belongs_to :assignment, class_name: "Assignment"
   belongs_to :gradee, class_name: "Enrollment"
   belongs_to :grader, class_name: "Enrollment"

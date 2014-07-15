@@ -1,7 +1,8 @@
 class Course < ActiveRecord::Base
   # Attributes: name, subject, school
   include ActionView::Helpers::TextHelper
-
+  
+  default_scope -> { order('id ASC') }
   has_many :enrollments, foreign_key: "course_id", dependent: :destroy
   has_many :participants, through: :enrollments
   has_many :assignments, dependent: :destroy
