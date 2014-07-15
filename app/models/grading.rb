@@ -11,6 +11,10 @@ class Grading < ActiveRecord::Base
   validate :valid_or_nil_score, on: :create
   validate :valid_score, on: :update
 
+  def finished?
+    self.finished_grading
+  end
+
   private
     def valid_or_nil_score
       unless self.score.nil?
