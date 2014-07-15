@@ -16,7 +16,7 @@ Make importing students even more robust. Do more than just CSV
 ~~Flush out Course pages (create a course, create assignments, add students, simple grading)~~  
 Add delayed jobs
 
-Implement Grading algorithms
+Implement Grading algorithms  
   * first simple (grade assigned is average of gradings, etc)
   * then 1337 haxors (sick ass machine learning sk1llz)
 Implement better assignment of gradings
