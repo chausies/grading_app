@@ -7,6 +7,7 @@ class Enrollment < ActiveRecord::Base
   has_many :given_gradings, class_name: "Grading", foreign_key: "grader_id", dependent: :destroy
   has_many :received_gradings, class_name: "Grading", foreign_key: "gradee_id", dependent: :destroy
   has_many :submissions, dependent: :destroy
+  has_many :grades, dependent: :destroy
 
   before_save do
   	self.sid = self.sid.to_s.strip if self.sid
@@ -20,6 +21,19 @@ class Enrollment < ActiveRecord::Base
 
   def status?(status)
   	self.status == status
+  end
+
+  def assign_grade(assignment_id, score)
+    self.grades.create! assignment_id: assignment_id, score: score
+  end
+
+  def score_for(assignment_id)
+    grade = self.grades.find_by(assignment_id: assignment_id)
+    if grade
+      score = grade.score
+    else
+      grade
+    end
   end
 
   def add_grading_to_do(assignment_id, gradee_id)

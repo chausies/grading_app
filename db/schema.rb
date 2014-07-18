@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718185722) do
+ActiveRecord::Schema.define(version: 20140718223842) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -54,6 +54,18 @@ ActiveRecord::Schema.define(version: 20140718185722) do
   add_index "enrollments", ["participant_id"], name: "index_enrollments_on_participant_id"
   add_index "enrollments", ["sid", "course_id"], name: "index_enrollments_on_sid_and_course_id", unique: true
   add_index "enrollments", ["sid"], name: "index_enrollments_on_sid"
+
+  create_table "grades", force: true do |t|
+    t.integer  "assignment_id"
+    t.integer  "enrollment_id"
+    t.integer  "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "grades", ["assignment_id", "enrollment_id"], name: "index_grades_on_assignment_id_and_enrollment_id", unique: true
+  add_index "grades", ["assignment_id"], name: "index_grades_on_assignment_id"
+  add_index "grades", ["enrollment_id"], name: "index_grades_on_enrollment_id"
 
   create_table "gradings", force: true do |t|
     t.integer  "assignment_id"
