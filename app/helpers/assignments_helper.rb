@@ -1,7 +1,7 @@
 module AssignmentsHelper
 
   def assign_gradings
-    enrollments = @course.enrollments
+    enrollments = @course.enrollments.where status: Statuses::STUDENT
     submissions_array = []
     enrollments.each do |enrollment|
       submissions = enrollment.submissions.where(assignment_id: @assignment.id)
