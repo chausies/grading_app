@@ -1,0 +1,11 @@
+<div class="progress progress-striped">
+  <div class="bar bar-success" style="width: <%= 100*@finished_gradings/@total_gradings %>%">
+    <%= 100*@finished_gradings/@total_gradings %>% finished
+  </div>
+  <div class="bar bar-danger" style="width: <%= 100*@needed_gradings/@total_gradings %>%">
+    <%= 100*@needed_gradings/@total_gradings %>% needed (at least)
+  </div>
+  <div class="bar bar-warning" style="width: <%= 100 - 100*(@finished_gradings + @needed_gradings)/@total_gradings %>%">
+    <%= 100 - 100*(@finished_gradings + @needed_gradings)/@total_gradings %>% unfinished
+  </div>
+</div>

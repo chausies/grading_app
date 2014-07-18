@@ -12,6 +12,20 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/1
   def show
+    if @assignment.began_grading and @enrollment and @enrollment.status > Statuses::READER
+      @gradings = Grading.where(assignment_id: @assignment.id)
+      @total_gradings = @gradings.count
+      @finished_gradings = 0
+      @grades_for_gradees = {}
+      @gradings.each do |grading|
+        @grades_for_gradees[grading.gradee_id] ||= 0
+        if grading.finished?
+          @finished_gradings += 1
+          @grades_for_gradees[grading.gradee_id] += 1
+        end
+      end
+      @needed_gradings = (@grades_for_gradees.values.map { |x| [2 - x, 0].max }).sum
+    end
   end
 
   # GET /assignments/new
