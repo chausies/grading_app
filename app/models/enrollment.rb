@@ -24,7 +24,12 @@ class Enrollment < ActiveRecord::Base
   end
 
   def assign_grade(assignment_id, score)
-    self.grades.create! assignment_id: assignment_id, score: score
+    grade = self.grades.where(assignment_id: assignment_id)
+    if grade
+      grade.update score: score
+    else
+      self.grades.create! assignment_id: assignment_id, score: score
+    end
   end
 
   def score_for(assignment_id)
