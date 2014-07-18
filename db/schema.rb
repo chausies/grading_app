@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712174618) do
+ActiveRecord::Schema.define(version: 20140718185722) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -25,7 +25,9 @@ ActiveRecord::Schema.define(version: 20140712174618) do
     t.boolean  "finished_grading", default: false
   end
 
+  add_index "assignments", ["began_grading"], name: "index_assignments_on_began_grading"
   add_index "assignments", ["course_id"], name: "index_assignments_on_course_id"
+  add_index "assignments", ["finished_grading"], name: "index_assignments_on_finished_grading"
 
   create_table "courses", force: true do |t|
     t.string   "name"
@@ -44,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140712174618) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sid"
+    t.float    "grading_score"
   end
 
   add_index "enrollments", ["course_id"], name: "index_enrollments_on_course_id"
