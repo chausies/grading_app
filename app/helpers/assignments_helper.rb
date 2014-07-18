@@ -29,6 +29,9 @@ module AssignmentsHelper
   end
 
   def assign_grades
+    assignments = @course.assignments.where finished_grading: true
+    enrollments = @course.enrollments.where status: Statuses::STUDENT
+
     @gradings = @assignment.gradings
     @finished_gradings = 0
     @grades_for_gradees = {}
@@ -42,4 +45,7 @@ module AssignmentsHelper
     @needed_gradings = (@grades_for_gradees.values.map { |x| [2 - x, 0].max }).sum
   end
 
+  def update_grading_scores
+
+  end
 end

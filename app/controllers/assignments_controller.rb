@@ -75,6 +75,7 @@ class AssignmentsController < ApplicationController
     if @assignment.began_grading and not @assignment.finished_grading
       @assignment.update finished_grading: true
       assign_grades
+      update_grading_scores
     end
   end 
 
