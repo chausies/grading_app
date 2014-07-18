@@ -22,9 +22,13 @@
           &thinsp;
           <%= link_to 'Destroy', [@course, @assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
         </p>
-        <% unless @assignment.began_grading %>
+        <% if not @assignment.began_grading %>
           <p>
             <%= link_to 'Begin Grading', begin_grading_course_assignment_path(@course, @assignment), method: :put, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-success" %>
+          </p>
+        <% elsif not @assignment.finished_grading %>
+          <p>
+            <%= link_to 'End Grading + Assign Grades', end_grading_course_assignment_path(@course, @assignment), method: :put, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-success" %>
           </p>
         <% end %>
       <% elsif @enrollment.status?(Statuses::STUDENT) %>
