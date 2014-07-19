@@ -82,6 +82,7 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
         g.update score: score, finished_grading: true
       end
     end
+    a.update finished_grading: true
   end
   course.assign_grades
   course.update_grading_scores
