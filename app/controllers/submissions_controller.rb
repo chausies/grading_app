@@ -3,6 +3,7 @@ class SubmissionsController < ApplicationController
   before_action :signed_in_user
   before_action :set_enrollment
   before_action :set_assignment
+  before_action :check_submission_allowed, only: [:new, :create]
 
   def new
     @submission = @assignment.submissions.build
@@ -43,6 +44,12 @@ class SubmissionsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def submission_params
       params[:submission].permit(:pdf)
+    end
+
+    def check_submission_allowed
+      if @assignment.began_grading or @assignment.finished_grading
+        redirect_to [@course, @assignment], notice: "Submissions are no longer allowed for this assignment."
+      end
     end
 
 end
