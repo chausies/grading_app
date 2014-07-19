@@ -1,6 +1,6 @@
 class Grade < ActiveRecord::Base
-  belongs_to assignment
-  belongs_to enrollment
+  belongs_to :assignment
+  belongs_to :enrollment
   validates :assignment_id, presence: true
   validates :enrollment_id, presence: true
   validate :valid_score
