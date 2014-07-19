@@ -81,7 +81,6 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
   end
   course.assign_grades
   course.update_grading_scores
-  end
 end
 
 def create_submit_and_begin_grading_homeworks course_number, number_of_hw
