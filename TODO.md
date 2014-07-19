@@ -17,9 +17,11 @@ Make importing students even more robust. Do more than just CSV
 Add delayed jobs
 
 Implement Grading algorithms  
-  * first simple (grade assigned is average of gradings, etc)
-  * then 1337 haxors (sick ass machine learning sk1llz)
-Implement better assignment of gradings
+  * ~~first simple (grade assigned is average of gradings, etc)~~
+  * then 1337 haxors (sick ass machine learning sk1llz)  
+  * Implement better assignment of gradings  
+
+Make better populate rake task  
 
 Make the site look amazing (fix all the CSS, html, make a gorgeous UI)
 
