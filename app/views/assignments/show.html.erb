@@ -32,11 +32,15 @@
           </p>
         <% end %>
       <% elsif @enrollment.status?(Statuses::STUDENT) %>
-        <%= link_to 'New Submission', new_course_assignment_submission_path(@course, @assignment), type: "button", class: "btn btn-success" %>
+        <% if @assignment.finished_grading %>
+          <%= "Score: #{@enrollment.score_for(@assignment.id)}/#{@assignment.max_points}" %>
+        <% else %>
+          <%= link_to 'New Submission', new_course_assignment_submission_path(@course, @assignment), type: "button", class: "btn btn-success" %>
+        <% end %>
         <table class="table table-striped table-condensed">
           <thead>
             <tr>
-              <th>Submission time</th>
+              <th>Submissions</th>
             </tr>
           </thead>
           <tbody>
