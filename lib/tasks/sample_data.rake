@@ -39,9 +39,7 @@ end
 def signup_users
   number_of_classes = 4
   number_of_studs = 99
-  admin = User.find(1)
   studs = User.all[1..-1]
   courses = Course.all
-  courses.each { |course| admin.enroll! course.id, Statuses::ADMIN }
-  studs.each { |stud| stud.enroll! courses[stud.id%number_of_classes].id, Statuses::STUDENT }
+  studs.each { |stud| stud.enroll! courses[[0, 2].map { |x| (x + stud.id)%number_of_classes }].id, Statuses::STUDENT }
 end

@@ -10,6 +10,8 @@ class Course < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :school, presence: true, length: { minimum: 2, maximum: 50 }
 
+  after_create :enroll_admins
+
   def import(file)
   # Returns true if import successful, else returns an error message
     message = ""
@@ -105,4 +107,9 @@ class Course < ActiveRecord::Base
     end
   end
 
+  private
+    def enroll_admins
+      admin_users = User.where admin: true
+      admin_users.each { |admin| admin.enroll! self, Statuses::ADMIN }
+    end
 end

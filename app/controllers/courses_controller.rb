@@ -10,10 +10,8 @@ class CoursesController < ApplicationController
   end
 
   def create
-    @admin_users = User.where(admin: true)
     @course = Course.new(course_params)
     if @course.save
-      @admin_users.each { |admin| admin.enroll! @course, Statuses::ADMIN }
       flash[:success] = "Your course has been successfully created!"
       redirect_to @course
     else
