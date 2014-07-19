@@ -44,7 +44,11 @@ end
 def signup_users number_of_studs, number_of_classes
   studs = User.all[1..-1]
   courses = Course.all
-  studs.each { |stud| stud.enroll! courses[[0, 2].map { |x| (x + stud.id)%number_of_classes }].id, Statuses::STUDENT }
+  studs.each do |stud|
+    ([0, 2].map { |x| (x + stud.id)%number_of_classes }).each do |n|
+      stud.enroll! courses[n].id, Statuses::STUDENT
+    end
+  end
 end
 
 def create_submit_and_grade_homeworks course_number, number_of_hw
