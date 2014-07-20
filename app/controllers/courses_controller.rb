@@ -20,7 +20,7 @@ class CoursesController < ApplicationController
   end
 
   def update
-    if @course.update_attributes(course_params)
+    if @course.update_attributes course_params
       flash[:success] = "Course profile updated"
       redirect_to @course
     else
