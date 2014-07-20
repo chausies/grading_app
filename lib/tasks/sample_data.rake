@@ -3,13 +3,14 @@ namespace :db do
   task populate: :environment do
     number_of_studs = 99
     number_of_classes = 4
-    course_number = 1
     number_of_hw = 3
     make_users number_of_studs
     make_courses number_of_classes
     signup_users number_of_studs, number_of_classes
-    create_submit_and_grade_homeworks course_number, number_of_hw
-    create_submit_and_begin_grading_homeworks course_number, number_of_hw
+    (1..4).each do |course_number|
+      create_submit_and_grade_homeworks course_number, number_of_hw
+      create_submit_and_begin_grading_homeworks course_number, number_of_hw-1
+    end
   end
 end
 
@@ -70,7 +71,7 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
     end
     a.assign_gradings
     studs.each do |s|
-      badness = s.id*4 % 5
+      badness = s.id*6 % 7
       gradings = s.given_gradings.where assignment_id: a.id
       gradings.each do |g|
         score = (g.gradee.id*9 % 31) + (-badness..badness).to_a.shuffle[0]
