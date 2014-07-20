@@ -54,7 +54,7 @@ end
 
 def create_submit_and_grade_homeworks course_number, number_of_hw
   hws = []
-  pdf_url = "https://s3-us-west-1.amazonaws.com/magicgrader/hw10.pdf"
+  pdf_url = "http://www.relacweb.org/conferencia/images/documentos/Hoteles_cerca.pdf"
   course = Course.find course_number
   number_of_hw.times do |n|
     hws.append course.assignments.create!( name: "hw#{n+1}",
@@ -62,7 +62,7 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
                                            min_points: 0, 
                                            remote_pdf_url: pdf_url)
   end
-  submission_pdf_url = "https://s3-us-west-1.amazonaws.com/magicgrader/hw10_sol.pdf"
+  submission_pdf_url = "http://publicsafety.utah.gov/dld/documents/testpdf.pdf"
   studs = course.enrollments.where status: Statuses::STUDENT
   hws.each do |a|
     studs.each do |s|
@@ -91,7 +91,7 @@ end
 
 def create_submit_and_begin_grading_homeworks course_number, number_of_hw
   hws = []
-  pdf_url = "https://s3-us-west-1.amazonaws.com/magicgrader/hw10.pdf"
+  pdf_url = "http://www.relacweb.org/conferencia/images/documentos/Hoteles_cerca.pdf"
   course = Course.find course_number
   number_of_hw.times do |n|
     hws.append course.assignments.create!( name: "quiz#{n+1}",
@@ -99,7 +99,7 @@ def create_submit_and_begin_grading_homeworks course_number, number_of_hw
                                            min_points: 0, 
                                            remote_pdf_url: pdf_url)
   end
-  submission_pdf_url = "https://s3-us-west-1.amazonaws.com/magicgrader/hw10_sol.pdf"
+  submission_pdf_url = "http://publicsafety.utah.gov/dld/documents/testpdf.pdf"
   studs = course.enrollments.where status: Statuses::STUDENT
   hws.each do |a|
     studs.each do |s|
