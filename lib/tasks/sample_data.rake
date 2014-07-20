@@ -1,15 +1,15 @@
 namespace :db do
   desc "Fill database with sample data"
   task populate: :environment do
-    number_of_studs = 99
+    number_of_studs = 49
     number_of_classes = 4
-    number_of_hw = 3
+    number_of_hw = 2
     make_users number_of_studs
     make_courses number_of_classes
     signup_users number_of_studs, number_of_classes
     (1..4).each do |course_number|
       create_submit_and_grade_homeworks course_number, number_of_hw
-      create_submit_and_begin_grading_homeworks course_number, number_of_hw-1
+      create_submit_and_begin_grading_homeworks course_number, number_of_hw
     end
   end
 end
@@ -54,7 +54,7 @@ end
 
 def create_submit_and_grade_homeworks course_number, number_of_hw
   hws = []
-  pdf_url = "https://s3.amazonaws.com/piazza-resources/hoab39slmgz2pe/hse0m40ddob1xw/hw3.pdf?AWSAccessKeyId=AKIAJKOQYKAYOBKKVTKQ&Expires=1405816818&Signature=7s2MDHB3xcihHOPkrQYk8i066Zw%3D"
+  pdf_url = "http://www.docdroid.net/file/view/ezh8/hw10.pdf"
   course = Course.find course_number
   number_of_hw.times do |n|
     hws.append course.assignments.create!( name: "hw#{n+1}",
@@ -62,7 +62,7 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
                                            min_points: 0, 
                                            remote_pdf_url: pdf_url)
   end
-  submission_pdf_url = "https://s3.amazonaws.com/piazza-resources/hoab39slmgz2pe/hsnv6jt55641zc/hw3sols.pdf?AWSAccessKeyId=AKIAJKOQYKAYOBKKVTKQ&Expires=1405816864&Signature=18Cb9YkLlmhMWxl7S%2BVV2E7ZcCs%3D"
+  submission_pdf_url = "http://www.docdroid.net/file/view/ezh9/hw10-sol.pdf"
   studs = course.enrollments.where status: Statuses::STUDENT
   hws.each do |a|
     studs.each do |s|
@@ -86,12 +86,12 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
     a.update finished_grading: true
   end
   course.assign_grades
-  course.update_grading_scores
+  course.update_grading_scores  
 end
 
 def create_submit_and_begin_grading_homeworks course_number, number_of_hw
   hws = []
-  pdf_url = "https://s3.amazonaws.com/piazza-resources/hoab39slmgz2pe/hse0m40ddob1xw/hw3.pdf?AWSAccessKeyId=AKIAJKOQYKAYOBKKVTKQ&Expires=1405816818&Signature=7s2MDHB3xcihHOPkrQYk8i066Zw%3D"
+  pdf_url = "http://www.docdroid.net/file/view/ezh8/hw10.pdf"
   course = Course.find course_number
   number_of_hw.times do |n|
     hws.append course.assignments.create!( name: "quiz#{n+1}",
@@ -99,7 +99,7 @@ def create_submit_and_begin_grading_homeworks course_number, number_of_hw
                                            min_points: 0, 
                                            remote_pdf_url: pdf_url)
   end
-  submission_pdf_url = "https://s3.amazonaws.com/piazza-resources/hoab39slmgz2pe/hsnv6jt55641zc/hw3sols.pdf?AWSAccessKeyId=AKIAJKOQYKAYOBKKVTKQ&Expires=1405816864&Signature=18Cb9YkLlmhMWxl7S%2BVV2E7ZcCs%3D"
+  submission_pdf_url = "http://www.docdroid.net/file/view/ezh9/hw10-sol.pdf"
   studs = course.enrollments.where status: Statuses::STUDENT
   hws.each do |a|
     studs.each do |s|
