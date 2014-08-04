@@ -6,7 +6,11 @@ class SubmissionsController < ApplicationController
   before_action :check_submission_allowed, only: [:new, :create]
 
   def new
-    @submission = @assignment.submissions.build
+    if @assignment.began_grading
+      redirect_to [@course, @assignment], notice: "Submissions for this assignment have closed."
+    else
+      @submission = @assignment.submissions.build
+    end
   end
 
   def create
