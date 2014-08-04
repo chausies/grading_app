@@ -26,10 +26,14 @@ class Course < ActiveRecord::Base
       "student id"            =>  "sid",
       "id #"                  =>  "sid",
       "identification number" =>  "sid",
+      "id number"             =>  "sid",
       "email"                 =>  "email",
       "email address"         =>  "email",
       "address"               =>  "email",
       "student email"         =>  "email",
+      "status"                =>  "status",
+      "role"                  =>  "status",
+      "type"                  =>  "status"
     }
     bad_strings = []
     match = lambda do |string|
@@ -59,7 +63,15 @@ class Course < ActiveRecord::Base
         next
       end
       begin
-        student.enroll! id, Statuses::STUDENT, stud_hash[:sid]
+        if stud_hash[:status].nil? or stud_hash[:status].empty?
+          stud_hash[:status] = Statuses::STUDENT
+        else
+          stud_hash[:status] = Statuses.string_to_status stud_hash[:status]
+          if stud_hash[:status].nil?
+            stud_hash[:status] = Statuses::STUDENT
+          end
+        end
+        student.enroll! id, stud_hash[:status], stud_hash[:sid]
       rescue
         return message = "Error for the following student: " + stud_hash.to_s + ". Probably because SID matches that of another student."
       end
