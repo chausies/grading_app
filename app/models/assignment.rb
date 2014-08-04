@@ -22,7 +22,7 @@ class Assignment < ActiveRecord::Base
       end
     end
     if submissions_array.count < 4
-      return false
+      return submissions_array.count
     else
       submissions_array.shuffle!
       submissions_array.length.times do

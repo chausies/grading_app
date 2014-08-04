@@ -67,10 +67,10 @@ class AssignmentsController < ApplicationController
 
   def begin_grading
     unless @assignment.began_grading
-      if @assignment.assign_gradings
+      if (submission_count=@assignment.assign_gradings) == true
         flash[:success] = "Assigned gradings to students!"
       else
-        flash[:error] = "Need at least 4 submissions to begin grading. Only have #{submissions_array.count} so far."
+        flash[:error] = "Need at least 4 submissions to begin grading. Only have #{submission_count} so far."
       end
       redirect_to [@course, @assignment]
     end
