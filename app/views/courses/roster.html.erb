@@ -17,7 +17,7 @@
           <td><%= enrollment.participant.name %></td>
           <td><%= enrollment.sid %></td>
           <td><%= enrollment.participant.email %></td>
-          <td><%= Statuses.status_string(enrollment.status).titleize %></td>
+          <td><%= Statuses.status_to_string(enrollment.status).titleize %></td>
         </tr>
       <% end %>
     <% end %>
