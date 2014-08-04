@@ -1,5 +1,6 @@
 <h2>Add Students</h2>
 <%= form_tag import_course_path(@course), multipart: true do %>
   <%= file_field_tag :file, accept: 'text/csv' %>
-  <%= submit_tag :import, class: "btn btn-large btn-primary" %>
+  
+  <%= submit_tag "Import", class: "btn btn-large btn-primary" %>
 <% end %>
