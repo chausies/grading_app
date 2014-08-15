@@ -69,13 +69,13 @@ class AssignmentsController < ApplicationController
 
   def begin_grading
     unless @assignment.began_grading
-			self_grading = params[:self_grading]
-			num_stud_gradings = params[:num_stud_gradings]
-			num_reader_gradings = params[:num_reader_gradings]
+			self_grading = (params[:self_grading] == "true")
+			num_stud_gradings = params[:num_stud_gradings].to_i
+			num_reader_gradings = params[:num_reader_gradings].to_i
       if (submission_count=@assignment.assign_gradings(self_grading, num_stud_gradings, num_reader_gradings)) == true
         flash[:success] = "Assigned gradings to students!"
       else
-				min_necessary = [num_reader_gradings, num_stud_gradings + ( self_grading? ? 0 : 1)].max
+				min_necessary = [num_reader_gradings, num_stud_gradings + ( self_grading ? 0 : 1)].max
         flash[:error] = "Need at least #{min_necessary} submissions to begin grading. Only have #{submission_count} so far."
       end
       redirect_to configure_grading_course_assignment_path(@course, @assignment)

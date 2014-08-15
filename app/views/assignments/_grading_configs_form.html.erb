@@ -1,17 +1,32 @@
 <%= form_tag begin_grading_course_assignment_path(@course, @assignment) do %>
   <p>
-    <%= label_tag :self_grading, nil, "Have self-grading?" %>
-    <%= radio_button_tag :self_grading, "yes", true %>
+    <%= label_tag :self_grading, "Have self-grading?" %>
+		<table>
+			<tr>
+				<td>
+					<%= label_tag :self_grading, "Yes", value: true %>
+				</td>
+				<td>
+					<%= radio_button_tag :self_grading, true, checked: true %> 
+				</td>
+				<td>
+					<%= label_tag :self_grading, "No", value: false %>
+				</td>
+				<td>
+					<%= radio_button_tag :self_grading, false %>
+				</td>
+			</tr>
+		</table>
   </p>
 
   <p>
-    <%= label_tag :num_stud_gradings, nil, "Number of gradings per student (including self-gradings). Recommended 3." %>
-    <%= number_field_tag :num_stud_gradings, "gradings per student", nil, in: 2...[10, @course.enrollment.where(status: Statuses::STUDENT).count].min %>
+    <%= label_tag :num_stud_gradings, "Number of gradings per student (including self-gradings). Recommended 3." %>
+    <%= number_field_tag :num_stud_gradings, nil, in: 2...[10, @course.enrollments.where(status: Statuses::STUDENT).count].min %>
   </p>
 
   <p>
-    <%= label_tag :num_reader_gradings, nil, "Number of gradings per reader." %>
-    <%= number_field_tag :num_reader_gradings, "gradings per reader", nil, in: 1...[10, @course.enrollment.where(status: Statuses::STUDENT).count].min %>
+    <%= label_tag :num_reader_gradings, "Number of gradings per reader." %>
+    <%= number_field_tag :num_reader_gradings, nil, in: 1...(@course.enrollments.where(status: Statuses::STUDENT).count) %>
   </p>
 
 	<p>
