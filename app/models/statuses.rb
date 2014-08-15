@@ -54,4 +54,14 @@ class Statuses
       match[1].to_sym
     end
   end
+
+  def Statuses.get_status_strings
+    statuses = [
+                "student",
+                "reader",
+                "teacher's assistant",
+                "instructor"
+              ]
+    statuses.map { |s| s.titleize }
+  end
 end
