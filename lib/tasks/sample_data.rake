@@ -33,7 +33,7 @@ end
 
 def make_courses number_of_classes
   number_of_classes.times do |n|
-    name = "name #{n+1}"
+    name = "course #{n+1}"
     subject = "subject #{n+1}"
     school = "school #{n+1}"
     Course.create!( name: name,
