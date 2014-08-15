@@ -1,5 +1,5 @@
 <%= form_for [@course, @assignment], multipart: true do |f| %>
-  <%= render 'shared/error_messages', object: @assignment%>
+  <%= render 'shared/error_messages', object: @assignment %>
   <p>
     <%= f.label :name %>
     <%= f.text_field :name, placeholder: "e.g. Homework 1" %>
