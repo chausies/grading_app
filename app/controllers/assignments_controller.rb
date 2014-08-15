@@ -84,11 +84,25 @@ class AssignmentsController < ApplicationController
 
   def end_grading 
     if @assignment.began_grading and not @assignment.finished_grading
-      @assignment.update finished_grading: true
-      @course.assign_grades
-      @course.update_grading_scores
-      flash[:success] = "Assigned grades to students!"
-      redirect_to [@course, @assignment]
+			@gradings = @assignment.gradings
+			@grades_for_gradees = {}
+			@gradings.each do |grading|
+				@grades_for_gradees[grading.gradee_id] ||= 0
+				if grading.finished?
+					@grades_for_gradees[grading.gradee_id] += 1
+				end
+			end
+			@needed_gradings = (@grades_for_gradees.values.map { |x| [2 - x, 0].max }).sum
+			if @needed_gradings > 0
+				flash[:error] = "You don't have the minimum required gradings. #{pluralize(@needed_gradings, "student")} don't have a sufficient amount of gradings"
+				redirect_to [@course, @assignment]
+			else
+				@assignment.update finished_grading: true
+				@course.assign_grades
+				@course.update_grading_scores
+				flash[:success] = "Assigned grades to students!"
+				redirect_to [@course, @assignment]
+			end
     end
   end 
 
