@@ -16,7 +16,7 @@
       <%= link_to glyph(:fast_forward), @enrollment.next_grading_to_do(@grading.id), type: "button", class: "btn#{" disabled" if @enrollment.next_grading_to_do(@grading.id).nil? }", title: 'Next ungraded assignment (ctrl + →)', data: { keybinding: 'ctrl+right' } %>
     </div>
   </div>
-  <h2 class="span6">Assignment</h2>
+  <h2 class="span6">Solution/Rubric</h2>
   <h2 class="span6">Submission</h2>
   <iframe class="span6" src="<%= @assignment.pdf_url.to_s %>" style="height:500px;" frameborder="0">
   Assignment
