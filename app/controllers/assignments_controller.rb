@@ -94,7 +94,7 @@ class AssignmentsController < ApplicationController
 			end
 			@needed_gradings = (@grades_for_gradees.values.map { |x| [2 - x, 0].max }).sum
 			if @needed_gradings > 0
-				flash[:error] = "You don't have the minimum required gradings. #{pluralize(@needed_gradings, "student")} don't have a sufficient amount of gradings"
+				flash[:error] = "You don't have the minimum required gradings. #{view_context.pluralize(@needed_gradings, "student")} don't have a sufficient amount of gradings"
 				redirect_to [@course, @assignment]
 			else
 				@assignment.update finished_grading: true
