@@ -50,7 +50,7 @@ class Course < ActiveRecord::Base
       if stud_hash[:email].nil?
         return message = "Email required for the following student: " + stud_hash.to_s
       end
-      if stud_hash[:name].nil? or stud_hash[:name].empty?
+      if stud_hash[:name].blank?
         stud_hash[:name] = "testing"
       end
       unless student = User.find_by(email: stud_hash[:email])
@@ -63,7 +63,7 @@ class Course < ActiveRecord::Base
         next
       end
       begin
-        if stud_hash[:status].nil? or stud_hash[:status].empty?
+        if stud_hash[:status].blank?
           stud_hash[:status] = Statuses::STUDENT
         else
           stud_hash[:status] = Statuses.string_to_status stud_hash[:status]

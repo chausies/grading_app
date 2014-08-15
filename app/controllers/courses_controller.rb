@@ -2,8 +2,8 @@ class CoursesController < ApplicationController
   before_action :set_course, except: [:new, :create, :index]
   before_action :signed_in_user, except: [:index, :show]
   before_action :set_enrollment, except: :index
-  before_action :instructor_or_more, only: [:destroy, :import]
-  before_action :TA_or_more, only: [:update, :edit, :roster]
+  before_action :instructor_or_more, only: [:destroy]
+  before_action :TA_or_more, only: [:update, :edit, :roster, :import, :new_import, :new_enrollment]
 
   def new
     @course = Course.new
@@ -56,6 +56,58 @@ class CoursesController < ApplicationController
     end
   end
 
+  def new_enrollment
+  end
+
+  def add_enrollment
+    messages = []
+    param_hash = enrollment_params
+    if param_hash[:email].blank?
+      messages.append( "Email can't be blank" )
+    end
+    if param_hash[:name].blank?
+      param_hash[:name] = "testing"
+    end
+    if messages.any?
+      flash[:error] = messages.join ", "
+      redirect_to new_enrollment_course_path(@course)
+      return
+    end
+    unless student = User.find_by(email: param_hash[:email])
+      student = User.create email: param_hash[:email], name: param_hash[:name], password: "testing", password_confirmation: "testing"
+      if student.errors.any?
+        messages.concat student.errors.full_messages
+        flash[:error] = messages.join ", "
+        redirect_to new_enrollment_course_path(@course)
+        return
+      end
+    end
+    if student.enrolled?(@course.id)
+        redirect_to new_enrollment_course_path(@course), notice: "Participant is already enrolled. Go to the roster if you want to edit this participant's parameters"
+        return
+    end
+    begin
+      if param_hash[:status].blank?
+        param_hash[:status] = Statuses::STUDENT
+      else
+        param_hash[:status] = Statuses.string_to_status param_hash[:status]
+        if param_hash[:status].nil?
+          param_hash[:status] = Statuses::STUDENT
+        end
+      end
+      student.enroll! @course.id, param_hash[:status], param_hash[:sid]
+    rescue
+      flash[:error] = "Error enrolling student! Probably because SID matches that of another student."
+      redirect_to new_enrollment_course_path(@course)
+      return
+    end
+    flash[:success] = "Participant has been successfully added!"
+    redirect_to @course
+  end
+
+  def new_import
+  end
+
   def import
     message = @course.import(params[:file])
     if message == true
@@ -79,4 +131,9 @@ class CoursesController < ApplicationController
     def course_params
       params.require(:course).permit(:name, :subject, :school)
     end
+
+    def enrollment_params
+      params.permit(:name, :email, :sid, :status)
+    end
+
 end

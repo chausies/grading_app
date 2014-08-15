@@ -57,7 +57,16 @@
                     <li><%= link_to "Create New Assignment", new_course_assignment_path(@course) %></li>
                   </ul>
                 </li>
-                <li><%= link_to "View Roster", roster_course_path(@course) %> </li>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Course Roster <b class="caret"></b>
+                  </a>
+									<ul class="dropdown-menu">
+										<li><%= link_to "View Roster", roster_course_path(@course) %></li>
+										<li><%= link_to "Add Participant", new_enrollment_course_path(@course) %></li>
+										<li><%= link_to "Bulk enroll participants", new_import_course_path(@course) %></li>
+									</ul>
+								</li>
               <% else %>
                 <li><%= link_to "View Assignments", course_assignments_path(@course) %></li>
               <% end %>

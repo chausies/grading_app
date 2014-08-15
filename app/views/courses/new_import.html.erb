@@ -1,0 +1,57 @@
+<% provide(:title, "#{@course.name} | Import participants") %>
+<h1>Import participants</h1>
+
+<div class="row">
+  <div class="span10 offset1">
+		<p>
+			Choose a csv file with all the participants you wish to add. If they've already been added, you can leave them there. The necessary formatting is as follows:
+		</p>
+		<strong>Header Row</strong>
+		<p>
+			Can contain the following: email (required), name, student id, role. Variations of these are accepted (e.g. SID)
+		</p>
+		<strong>Fields</strong>
+			<table class="table table-condensed">
+				<tr>
+					<td><strong>Email</strong></td>
+					<td>
+						The email of the participant. This is required, as it is a user's main identifier.
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Name</strong></td>
+					<td>
+						The name of the participant. This is optional, as a user will get their default name if they're already on magicgrader, or else they can go back and change this.
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Student ID (SID)</strong></td>
+					<td>
+						The identification for the participant. This can be any alphanumeric string, and is an optional field. A random SID will be assigned even if one isn't provided.
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Role</strong></td>
+					<td>
+						The role of the participant in the course. Can be instructor, teacher's assistant (TA), reader (grader), or student. These roles have many synonyms that are also allowed. For example, prof, instructor, and teacher are all the same role.
+					</td>
+				</tr>
+			</table>
+		<strong>Body Rows</strong>
+		<p>
+			Each row in the body corresponds to a student. Each column in the row corresponds to that student's specific parameter.
+		</p>
+		<strong>Examples</strong>
+		<p>
+			<table>
+				<tr>
+					<td><%= image_tag "example1_import_participant_csv_file.png", width: '170', alt: "Example csv file" %></td>
+					<td><%= image_tag "example2_import_participant_csv_file.png", width: '500', alt: "Example csv file" %></td>
+				</tr>
+			</table>
+		</p>
+  </div>
+	<div class="offset3 span6">
+		<%= render 'add_students' %>
+	</div>
+</div>

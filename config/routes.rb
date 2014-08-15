@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     end
     member do
       get :roster
+      get :new_enrollment
+      get :new_import
+      post :add_enrollment
       post :import
     end
   end                                                                                                                               
