@@ -69,7 +69,7 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
       a.submissions.create!(enrollment_id: s.id,
                             remote_pdf_url: submission_pdf_url)
     end
-    a.assign_gradings
+    a.assign_gradings(true, 3, 10)
     studs.each do |s|
       badness = s.id*6 % 7
       gradings = s.given_gradings.where assignment_id: a.id
@@ -106,6 +106,6 @@ def create_submit_and_begin_grading_homeworks course_number, number_of_hw
       a.submissions.create!(enrollment_id: s.id,
                             remote_pdf_url: submission_pdf_url)
     end
-    a.assign_gradings
+    a.assign_gradings(true, 3, 10)
   end
 end
