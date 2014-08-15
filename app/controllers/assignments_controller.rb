@@ -69,8 +69,10 @@ class AssignmentsController < ApplicationController
 
   def begin_grading
     unless @assignment.began_grading
-			self_grading?, num_stud_gradings, num_reader_gradings = params[:self_grading?], params[:num_stud_gradings], params[:num_reader_gradings]
-      if (submission_count=@assignment.assign_gradings(self_grading?, num_stud_gradings, num_reader_gradings)) == true
+			self_grading = params[:self_grading]
+			num_stud_gradings = params[:num_stud_gradings]
+			num_reader_gradings = params[:num_reader_gradings]
+      if (submission_count=@assignment.assign_gradings(self_grading, num_stud_gradings, num_reader_gradings)) == true
         flash[:success] = "Assigned gradings to students!"
       else
 				min_necessary = [num_reader_gradings, num_stud_gradings + ( self_grading? ? 0 : 1)].max
@@ -108,4 +110,5 @@ class AssignmentsController < ApplicationController
     def assignment_params
       params[:assignment].permit(:name, :pdf, :max_points, :min_points)
     end
+
 end

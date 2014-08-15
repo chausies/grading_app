@@ -12,8 +12,8 @@ class Assignment < ActiveRecord::Base
   
   mount_uploader :pdf, PdfUploader
 
-  def assign_gradings self_grading?, num_stud_gradings, num_reader_gradings
-		num_other_stud_gradings = num_stud_gradings - ( self_grading? ? 1 : 0 )
+  def assign_gradings self_grading, num_stud_gradings, num_reader_gradings
+		num_other_stud_gradings = num_stud_gradings - ( self_grading ? 1 : 0 )
     enrollments = self.course.enrollments.where status: Statuses::STUDENT
 		readers = self.course.enrollments.where status: Statuses::READER
     submissions_array = []
@@ -30,7 +30,7 @@ class Assignment < ActiveRecord::Base
       submissions_array.length.times do
         enrollment_ids = submissions_array[0..num_other_stud_gradings].map { |hash| hash[:enrollment_id] }
         enrollment = Enrollment.find(enrollment_ids[0])
-				if self_grading?
+				if self_grading
 					enrollment.add_grading_to_do(self.id, enrollment.id)
 				end
         enrollment_ids[1..num_other_stud_gradings].each do |gradee_id|
