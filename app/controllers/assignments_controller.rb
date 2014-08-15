@@ -40,7 +40,6 @@ class AssignmentsController < ApplicationController
   # POST /assignments
   def create
     @assignment = @course.assignments.build(assignment_params)
-
     if @assignment.save
       flash[:success] = 'Assignment was successfully created.'
       redirect_to [@course, @assignment]
@@ -65,14 +64,19 @@ class AssignmentsController < ApplicationController
     redirect_to course_assignments_url(@course), notice: 'Assignment was successfully destroyed.'
   end
 
+	def configure_grading
+	end
+
   def begin_grading
     unless @assignment.began_grading
-      if (submission_count=@assignment.assign_gradings) == true
+			self_grading?, num_stud_gradings, num_reader_gradings = params[:self_grading?], params[:num_stud_gradings], params[:num_reader_gradings]
+      if (submission_count=@assignment.assign_gradings(self_grading?, num_stud_gradings, num_reader_gradings)) == true
         flash[:success] = "Assigned gradings to students!"
       else
-        flash[:error] = "Need at least 4 submissions to begin grading. Only have #{submission_count} so far."
+				min_necessary = [num_reader_gradings, num_stud_gradings + ( self_grading? ? 0 : 1)].max
+        flash[:error] = "Need at least #{min_necessary} submissions to begin grading. Only have #{submission_count} so far."
       end
-      redirect_to [@course, @assignment]
+      redirect_to configure_grading_course_assignment_path(@course, @assignment)
     end
   end
 

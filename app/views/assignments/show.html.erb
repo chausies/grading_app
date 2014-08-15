@@ -24,7 +24,7 @@
         </p>
         <% if not @assignment.began_grading %>
           <p>
-            <%= link_to 'Begin Grading', begin_grading_course_assignment_path(@course, @assignment), method: :put, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-success" %>
+					<%= link_to 'Configure and Begin Grading', configure_grading_course_assignment_path(@course, @assignment), method: :get, type: "button", class: "btn btn-success" %>
           </p>
         <% elsif not @assignment.finished_grading %>
           <p>

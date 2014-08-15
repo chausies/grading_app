@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :assignments do
       resources :submissions, only: [:new, :create, :show]
       member do
+        get :configure_grading
         put :begin_grading
         put :end_grading
       end
