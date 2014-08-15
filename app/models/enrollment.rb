@@ -11,7 +11,7 @@ class Enrollment < ActiveRecord::Base
 
   before_save do
   	self.sid = self.sid.to_s.strip if self.sid
-  	unless self.id
+  	if self.sid.blank?
   		self.sid = ('a'..'z').to_a.shuffle[0..7].join
   	end
   end
