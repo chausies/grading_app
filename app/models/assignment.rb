@@ -40,7 +40,7 @@ class Assignment < ActiveRecord::Base
       end
 			submissions_array.shuffle!
 			ind = 0
-			readers.each |reader| do
+			readers.each do |reader|
 				num_reader_gradings.times do
 					reader.add_grading_to_do(self.id, submissions_array[ind][:enrollment_id])
 					ind += 1
