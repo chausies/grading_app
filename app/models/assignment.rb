@@ -1,5 +1,5 @@
 class Assignment < ActiveRecord::Base
-  # Attributes: name, course_id, pdf, min_points, max_points, began_grading, finished_grading
+  # Attributes: name, course_id, assignment_file, solution_file, min_points, max_points, began_grading, finished_grading
 
   default_scope -> { order('created_at DESC') }
 	scope :persisted, -> { where "id IS NOT NULL" }
@@ -12,9 +12,10 @@ class Assignment < ActiveRecord::Base
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :course_id, presence: true
-  validates :pdf, presence: true
+  validates :assignment_file, presence: true
   
-  mount_uploader :pdf, PdfUploader
+  mount_uploader :assignment_file, PdfUploader
+	mount_uploader :solution_file, PdfUploader
 
   def assign_gradings self_grading, num_stud_gradings, num_reader_gradings
 		num_other_stud_gradings = num_stud_gradings - ( self_grading ? 1 : 0 )

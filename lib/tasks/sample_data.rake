@@ -60,7 +60,8 @@ def create_submit_and_grade_homeworks course_number, number_of_hw
     hws.append course.assignments.create!( name: "hw#{n+1}",
                                            max_points: 30,
                                            min_points: 0, 
-                                           remote_pdf_url: pdf_url)
+                                           remote_assignment_file_url: pdf_url,
+																					 remote_solution_file_url: pdf_url)
   end
   submission_pdf_url = "http://publicsafety.utah.gov/dld/documents/testpdf.pdf"
   studs = course.enrollments.where status: Statuses::STUDENT
@@ -97,7 +98,8 @@ def create_submit_and_begin_grading_homeworks course_number, number_of_hw
     hws.append course.assignments.create!( name: "quiz#{n+1}",
                                            max_points: 30,
                                            min_points: 0, 
-                                           remote_pdf_url: pdf_url)
+                                           remote_assignment_file_url: pdf_url,
+																					 remote_solution_file_url: pdf_url)
   end
   submission_pdf_url = "http://publicsafety.utah.gov/dld/documents/testpdf.pdf"
   studs = course.enrollments.where status: Statuses::STUDENT

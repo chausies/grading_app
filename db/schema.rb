@@ -11,18 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718223842) do
+ActiveRecord::Schema.define(version: 20140820124356) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
     t.integer  "course_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "pdf"
     t.decimal  "max_points"
     t.decimal  "min_points"
     t.boolean  "began_grading",    default: false
     t.boolean  "finished_grading", default: false
+    t.string   "assignment_file"
+    t.string   "solution_file"
   end
 
   add_index "assignments", ["began_grading"], name: "index_assignments_on_began_grading"
