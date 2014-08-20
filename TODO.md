@@ -29,3 +29,4 @@ Add API for command-line interface.
 Make the site look amazing (fix all the CSS, html, make a gorgeous UI)
 
 Flush out junk
+  * Make header.html.erb use twitter-bootstrap-rails helper commands so it's sexier
