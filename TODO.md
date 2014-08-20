@@ -1,6 +1,8 @@
 ~~Find a real name for the site~~  
 Temporary name: MagicGrader
 
+Make better README.md file
+
 ~~Make basic site pages (home page, navbar, sign-in pages)~~  
 Update some site pages (make homepage nicer, fix the about and help pages, etc)
 
