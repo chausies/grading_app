@@ -4,7 +4,7 @@
 			<%= menu_item "All Courses", courses_path %>
 		<% else %>
 			<% if current_user.enrollments.any? %>
-				<%= drop_down raw("Gradings <span class=\"badge\">#{@amount}</span>") do %>
+				<%= drop_down raw("Gradings #{ @amount > 0 ? "<span class=\"badge\">#{@amount}</span>" : "" } ") do %>
 					<%= menu_item "View all gradings", gradings_path %>
 					<% if @amount > 0 %>
 						<%= drop_down_divider %>
@@ -33,7 +33,7 @@
 					<% end %>
 					<% if @course.assignments.any? %>
 						<%= drop_down_divider %>
-						<% @course.assignments.each do |assignment| %>
+						<% @course.assignments.persisted.each do |assignment| %>
 							<%= menu_item assignment.name, course_assignment_path(@course, assignment) %>
 						<% end %>
 					<% end %>

@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	scope :persisted, -> { where "id IS NOT NULL" }
+
   has_many :enrollments, foreign_key: "participant_id", dependent: :destroy
   has_many :courses, through: :enrollments
 

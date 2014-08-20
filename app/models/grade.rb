@@ -1,6 +1,9 @@
 class Grade < ActiveRecord::Base
+	scope :persisted, -> { where "id IS NOT NULL" }
+
   belongs_to :assignment
   belongs_to :enrollment
+
   validates :assignment_id, presence: true
   validates :enrollment_id, presence: true
   validate :valid_score

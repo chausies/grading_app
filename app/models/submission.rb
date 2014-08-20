@@ -1,6 +1,8 @@
 class Submission < ActiveRecord::Base
   # Attributes: assignment_id, enrollment_id, created_at
   default_scope -> { order('created_at DESC') }
+	scope :persisted, -> { where "id IS NOT NULL" }
+
   belongs_to :enrollment, class_name: "Enrollment"
   belongs_to :assignment, class_name: "Assignment"
 

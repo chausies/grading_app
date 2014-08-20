@@ -3,6 +3,8 @@ class Course < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   
   default_scope -> { order('id ASC') }
+	scope :persisted, -> { where "id IS NOT NULL" }
+
   has_many :enrollments, foreign_key: "course_id", dependent: :destroy
   has_many :participants, through: :enrollments
   has_many :assignments, dependent: :destroy
