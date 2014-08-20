@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require mousetrap
 //= require mousetrap/global
+//= require twitter/bootstrap
 //= require bootstrap
 //= require turbolinks
 //= require_tree .
