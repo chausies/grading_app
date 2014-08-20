@@ -1,110 +1,67 @@
-<div class="navbar navbar-fixed-top navbar-inverse">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <%= link_to full_title, root_path, id: "logo" %>
-      <div class="collapse nav-collapse">
-        <ul class="nav pull-left">
-          <% if signed_in? and current_user.courses.any? %>
-            <% if current_user.enrollments.any? %>
-              <% amount = (current_user.enrollments.map { |e| e.gradings_to_do.count }).sum %>
-              <% if amount > 0 %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Gradings <span class="badge"><%= amount %></span> <b class="caret"></b>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <% current_user.enrollments.each do |enrollment| %>
-                      <% if enrollment.gradings_to_do.any? %>
-                        <li>
-                          <%= link_to raw("#{enrollment.course.name} <span class='badge'>#{enrollment.gradings_to_do.count}</span>"), enrollment.next_grading_to_do %>
-                        </li>
-                      <% end %>
-                    <% end %>
-                    <li class="divider"></li>
-                    <li><%= link_to "View all gradings", gradings_path %></li>
-                  </ul>
-                </li>
-              <% else %>
-                <li><%= link_to "View all gradings", gradings_path %></li>
-              <% end %>
-            <% end %>
-            <li id="fat-menu" class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                My Courses <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <% current_user.courses.each do |course| %>
-                  <li><%= link_to course.name, course %></li>
-                <% end %>
-                <li class="divider"></li>
-                <li><%= link_to "All Courses", courses_path %></li>
-              </ul>
-            </li>
-            <% if @course and @course.persisted? %>
-              <% if @enrollment and @enrollment.status > Statuses::TA %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Assignments <b class="caret"></b>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to "View Assignments", course_assignments_path(@course) %></li>
-                    <li class="divider"></li>
-                    <li><%= link_to "Create New Assignment", new_course_assignment_path(@course) %></li>
-                  </ul>
-                </li>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Course Roster <b class="caret"></b>
-                  </a>
-									<ul class="dropdown-menu">
-										<li><%= link_to "View Roster", roster_course_path(@course) %></li>
-										<li><%= link_to "Add Participant", new_enrollment_course_path(@course) %></li>
-										<li><%= link_to "Bulk enroll participants", new_import_course_path(@course) %></li>
-									</ul>
-								</li>
-              <% else %>
-                <li><%= link_to "View Assignments", course_assignments_path(@course) %></li>
-              <% end %>
-            <% end %>
-          <% else %>
-            <li><%= link_to "All Courses", courses_path %></li>
-          <% end %>
-        </ul>
-        <ul class="nav pull-right">
-          <li><%= link_to "Home", root_path %></li>
-          <li><%= link_to "Help", help_path %></li>
-          <% if signed_in? %>
-            <li id="fat-menu" class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Account <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "Profile", current_user %></li>
-                <li><%= link_to "Settings", edit_user_path(current_user) %></li>
-                <li class="divider"></li>
-                <li>
-                  <%= link_to "Sign out", signout_path, method: "delete" %>
-                </li>
-                <% unless current_user.admin? %>
-                  <li class="divider"></li>
-                  <li>
-                    <%= link_to "Delete Account", current_user,   
-                                                  method: :delete,
-                                                  data: { confirm: "You sure? Deleted accounts cannot be recovered." } %>
-                  </li>
-                <% end %>
-              </ul>
-            </li>
-          <% else %>
-            <li><%= link_to "Sign in", signin_path %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+<%= nav_bar fixed: :top, brand: full_title, inverse: true, responsive: true do %>
+	<%= menu_group pull: :left do %>
+		<% if not (signed_in? and current_user.courses.any?) %>
+			<%= menu_item "All Courses", courses_path %>
+		<% else %>
+			<% if current_user.enrollments.any? %>
+				<%= drop_down raw("Gradings <span class=\"badge\">#{@amount}</span>") do %>
+					<%= menu_item "View all gradings", gradings_path %>
+					<% if @amount > 0 %>
+						<%= drop_down_divider %>
+						<% current_user.enrollments.each do |enrollment| %>
+							<% if enrollment.gradings_to_do.any? %>
+								<%= menu_item raw("#{enrollment.course.name} <span class='badge'>#{enrollment.gradings_to_do.count}</span>"), grading_path(enrollment.next_grading_to_do) %>
+							<% end %>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>
+			<%= drop_down "My Courses" do %>
+				<%= menu_item "All Courses", courses_path %>
+				<% if current_user.courses.any? %>
+					<%= drop_down_divider %>
+					<% current_user.courses.each do |course| %>
+						<%= menu_item course.name, course_path(course) %>
+					<% end %>
+				<% end %>
+			<% end %>
+			<% if @course and @course.persisted? %>
+				<%= drop_down "Assignments" do %>
+					<%= menu_item "View Assignments", course_assignments_path(@course) %>
+					<% if @enrollment and @enrollment.status > Statuses::TA %>
+						<%= menu_item "Create New Assignment", new_course_assignment_path(@course) %>
+					<% end %>
+					<% if @course.assignments.any? %>
+						<%= drop_down_divider %>
+						<% @course.assignments.each do |assignment| %>
+							<%= menu_item assignment.name, course_assignment_path(@course, assignment) %>
+						<% end %>
+					<% end %>
+				<% end %>
+				<% if @enrollment and @enrollment.status > Statuses::TA %>
+					<%= drop_down "Course Roster" do %>
+						<%= menu_item "View Roster", roster_course_path(@course) %>
+						<%= menu_item "Add Participant", new_enrollment_course_path(@course) %>
+						<%= menu_item "Bulk enroll participants", new_import_course_path(@course) %>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+	<% end %>
+	<%= menu_group pull: :right do %>
+		<%= menu_item "Help", help_path %>
+		<% if signed_in? %>
+			<%= drop_down "Account" do %>
+				<%= menu_item "Profile", user_path(current_user) %>
+				<%= menu_item "Settings", edit_user_path(current_user) %>
+				<%= drop_down_divider %>
+				<%= menu_item "Sign out", signout_path, method: "delete" %>
+				<%#= menu_item "Delete Account", current_user,   
+																				 method: :delete,
+																				 data: { confirm: "You sure? Deleted accounts cannot be recovered." } %>
+			<% end %>
+		<% else %>
+			<%= menu_item "Sign in", signin_path %>
+		<% end %>
+	<% end %>
+<% end %>
