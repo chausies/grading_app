@@ -8,10 +8,11 @@ Update some site pages (make homepage nicer, fix the about and help pages, etc)
 
 ~~Implement various models and their associations (User model, Course model)~~  
 ~~Implement roster and importing students~~  
-Make importing students even more robust. Do more than just CSV
+~~Make importing students even more robust.~~ Do more than just CSV
 
 ~~Create more course models (grading model, assignment/submission models)~~  
 ~~Make files submitted go to amazon s3, not stored locally.~~
+Make assignments have parts. Make better grading.
 
 ~~Flush out Course pages (create a course, create assignments, add students, simple grading)~~  
 Add delayed jobs
@@ -21,7 +22,9 @@ Implement Grading algorithms
   * then 1337 haxors (sick ass machine learning sk1llz)  
   * Implement better assignment of gradings  
 
-Make better populate rake task  
+~~Make better populate rake task.~~
+
+Add API for command-line interface.
 
 Make the site look amazing (fix all the CSS, html, make a gorgeous UI)
 
