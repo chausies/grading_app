@@ -70,17 +70,23 @@ class AssignmentsController < ApplicationController
   def begin_grading
     unless @assignment.began_grading
 			self_grading = (params[:self_grading] == "true")
-			num_stud_gradings = params[:num_stud_gradings].to_i
-			num_reader_gradings = params[:num_reader_gradings].to_i
+			num_stud_gradings = params[:num_stud_gradings]
+			num_reader_gradings = params[:num_reader_gradings]
 			if num_stud_gradings.blank? or num_reader_gradings.blank?
 				flash[:error] = "Number of student/reader gradings can't be blank. Try putting in \"0\""
-      elsif (submission_count=@assignment.assign_gradings(self_grading, num_stud_gradings, num_reader_gradings)) == true
-        flash[:success] = "Assigned gradings to students!"
-      else
-				min_necessary = [num_reader_gradings, num_stud_gradings + ( self_grading ? 0 : 1)].max
-        flash[:error] = "Need at least #{min_necessary} submissions to begin grading. Only have #{submission_count} so far."
-      end
-      redirect_to configure_grading_course_assignment_path(@course, @assignment)
+				redirect_to configure_grading_course_assignment_path(@course, @assignment)
+			else
+				num_stud_gradings = num_stud_gradings.to_i
+				num_reader_gradings = num_reader_gradings.to_i
+				if (submission_count=@assignment.assign_gradings(self_grading, num_stud_gradings, num_reader_gradings)) == true
+					flash[:success] = "Assigned gradings to students!"
+					redirect_to course_assignment_path(@course, @assignment)
+				else
+					min_necessary = [num_reader_gradings, num_stud_gradings + ( self_grading ? 0 : 1)].max
+					flash[:error] = "Need at least #{min_necessary} submissions to begin grading. Only have #{submission_count} so far."
+					redirect_to configure_grading_course_assignment_path(@course, @assignment)
+				end
+			end
     end
   end
 
