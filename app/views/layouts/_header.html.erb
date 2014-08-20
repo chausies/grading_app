@@ -4,13 +4,13 @@
 			<%= menu_item "All Courses", courses_path %>
 		<% else %>
 			<% if current_user.enrollments.any? %>
-				<%= drop_down raw("Gradings #{ @amount > 0 ? "<span class=\"badge\">#{@amount}</span>" : "" } ") do %>
+				<%= drop_down raw("Gradings #{ @amount > 0 ? badge(@amount) : "" } ") do %>
 					<%= menu_item "View all gradings", gradings_path %>
 					<% if @amount > 0 %>
 						<%= drop_down_divider %>
 						<% current_user.enrollments.each do |enrollment| %>
 							<% if enrollment.gradings_to_do.any? %>
-								<%= menu_item raw("#{enrollment.course.name} <span class='badge'>#{enrollment.gradings_to_do.count}</span>"), grading_path(enrollment.next_grading_to_do) %>
+								<%= menu_item raw("#{enrollment.course.name} #{badge(enrollment.gradings_to_do.count)}"), grading_path(enrollment.next_grading_to_do) %>
 							<% end %>
 						<% end %>
 					<% end %>
