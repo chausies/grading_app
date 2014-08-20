@@ -1,5 +1,8 @@
 class Assignment < ActiveRecord::Base
   # Attributes: name, course_id, pdf, min_points, max_points, began_grading, finished_grading
+
+  default_scope -> { order('created_at DESC') }
+	
   belongs_to :course, class_name: "Course"
 
   has_many :submissions, dependent: :destroy
