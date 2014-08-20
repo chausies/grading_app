@@ -11,7 +11,7 @@ Update some site pages (make homepage nicer, fix the about and help pages, etc)
 ~~Implement various models and their associations (User model, Course model)~~  
 ~~Implement roster and importing students~~  
 ~~Make importing students even more robust.~~ Do more than just CSV  
-Update student profile and editting of student profile (allow password changing).  
+Update student profile ~~and editting of student profile (allow password changing)~~.  
 Implement the "email new students" feature using actionmailer.  
 
 ~~Create more course models (grading model, assignment/submission models)~~  

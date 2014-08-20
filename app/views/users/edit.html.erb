@@ -12,16 +12,19 @@
       <%= f.label :email %>
       <%= f.text_field :email %>
 
-      <%= f.label :password %>
+      <%= f.label :old_password %>
+      <%= f.password_field :old_password %>
+
+      <%= f.label :password, "New password" %>
       <%= f.password_field :password %>
 
-      <%= f.label :password_confirmation, "Confirm Password" %>
+      <%= f.label :password_confirmation, "Confirm new password" %>
       <%= f.password_field :password_confirmation %>
 
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>
 
     <%= gravatar_for @user %>
-    <a href="http://gravatar.com/emails">change</a>
+		<%= link_to "change", "http://gravatar.com/emails" %>
   </div>
 </div>
