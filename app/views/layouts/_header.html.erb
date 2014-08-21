@@ -28,7 +28,7 @@
 			<% if @course and @course.persisted? %>
 				<%= drop_down "Assignments" do %>
 					<%= menu_item "View Assignments", course_assignments_path(@course) %>
-					<% if @enrollment and @enrollment.status > Statuses::TA %>
+					<% if @enrollment and @enrollment.status >= Statuses::TA %>
 						<%= menu_item "Create New Assignment", new_course_assignment_path(@course) %>
 					<% end %>
 					<% if @course.assignments.any? %>
@@ -38,7 +38,7 @@
 						<% end %>
 					<% end %>
 				<% end %>
-				<% if @enrollment and @enrollment.status > Statuses::TA %>
+				<% if @enrollment and @enrollment.status >= Statuses::TA %>
 					<%= drop_down "Course Roster" do %>
 						<%= menu_item "View Roster", roster_course_path(@course) %>
 						<%= menu_item "Add Participant", new_enrollment_course_path(@course) %>

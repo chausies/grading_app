@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
   before_action :signed_in_user, except: [:index, :show]
   before_action :set_enrollment, except: :index
   before_action :instructor_or_more, only: [:destroy]
-  before_action :TA_or_more, only: [:update, :edit, :roster, :import, :new_import, :new_enrollment]
+  before_action :TA_or_more, only: [:update, :edit, :roster, :import, :new_import, :new_enrollment, :add_enrollment]
 
   def new
     @course = Course.new
