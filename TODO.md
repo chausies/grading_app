@@ -13,6 +13,7 @@ Update some site pages (make homepage nicer, fix the about and help pages, etc)
 ~~Make importing students even more robust.~~ Do more than just CSV  
 Update student profile ~~and editting of student profile (allow password changing)~~.  
 Implement the "email new students" feature using actionmailer.  
+Implement multiple email support for students.  
 
 ~~Create more course models (grading model, assignment/submission models)~~  
 ~~Make files submitted go to amazon s3, not stored locally.~~  
