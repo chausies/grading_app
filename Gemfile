@@ -20,6 +20,7 @@ gem 'amatch'
 gem 'carrierwave'
 gem 'fog'
 gem 'mousetrap-rails'
+gem 'rmagick'
 
 group :development, :test do
   gem 'better_errors'

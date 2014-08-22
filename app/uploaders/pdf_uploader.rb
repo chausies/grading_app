@@ -3,8 +3,8 @@
 class PdfUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::RMagick
+	# include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   # storage :file
@@ -18,6 +18,12 @@ class PdfUploader < CarrierWave::Uploader::Base
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
+
+	def cover
+		manipulate! do |frame, index|
+			frame if index.zero?
+		end
+	end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
@@ -50,5 +56,17 @@ class PdfUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+	#version :seq_of_imgs do
+		#process make_seq_of_imgs: [ [2, 3] ]
+	#end
+
+	#def make_seq_of_imgs(page_arr=[])
+		#manipulate! do |page, index, options|
+			#if page_arr.include?(index+1)
+				#page
+			#end
+		#end
+	#end
 
 end
