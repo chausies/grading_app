@@ -2,30 +2,6 @@
 <h1>All gradings</h1>
 <div class="row">
   <div class="span12">
-    <ul>
-      <% @enr_hash.keys.each do |enrollment| %>
-        <li>
-          <%= link_to enrollment.course.name, enrollment.next_grading_to_do, class: "#{'disabled' if enrollment.next_grading_to_do.nil?}" %>
-          <ul>
-            <% @enr_hash[enrollment].keys.each do |assignment| %>
-              <li>
-                <%= link_to assignment.name, enrollment.gradings_to_do.where(assignment_id: assignment.id).first, class: "#{'disabled' if enrollment.gradings_to_do.where(assignment_id: assignment.id).empty?}" %>
-                <ol reversed>
-                  <% @enr_hash[enrollment][assignment].each do |grading| %>
-                    <li>
-                      <% if grading.finished? %>
-                        <%= link_to raw("Grading assigned on #{grading.created_at.getlocal.to_formatted_s(:long)} #{grading.created_at.getlocal.zone} &emsp; Finished on #{grading.updated_at.getlocal.to_formatted_s(:long)} #{grading.updated_at.getlocal.zone}"), grading, class: "disabled" %>
-                      <% else %>
-                        <%= link_to "Grading assigned on #{grading.created_at.getlocal.to_formatted_s(:long)} #{grading.created_at.getlocal.zone}", grading %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ol>
-              </li>
-            <% end %>
-          </ul>
-        </li>
-      <% end %>
-    </ul>
+		<%= render "gradings_list" %>
   </div>
 </div>

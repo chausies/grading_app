@@ -41,10 +41,25 @@ class CoursesController < ApplicationController
   end
 
   def show
+    @assignments = @course.assignments
+    @enr_hash = {}
+    if @enrollment
+      @enr_hash[@enrollment] ||= {}
+      @enrollment.given_gradings.reverse.each do |grading|
+        @enr_hash[@enrollment][grading.assignment] ||= []
+        @enr_hash[@enrollment][grading.assignment].append grading
+      end
+    end
   end
 
   def roster
-    @enrollments = @course.enrollments
+    if params[:search]
+      @enrollments = @course.enrollments.joins(:participant).
+                        where('"users"."name" LIKE :query OR "users"."email" LIKE :query OR sid LIKE :query',
+                                 query: "#{params[:search]}%")
+    else
+        @enrollments = @course.enrollments
+    end
     @enrollments = @enrollments.to_a.sort do |a, b|
       if a.status?(b.status)
         # ASC order of name
@@ -54,6 +69,11 @@ class CoursesController < ApplicationController
         b.status <=> a.status
       end
     end
+  end
+
+  def search_roster
+    @suggestions = ['suggestion1', 'suggestion2', 'suggestion3']
+    render json: @suggestions
   end
 
   def new_enrollment

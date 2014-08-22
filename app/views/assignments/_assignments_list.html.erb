@@ -1,0 +1,33 @@
+<table class="table table-striped table-condensed">
+	<thead>
+		<tr>
+			<th>Assignment name</th>
+			<% if !@enrollment.nil? %>
+				<th><%= "Score" if @enrollment and @enrollment.status? Statuses::STUDENT %></th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody>
+		<% @assignments.each do |assignment| %>
+			<tr>
+				<td><%= link_to assignment.name, [@course, assignment] %></td>
+				<% if @enrollment %>
+					<% if @enrollment.status? Statuses::STUDENT %>
+						<td>
+							<% if assignment.finished_grading %>
+								<%= "#{@enrollment.score_for(assignment.id)}/#{assignment.max_points}" %>
+							<% else %>
+								<%= "/#{assignment.max_points}" %>
+							<% end %>
+						</td>
+					<% elsif @enrollment.status > Statuses::READER %>
+						<td>
+							<%= link_to "Edit", edit_course_assignment_path(@course,assignment), type: "button", class: "btn btn-primary" %>
+							<%= link_to 'Destroy', [@course, assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
+						</td>
+					<% end %>
+				<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

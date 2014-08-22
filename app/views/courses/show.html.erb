@@ -1,11 +1,23 @@
 <% provide(:title, @course.name) %>
 <h1><%= @course.name + ": " + @course.subject%></h1>
-<h3>School</h3>
-<p><%= @course.school %></p>
-<h3>Description</h3>
-<p>This is a description :3</p>
+<div class="row">
+  <div class="span10 offset1">
+		<h3>School</h3>
+		<p><%= @course.school %></p>
+		<h3>Description</h3>
+		<p>This is a description :3</p>
 
-<% if @enrollment and @enrollment.status > Statuses::READER %>
-  <%= link_to "Edit", edit_course_path(@course), type: "button", class: "btn btn-primary" %>
-  <%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
-<% end %>
+		<% if @enrollment %>
+			<h3>Assignments</h3>
+			<%= render 'assignments/assignments_list' %>
+
+			<h3>Gradings</h3>
+			<%= render 'gradings/gradings_list' %>
+		<% end %>
+
+		<% if @enrollment and @enrollment.status > Statuses::READER %>
+			<%= link_to "Edit", edit_course_path(@course), type: "button", class: "btn btn-primary" %>
+			<%= link_to 'Destroy', @course, method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
+		<% end %>
+  </div>
+</div>
