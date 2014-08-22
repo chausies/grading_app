@@ -11,6 +11,7 @@ Update some site pages (make homepage nicer, fix the about and help pages, etc)
 ~~Implement various models and their associations (User model, Course model)~~  
 ~~Implement roster and importing students~~  
 ~~Make importing students even more robust.~~ Do more than just CSV  
+Make searching roster and stuff better.  
 Update student profile ~~and editting of student profile (allow password changing)~~.  
 Implement the "email new students" feature using actionmailer.  
 Implement multiple email support for students.  
@@ -18,6 +19,7 @@ Implement multiple email support for students.
 ~~Create more course models (grading model, assignment/submission models)~~  
 ~~Make files submitted go to amazon s3, not stored locally.~~  
 Make assignments have parts. Make better grading.
+Add meta-data collection capabilities (e.g. surveys) on assignments.  
 
 ~~Flush out Course pages (create a course, create assignments, add students, simple grading)~~  
 Add delayed jobs
