@@ -50,7 +50,7 @@ class AssignmentsController < ApplicationController
 
   # PATCH/PUT /assignments/1
   def update
-    if @assignment.update(assignment_params)
+    if @assignment.update assignment_params
       flash[:success] = 'Assignment was successfully updated.'
       redirect_to [@course, @assignment]
     else
