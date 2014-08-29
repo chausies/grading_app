@@ -21,6 +21,7 @@ gem 'carrierwave'
 gem 'fog'
 gem 'mousetrap-rails'
 gem 'rmagick'
+gem 'grim'
 gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
 
 group :development, :test do

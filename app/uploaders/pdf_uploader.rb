@@ -19,11 +19,10 @@ class PdfUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-	def cover
-		manipulate! do |frame, index|
-			frame if index.zero?
-		end
-	end
+	def grim
+    cache_stored_file! unless cached?
+    Grim.reap(cache_path)
+  end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
