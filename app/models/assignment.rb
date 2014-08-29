@@ -9,6 +9,7 @@ class Assignment < ActiveRecord::Base
   has_many :submissions, dependent: :destroy
   has_many :gradings, dependent: :destroy
   has_many :grades, dependent: :destroy
+	has_many :children, class_name: "Subpart", as: :parent, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :course_id, presence: true
