@@ -9,11 +9,10 @@ class Assignment < ActiveRecord::Base
   has_many :submissions, dependent: :destroy
   has_many :gradings, dependent: :destroy
   has_many :grades, dependent: :destroy
-	has_many :children, class_name: "Subpart", as: :parent, dependent: :destroy
+	has_many :subparts, as: :parent, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :course_id, presence: true
-  validates :assignment_file, presence: true
   
   mount_uploader :assignment_file, PdfUploader
 	mount_uploader :solution_file, PdfUploader
@@ -56,5 +55,45 @@ class Assignment < ActiveRecord::Base
       return true
     end
   end
+
+	def subpart_leaves
+		stack = []
+		leaves = []
+		self.subparts.each { |s| stack.push s }
+		while stack.any?
+			s = stack.pop
+			if s.children.any?
+				s.children.each { |c| stack.push c }
+			else
+				leaves.push s
+			end
+		end
+		leaves.reverse
+	end
+
+	def get_subpart index_arr_or_index_str
+		if index_arr_or_index_str.is_a? String
+			index_arr = index_arr_or_index_str.split('.').map! { |str| str.to_i }
+		else
+			index_arr = index_arr_or_index_str
+		end
+		index_arr.map! { |ind| ind - 1 }
+		ind = index_arr.shift
+		if self.subparts.count <= ind
+			subpart = nil
+		else
+			subpart = self.subparts[ind]
+			while index_arr.any?
+				ind = index_arr.shift
+				if subpart.children.count <= ind
+					subpart = nil
+					break
+				else
+					subpart = subpart.children[ind]
+				end
+			end
+		end
+		subpart
+	end
 
 end
