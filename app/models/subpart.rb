@@ -1,5 +1,5 @@
 class Subpart < ActiveRecord::Base
-  # Attributes: name, index, parent_id, parent_type, min_points, max_points 
+  # Attributes: name, index, parent_id, parent_type, min_points, max_points, pages
 
   default_scope -> { order('id ASC') }
 	
@@ -8,6 +8,8 @@ class Subpart < ActiveRecord::Base
 
   validates :parent_id, presence: true
   validates :parent_type, presence: true
+
+	serialize :pages, Array
 
 	before_save do
 		if parent_type == "Subpart"

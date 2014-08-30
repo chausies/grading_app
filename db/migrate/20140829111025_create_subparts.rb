@@ -3,6 +3,7 @@ class CreateSubparts < ActiveRecord::Migration
     create_table :subparts do |t|
 			t.string :name
 			t.string :index
+			t.text :pages
 			t.references :parent, polymorphic: true
 			t.decimal :max_points
 			t.decimal :min_points
