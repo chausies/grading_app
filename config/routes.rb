@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :courses do
     resources :assignments do
-      resources :submissions, only: [:new, :create, :show]
+      resources :submissions, only: [:new, :create, :show] do
+        get :submit_files
+      end
+      get :submit_files
       member do
         get :configure_grading
         post :begin_grading

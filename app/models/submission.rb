@@ -6,6 +6,8 @@ class Submission < ActiveRecord::Base
   belongs_to :enrollment, class_name: "Enrollment"
   belongs_to :assignment, class_name: "Assignment"
 	has_many :subparts, as: :parent, dependent: :destroy
+	
+	accepts_nested_attributes_for :subparts
 
   validates :enrollment_id, presence: true
   validates :assignment_id, presence: true

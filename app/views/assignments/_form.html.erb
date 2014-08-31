@@ -1,26 +1,59 @@
-<%= form_for [@course, @assignment], multipart: true do |f| %>
-  <%= render 'shared/error_messages', object: @assignment %>
-  <p>
-    <%= f.label :name %>
-    <%= f.text_field :name, placeholder: "e.g. Homework 1" %>
-  </p>
-  <p>
-    <%= f.label "Assignment file" %>
-    <%= f.file_field :assignment_file %>
-  </p>
-  <p>
-    <%= f.label "Assignment solution" %>
-    <%= f.file_field :solution_file %>
-  </p>
-  <p>
-    <%= f.label "Minimum score" %>
-    <%= f.number_field :min_points, step: 'any', class: 'text_field', value: 0 %>
-  </p>
-  <p>
-    <%= f.label "Maximum score" %>
-    <%= f.number_field :max_points, step: 'any', class: 'text_field', placeholder: 10 %>
-  </p>
-  <p>
-    <%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>
-  </p>
+<%# <%= form_for [@course, @assignment], multipart: true do |f| %>
+<%#   <%= render 'shared/error_messages', object: @assignment %>
+<%#   <div class='row'>
+<%# 		<div class='span6'>
+<%# 			<%= f.label :name %>
+<%# 			<%= f.text_field :name, placeholder: "e.g. Homework 1" %>
+<%# 		</div>
+<%#   </div>
+<%#   <div class='row'>
+<%# 		<div class='span6'>
+<%# 			<%= f.label "Assignment file" %>
+<%# 			<%= f.file_field :assignment_file %>
+<%# 		</div>
+<%#   </div>
+<%#   <div class='row'>
+<%# 		<div class='span6'>
+<%# 			<%= f.label "Assignment solution" %>
+<%# 			<%= f.file_field :solution_file %>
+<%# 		</div>
+<%# 	</div>
+<%#   <div class='row'>
+<%# 		<div class='span1'>
+<%# 			<%= f.label "Minimum score" %>
+<%# 		</div>
+<%# 		<div class='span2'>
+<%# 			<%= f.number_field :min_points, step: 'any', class: 'text_field', value: 0 %>
+<%# 		</div>
+<%# 		<div class='span1'>
+<%# 			<%= f.label "Maximum score" %>
+<%# 		</div>
+<%# 		<div class='span2'>
+<%# 			<%= f.number_field :max_points, step: 'any', class: 'text_field', placeholder: 10 %>
+<%# 		</div>
+<%#   </div>
+<%# 	<div class='row'>
+<%# 		<div class='span10'>
+<%# 			<% f.options[:depth] = -1 %>
+<%# 			<%= f.fields_for :subparts do |builder| %>
+<%# 				<% builder.options[:depth] = 0 %>
+<%# 			<%= render "subpart_fields", f: builder %>
+<%# 		<% end %>
+<%# 			<div class='span3'>
+<%# 				<%= link_to_add_fields "Add subpart", f, :subparts, type: "button", class: "btn btn-primary" %>
+<%# 			</div>
+<%# 		</div>
+<%# 	</div>
+<%#   <p>
+<%#     <%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>
+<%#   </p>
+<%# <% end %>
+
+
+<%= bootstrap_form_for(current_user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
+  <%= f.email_field :email %>
+  <%= f.password_field :password %>
+  <%= f.form_group do %>
+    <%= f.submit %>
+  <% end %>
 <% end %>

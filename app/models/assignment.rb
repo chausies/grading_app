@@ -11,6 +11,8 @@ class Assignment < ActiveRecord::Base
   has_many :grades, dependent: :destroy
 	has_many :subparts, as: :parent, dependent: :destroy
 
+	accepts_nested_attributes_for :subparts, allow_destroy: true
+
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :course_id, presence: true
   

@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/yourabi/twitter-typeahead-rails.git
-  revision: b9e407f9a4224f0840b60a523a2df42eeca7dfe7
+  revision: 1dcb8efda086a8aafca0ed31aa4879f9c2f2c78c
   specs:
-    twitter-typeahead-rails (0.10.2)
+    twitter-typeahead-rails (0.10.5)
       actionpack (>= 3.1)
       jquery-rails
       railties (>= 3.1)
@@ -48,6 +48,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-will_paginate (0.0.9)
       will_paginate
+    bootstrap_form (2.1.1)
     builder (3.2.2)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -63,7 +64,7 @@ GEM
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.7.1)
+    coffee-script-source (1.8.0)
     commonjs (0.2.7)
     debug_inspector (0.0.2)
     erubis (2.7.0)
@@ -79,11 +80,11 @@ GEM
       fog-softlayer
       ipaddress (~> 0.5)
       nokogiri (~> 1.5, >= 1.5.11)
-    fog-brightbox (0.3.0)
+    fog-brightbox (0.4.1)
       fog-core (~> 1.22)
       fog-json
       inflecto
-    fog-core (1.23.0)
+    fog-core (1.24.0)
       builder
       excon (~> 0.38)
       formatador (~> 0.2)
@@ -92,7 +93,7 @@ GEM
       net-ssh (>= 2.1.3)
     fog-json (1.0.0)
       multi_json (~> 1.0)
-    fog-softlayer (0.3.14)
+    fog-softlayer (0.3.16)
       fog-core
       fog-json
     formatador (0.2.5)
@@ -118,7 +119,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     mini_portile (0.6.0)
-    minitest (5.4.0)
+    minitest (5.4.1)
     mousetrap-rails (1.4.6)
     multi_json (1.10.1)
     net-scp (1.2.1)
@@ -157,7 +158,7 @@ GEM
     ref (1.0.5)
     rmagick (2.13.3)
     rubyzip (0.9.9)
-    sass (3.4.0)
+    sass (3.4.2)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
@@ -214,6 +215,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-will_paginate (= 0.0.9)
+  bootstrap_form
   carrierwave
   coffee-rails (= 4.0.1)
   faker (= 1.1.2)

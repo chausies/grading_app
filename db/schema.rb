@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820124356) do
+ActiveRecord::Schema.define(version: 20140829111025) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -95,6 +95,20 @@ ActiveRecord::Schema.define(version: 20140820124356) do
   add_index "submissions", ["assignment_id"], name: "index_submissions_on_assignment_id"
   add_index "submissions", ["created_at"], name: "index_submissions_on_created_at"
   add_index "submissions", ["enrollment_id"], name: "index_submissions_on_enrollment_id"
+
+  create_table "subparts", force: true do |t|
+    t.string   "name"
+    t.string   "index"
+    t.text     "pages"
+    t.integer  "parent_id"
+    t.string   "parent_type"
+    t.decimal  "max_points"
+    t.decimal  "min_points"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subparts", ["parent_id"], name: "index_subparts_on_parent_id"
 
   create_table "users", force: true do |t|
     t.string   "name"
