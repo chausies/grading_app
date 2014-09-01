@@ -1,0 +1,9 @@
+<%= form_for [@course, @assignment], multipart: true, html: {class: "form-horizontal"} do |f| %>
+  <%= render 'shared/error_messages', object: @assignment %>
+	<%= f.fields_for :subparts do |builder| %>
+		<%= render "subpart_config_form", f: builder %>
+	<% end %>
+	<div class="row">
+		<%= f.submit "Update Subparts", class: "btn btn-large btn-primary" %>
+	</div>
+<% end %>

@@ -10,14 +10,19 @@ class Assignment < ActiveRecord::Base
   has_many :gradings, dependent: :destroy
   has_many :grades, dependent: :destroy
 	has_many :subparts, as: :parent, dependent: :destroy
+	has_many :assignment_pages, dependent: :destroy, class_name: "Page", foreign_key: "assignment_id"
+	has_many :solution_pages, dependent: :destroy, class_name: "Page", foreign_key: "solution_id"
 
 	accepts_nested_attributes_for :subparts, allow_destroy: true
 
-  validates :name, presence: true, length: { minimum: 2, maximum: 50 }
+  validates :name,      presence: true, length: { minimum: 2, maximum: 50 }
   validates :course_id, presence: true
   
   mount_uploader :assignment_file, PdfUploader
-	mount_uploader :solution_file, PdfUploader
+	mount_uploader :solution_file,   PdfUploader
+
+	after_save :update_assignment_pages
+	after_save :update_solution_pages
 
   def assign_gradings self_grading, num_stud_gradings, num_reader_gradings
 		num_other_stud_gradings = num_stud_gradings - ( self_grading ? 1 : 0 )
@@ -97,5 +102,39 @@ class Assignment < ActiveRecord::Base
 		end
 		subpart
 	end
+
+	private
+
+		def update_assignment_pages
+			if assignment_file_changed? and assignment_file
+				self.assignment_pages.destroy_all
+				assignment_file.grim.each_with_index do |page, i|
+					temp = Tempfile.new ["assignment_page_#{i + 1}_", ".png"]
+					begin
+						page.save temp.path
+						self.assignment_pages.create! page_num: (i + 1), page_file: temp
+					ensure
+						temp.close
+						temp.unlink
+					end
+				end
+			end
+		end
+
+		def update_solution_pages
+			if solution_file_changed? and solution_file
+				self.solution_pages.destroy_all
+				solution_file.grim.each_with_index do |page, i|
+					temp = Tempfile.new ["soln_page_#{i + 1}_", ".png"]
+					begin
+						page.save temp.path
+						self.solution_pages.create! page_num: (i + 1), page_file: temp
+					ensure
+						temp.close
+						temp.unlink
+					end
+				end
+			end
+		end
 
 end

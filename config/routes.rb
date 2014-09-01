@@ -5,10 +5,12 @@ Rails.application.routes.draw do
   resources :courses do
     resources :assignments do
       resources :submissions, only: [:new, :create, :show] do
-        get :submit_files
+        member do
+          get :configure_subparts 
+        end
       end
-      get :submit_files
       member do
+        get :configure_subparts
         get :configure_grading
         post :begin_grading
         put :end_grading

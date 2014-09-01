@@ -23,7 +23,6 @@ gem 'mousetrap-rails'
 gem 'rmagick'
 gem 'grim'
 gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
-gem 'bootstrap_form'
 
 group :development, :test do
   gem 'better_errors'
@@ -40,6 +39,6 @@ group :doc do
 end
 
 group :production do
-  gem 'pg', '0.15.1'
-  gem 'rails_12factor', '0.0.2'
+  gem 'pg'
+  gem 'rails_12factor'
 end

@@ -1,25 +1,34 @@
 <fieldset>
-	<div class="span10" >
-		<div class="row">
-			<div class='span1'>
-				<%= "Part 1" %>
-			</div>
-			<div class='span4'>
-				<%= f.text_field :name, placeholder: "Subpart name (e.g. T/F section)" %> 
-				<%= f.hidden_field :_destroy %>
-			</div>
-			<div class='span1'>
-				<%= link_to glyph(:remove), '#', type: "button", class: "btn btn-danger remove_fields", title: "Remove subpart" %>
+	<div class="row">
+		<div class="span11">
+			<div class="control-group">
+				<%= f.label :name, "Part name", :class => 'control-label' %>
+				<div class="controls">
+					<div class="span3">
+						<%= f.text_field :name, placeholder: "Subpart name (e.g. T/F section)" %>
+					</div>
+					<div class="span1">
+						<%= f.hidden_field :_destroy %>
+						<%= link_to glyph(:remove), '#', type: "button", class: "btn btn-danger remove_fields", title: "Remove subpart" %>
+					</div>
+				</div>
 			</div>
 		</div>
-		<%= f.fields_for :children do |builder| %>
-			<% builder.options[:depth] = f.options[:depth] + 1 %>
-		<%= render "subpart_fields", f: builder %>
-	<% end %>
-		<div class='span1'>
-			<% if f.options[:depth]<2 %>
-				<%= link_to_add_fields glyph(:plus), f, :children, type: "button", class: "btn btn-primary", title: "Add subsequent subpart" %>
-		<% end %>
+	</div>
+	<div class="row">
+		<div class="offset1">
+			<%= f.fields_for :children do |builder| %>
+				<% builder.options[:child_index] = builder.object.object_id %>
+				<% builder.options[:depth] = f.options[:depth] + 1 %>
+				<%= render "subpart_fields", f: builder %>
+			<% end %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span1 offset1">
+			<% if f.options[:depth] < 2 %>
+				<%= link_to_add_fields glyph(:plus), f, :children, type: "button", class: "btn btn-success", title: "Add new subpart" %>
+			<% end %>
 		</div>
 	</div>
 </fieldset>

@@ -3,21 +3,25 @@ class Subpart < ActiveRecord::Base
 
   default_scope -> { order('id ASC') }
 	
-	has_many :children, class_name: "Subpart", as: :parent, dependent: :destroy
-	belongs_to :parent, polymorphic: true
+	belongs_to :parent,   polymorphic: true
+	has_many   :children, class_name: "Subpart", as: :parent, dependent: :destroy
+	has_many   :pages,    through: :pages_subparts_relationships
+	has_many   :pages_subparts_relationships, dependent: :destroy
 
-	accepts_nested_attributes_for :children
+	accepts_nested_attributes_for :children,                     allow_destroy: true
+	accepts_nested_attributes_for :pages_subparts_relationships, allow_destroy: true
 
-  validates :parent_id, presence: true
-  validates :parent_type, presence: true
+  # validates :parent_id, presence: true
+  # validates :parent_type, presence: true
 
 	serialize :pages, Array
 
-	before_save do
+	def index
 		if parent_type == "Subpart"
-			self.index = parent.index + ".#{parent.children.count + 1}"
+			self.parent.index + ".#{ self.parent.children.index(self) + 1 }"
 		else
-			self.index = "#{parent.subparts.count + 1}"
+			(self.parent.subparts.index(self) + 1).to_s
 		end
 	end
+
 end

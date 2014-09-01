@@ -42,7 +42,7 @@ class AssignmentsController < ApplicationController
     @assignment = @course.assignments.build(assignment_params)
     if @assignment.save
       flash[:success] = 'Assignment was successfully created.'
-      redirect_to [@course, @assignment]
+      redirect_to configure_subparts_course_assignment_path(@course, @assignment)
     else
       render :new
     end
@@ -52,7 +52,11 @@ class AssignmentsController < ApplicationController
   def update
     if @assignment.update assignment_params
       flash[:success] = 'Assignment was successfully updated.'
-      redirect_to [@course, @assignment]
+			if params[:commit] == "Update Subparts"
+				redirect_to [@course, @assignment]
+			else
+				redirect_to configure_subparts_course_assignment_path(@course, @assignment)
+			end
     else
       render :edit
     end
@@ -63,6 +67,9 @@ class AssignmentsController < ApplicationController
     @assignment.destroy
     redirect_to course_assignments_url(@course), notice: 'Assignment was successfully destroyed.'
   end
+
+	def configure_subparts
+	end
 
 	def configure_grading
 	end

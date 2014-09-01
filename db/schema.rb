@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140829111025) do
+ActiveRecord::Schema.define(version: 20140901115546) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -84,6 +84,30 @@ ActiveRecord::Schema.define(version: 20140829111025) do
   add_index "gradings", ["gradee_id"], name: "index_gradings_on_gradee_id"
   add_index "gradings", ["grader_id"], name: "index_gradings_on_grader_id"
 
+  create_table "pages", force: true do |t|
+    t.integer  "assignment_id"
+    t.integer  "solution_id"
+    t.integer  "submission_id"
+    t.integer  "page_num"
+    t.string   "page_file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pages", ["assignment_id"], name: "index_pages_on_assignment_id"
+  add_index "pages", ["solution_id"], name: "index_pages_on_solution_id"
+  add_index "pages", ["submission_id"], name: "index_pages_on_submission_id"
+
+  create_table "pages_subparts_relationships", force: true do |t|
+    t.integer "page_id"
+    t.integer "subpart_id"
+  end
+
+  add_index "pages_subparts_relationships", ["page_id", "subpart_id"], name: "index_pages_subparts_relationships_on_page_id_and_subpart_id"
+  add_index "pages_subparts_relationships", ["page_id"], name: "index_pages_subparts_relationships_on_page_id"
+  add_index "pages_subparts_relationships", ["subpart_id", "page_id"], name: "index_pages_subparts_relationships_on_subpart_id_and_page_id"
+  add_index "pages_subparts_relationships", ["subpart_id"], name: "index_pages_subparts_relationships_on_subpart_id"
+
   create_table "submissions", force: true do |t|
     t.integer  "assignment_id"
     t.integer  "enrollment_id"
@@ -98,8 +122,6 @@ ActiveRecord::Schema.define(version: 20140829111025) do
 
   create_table "subparts", force: true do |t|
     t.string   "name"
-    t.string   "index"
-    t.text     "pages"
     t.integer  "parent_id"
     t.string   "parent_type"
     t.decimal  "max_points"

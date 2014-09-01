@@ -6,8 +6,9 @@ class Submission < ActiveRecord::Base
   belongs_to :enrollment, class_name: "Enrollment"
   belongs_to :assignment, class_name: "Assignment"
 	has_many :subparts, as: :parent, dependent: :destroy
+	has_many :pages, dependent: :destroy
 	
-	accepts_nested_attributes_for :subparts
+	accepts_nested_attributes_for :subparts, allow_destroy: true
 
   validates :enrollment_id, presence: true
   validates :assignment_id, presence: true
@@ -15,6 +16,7 @@ class Submission < ActiveRecord::Base
   mount_uploader :pdf, PdfUploader
 
 	after_save :create_subparts
+	after_save :update_pages
 
 	def get_subpart index_arr_or_index_str
 		if index_arr_or_index_str.is_a? String
@@ -59,6 +61,22 @@ class Submission < ActiveRecord::Base
 				end
 			end
 			true
+		end
+
+		def update_pages
+			if pdf_changed? and pdf
+				self.pages.destroy_all
+				pdf.grim.each_with_index do |page, i|
+					temp = Tempfile.new ["subm_page_#{i + 1}_", ".png"]
+					begin
+						page.save temp.path
+						self.assignment_pages.create! page_num: (i + 1), page_file: temp
+					ensure
+						temp.close
+						temp.unlink
+					end
+				end
+			end
 		end
 
 end

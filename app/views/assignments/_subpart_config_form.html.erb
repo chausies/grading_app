@@ -1,0 +1,23 @@
+<% if f.object.children.any? %>
+	<%= f.fields_for :children do |builder| %>
+		<%= render "subpart_config_form", f: builder %>
+	<% end %>
+<% else %>
+	<div class="row">
+		<div class="span6">
+			<%= raw("<b>#{f.object.index}:</b> #{f.object.name}:") %>
+			<div class="control-group">
+				<%= f.label :min_points, :class => 'control-label' %>
+				<div class="controls">
+					<%= f.number_field :min_points, step: 'any', value: (f.object.min_points || 0) %>
+				</div>
+			</div>
+			<div class="control-group">
+				<%= f.label :max_points, :class => 'control-label' %>
+				<div class="controls">
+					<%= f.number_field :max_points, step: 'any', placeholder: 10 %>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>
