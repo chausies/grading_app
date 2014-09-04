@@ -92,21 +92,26 @@ class Course < ActiveRecord::Base
     assignments = self.assignments.where finished_grading: true
     enrollments = self.enrollments
     assignments.each do |assignment|
-      touched_enrollments = []
-      grading_hash = {}
-      assignment.gradings.each do |g|
-        if g.finished?
-          grading_hash[g.gradee] ||= []
-          grading_hash[g.gradee].append g.score
-        end
-      end
-      grading_hash.each do |enrollment, assigned_grades|
-        enrollment.assign_grade(assignment.id, assigned_grades.sum.to_f/assigned_grades.size)
-        touched_enrollments.append enrollment.id
-      end
-      touched_enrollments = touched_enrollments.to_set
-      gets_zero = enrollments.to_a.delete_if { |e| touched_enrollments.member? e.id }
-      gets_zero.each { |e| e.assign_grade(assignment.id, assignment.min_points) }
+			leaves = assignment.subpart_leaves
+			leaves = [nil] if leaves.empty?
+			leaves.each do |subpart|
+				touched_enrollments = []
+				grading_hash = {}
+				subpart ||= assignment
+				subpart.gradings.each do |g|
+					if g.finished?
+						grading_hash[g.gradee] ||= []
+						grading_hash[g.gradee].append g.score
+					end
+				end
+				grading_hash.each do |enrollment, assigned_grades|
+					enrollment.assign_grade(assignment.id, subpart.id, assigned_grades.sum.to_f/assigned_grades.size)
+					touched_enrollments.append enrollment.id
+				end
+				touched_enrollments = touched_enrollments.to_set
+				gets_zero = enrollments.to_a.delete_if { |e| touched_enrollments.member? e.id }
+				gets_zero.each { |e| e.assign_grade(assignment.id, subpart.id, assignment.min_points) }
+			end
     end
   end
 

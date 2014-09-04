@@ -18,10 +18,30 @@
   </div>
   <h2 class="span6">Solution/Rubric</h2>
   <h2 class="span6">Submission</h2>
-  <iframe class="span6" src="<%= @assignment.solution_file_url.to_s %>" style="height:500px;" frameborder="0">
-  Assignment
-  </iframe>
-  <iframe class="span6" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
-  Submission
-  </iframe>
+  <div class="span6">
+    <% if @subpart %>
+      <%= @subpart.pages.each do |page| %>
+        <iframe class="span6" src="<%= page.page_file_url.to_s %>" style="height:500px;" frameborder="0">
+          Assignment Solution
+        </iframe>
+      <% end %>
+    <% else %>
+      <iframe class="span6" src="<%= @assignment.solution_file_url.to_s %>" style="height:500px;" frameborder="0">
+        Assignment
+      </iframe>
+    <% end %>
+  </div>
+  <div class="span6">
+    <% if @subm_subpart %>
+      <%= @subm_subpart.pages.each do |page| %>
+        <iframe class="span6" src="<%= page.page_file_url.to_s %>" style="height:500px;" frameborder="0">
+          Submission file
+        </iframe>
+      <% end %>
+    <% else %>
+      <iframe class="span6" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+        Submission
+      </iframe>
+    <% end %>
+  </div>
 </div> 

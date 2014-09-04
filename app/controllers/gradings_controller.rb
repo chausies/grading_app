@@ -30,11 +30,13 @@ class GradingsController < ApplicationController
   private
     def set_grading
       @grading = Grading.find(params[:id])
-      @assignment = Assignment.find @grading.assignment
+      @assignment = @grading.assignment
+			@subpart = @grading.subpart
       @course = @assignment.course
-      @grader = Enrollment.find @grading.grader
-      @gradee = Enrollment.find @grading.gradee
+      @grader = @grading.grader
+      @gradee = @grading.gradee
       @submission = @gradee.submissions.where(assignment_id: @assignment.id).first
+			@subm_subpart = @submission.get_subpart(@subpart.index) if @subpart
     end
 
     def set_enrollment

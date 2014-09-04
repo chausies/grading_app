@@ -31,31 +31,36 @@ class Assignment < ActiveRecord::Base
     submissions_array = []
     enrollments.each do |enrollment|
       submissions = enrollment.submissions.where(assignment_id: self.id)
-      if submissions.count > 0
+      if submissions.any?
         submissions_array << { enrollment_id: enrollment.id }
       end
     end
     if submissions_array.count <= num_other_stud_gradings or submissions_array.count < num_reader_gradings
       return submissions_array.count
     else
-      submissions_array.shuffle!
-      submissions_array.length.times do
-        enrollment_ids = submissions_array[0..num_other_stud_gradings].map { |hash| hash[:enrollment_id] }
-        enrollment = Enrollment.find(enrollment_ids[0])
-				if self_grading
-					enrollment.add_grading_to_do(self.id, enrollment.id)
+			leaves = self.subpart_leaves
+			leaves = [nil] if leaves.empty?
+			leaves.each do |subpart|
+				subpart_id == subpart ? subpart.id : nil
+				submissions_array.shuffle!
+				submissions_array.length.times do
+					enrollment_ids = submissions_array[0..num_other_stud_gradings].map { |hash| hash[:enrollment_id] }
+					enrollment = Enrollment.find(enrollment_ids[0])
+					if self_grading
+						enrollment.add_grading_to_do(self.id, subpart_id, enrollment.id)
+					end
+					enrollment_ids[1..num_other_stud_gradings].each do |gradee_id|
+						enrollment.add_grading_to_do(self.id, subpart_id, gradee_id)
+					end
+					submissions_array.rotate!
 				end
-        enrollment_ids[1..num_other_stud_gradings].each do |gradee_id|
-          enrollment.add_grading_to_do(self.id, gradee_id)
-        end
-        submissions_array.rotate!
-      end
-			submissions_array.shuffle!
-			ind = 0
-			readers.each do |reader|
-				num_reader_gradings.times do
-					reader.add_grading_to_do(self.id, submissions_array[ind][:enrollment_id])
-					ind += 1
+				submissions_array.shuffle!
+				ind = 0
+				readers.each do |reader|
+					num_reader_gradings.times do
+						reader.add_grading_to_do(self.id, subpart_id, submissions_array[ind][:enrollment_id])
+						ind += 1
+					end
 				end
 			end
       self.update began_grading: true

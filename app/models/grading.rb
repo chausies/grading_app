@@ -1,7 +1,8 @@
 class Grading < ActiveRecord::Base
-  # Attributes: subpart_id, gradee_id (enrollment_id of gradee), grader_id (enrollment_id of grader),
+  # Attributes: assignment_id, subpart_id, gradee_id (enrollment_id of gradee), grader_id (enrollment_id of grader),
   #               score, finished_grading
   default_scope -> { order('id ASC') }
+	belongs_to :assignment
 	belongs_to :subpart
   belongs_to :gradee, class_name: "Enrollment"
   belongs_to :grader, class_name: "Enrollment"
@@ -17,6 +18,7 @@ class Grading < ActiveRecord::Base
   end
 
   private
+		
     def valid_or_nil_score
       unless self.score.nil?
         valid_score
@@ -28,10 +30,10 @@ class Grading < ActiveRecord::Base
         errors.add(:score, "must be present")
       elsif not self.score.is_a? Numeric
         errors.add(:score, "must be a number")
-      elsif self.score > self.assignment.max_points
-        errors.add(:score, "must be less than the max score for the assignment (#{self.assignment.max_points})")
-      elsif self.score < self.assignment.min_points
-        errors.add(:score, "must be more than the min score for the assignment (#{self.assignment.min_points})")
+      elsif self.score > self.subpart.max_points
+        errors.add(:score, "must be less than the max score for the subpart (#{self.subpart.max_points})")
+      elsif self.score < self.subpart.min_points
+        errors.add(:score, "must be more than the min score for the subpart (#{self.subpart.min_points})")
       end        
     end
 end

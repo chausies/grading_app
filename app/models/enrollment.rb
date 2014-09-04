@@ -25,12 +25,12 @@ class Enrollment < ActiveRecord::Base
   	self.status == status
   end
 
-  def assign_grade(assignment_id, score)
-    grade = self.grades.find_by assignment_id: assignment_id
+  def assign_grade(assignment_id, subpart_id, score)
+    grade = self.grades.where assignment_id: assignment_id, subpart_id: subpart_id
     if grade
       grade.update score: score
     else
-      self.grades.create! assignment_id: assignment_id, score: score
+      self.grades.create! assignment_id: assignment_id, subpart_id: subpart_id, score: score
     end
   end
 
@@ -43,8 +43,8 @@ class Enrollment < ActiveRecord::Base
     end
   end
 
-  def add_grading_to_do(assignment_id, gradee_id)
-    grading = self.given_gradings.create!(assignment_id: assignment_id, gradee_id: gradee_id)
+  def add_grading_to_do(assignment_id, subpart_id, gradee_id)
+    grading = self.given_gradings.create!(assignment_id: assignment_id, gradee_id: gradee_id, subpart_id: subpart_id)
   end
 
   def gradings_to_do
