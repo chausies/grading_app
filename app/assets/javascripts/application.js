@@ -16,6 +16,5 @@
 //= require mousetrap/global
 //= require twitter/bootstrap
 //= require bootstrap
-//= require jquery_nested_form
 //= require turbolinks
 //= require_tree .

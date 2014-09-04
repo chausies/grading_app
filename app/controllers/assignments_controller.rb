@@ -42,7 +42,11 @@ class AssignmentsController < ApplicationController
     @assignment = @course.assignments.build(assignment_params)
     if @assignment.save
       flash[:success] = 'Assignment was successfully created.'
-      redirect_to configure_subparts_course_assignment_path(@course, @assignment)
+			if @assignment.assignment_file_changed?
+				redirect_to configure_subparts_course_assignment_path(@course, @assignment)
+			else
+				redirect_to [@course, @assignment]
+			end
     else
       render :new
     end
@@ -52,10 +56,10 @@ class AssignmentsController < ApplicationController
   def update
     if @assignment.update assignment_params
       flash[:success] = 'Assignment was successfully updated.'
-			if params[:commit] == "Update Subparts"
-				redirect_to [@course, @assignment]
-			else
+			if @assignment.assignment_file_changed?
 				redirect_to configure_subparts_course_assignment_path(@course, @assignment)
+			else
+				redirect_to [@course, @assignment]
 			end
     else
       render :edit
@@ -69,6 +73,7 @@ class AssignmentsController < ApplicationController
   end
 
 	def configure_subparts
+		gon.total_pages = @assignment.solution_pages.count
 	end
 
 	def configure_grading

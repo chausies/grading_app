@@ -8,6 +8,9 @@
 					<%= f.text_field :name, placeholder: "e.g. Homework 1" %>
 				</div>
 			</div>
+			<div class="row">
+				<h2>Note: don't submit any files to leave the current ones unchanged</h2>
+			</div>
 			<div class="control-group">
 				<%= f.label :assignment_file, :class => 'control-label' %>
 				<div class="controls">
@@ -32,7 +35,10 @@
 		<% builder.options[:depth] = 0 %>
 		<%= render "subpart_fields", f: builder %>
 	<% end %>
-	<%= link_to_add_fields "Add subpart", f, :subparts, type: "button", class: "btn btn-primary" %>
+	<div class="span2">
+		<%= link_to_add_fields "Add subpart", f, :subparts, type: "button", class: "btn btn-primary" %>
+	</div>
+	<div class="row"></div>
 	<div class="row">
 		<div class="offset1">
 			<%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>

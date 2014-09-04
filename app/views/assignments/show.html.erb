@@ -18,7 +18,8 @@
     <% if @enrollment %>
       <% if @enrollment.status > Statuses::READER %>
         <p>
-          <%= link_to "Edit", edit_course_assignment_path(@course, @assignment), type: "button", class: "btn btn-primary" %>
+          <%= link_to "Edit Assignment", edit_course_assignment_path(@course, @assignment), type: "button", class: "btn btn-primary" %>
+          <%= link_to "Edit Subparts", configure_subparts_course_assignment_path(@course, @assignment), type: "button", class: "btn btn-primary" %>
           &thinsp;
           <%= link_to 'Destroy', [@course, @assignment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
         </p>

@@ -2,5 +2,12 @@
 
 <h1>Configure subparts of the assignment</h1>
 <div class="row">
+	<div class="span3">
+		<%= link_to "Assign pages sequentially", '#', class: "btn", id: "page_assigner", type: "btn" %>
+	</div>
+</div>
+<div class="row">
+	<div class="span10">
     <%= render 'subparts_config_form' %>
+	</div>
 </div>

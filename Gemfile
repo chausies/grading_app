@@ -23,6 +23,7 @@ gem 'mousetrap-rails'
 gem 'rmagick'
 gem 'grim'
 gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
+gem 'gon'
 
 group :development, :test do
   gem 'better_errors'

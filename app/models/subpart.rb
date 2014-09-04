@@ -4,6 +4,7 @@ class Subpart < ActiveRecord::Base
   default_scope -> { order('id ASC') }
 	
 	belongs_to :parent,   polymorphic: true
+	has_many   :gradings, dependent: :destroy
 	has_many   :children, class_name: "Subpart", as: :parent, dependent: :destroy
 	has_many   :pages,    through: :pages_subparts_relationships
 	has_many   :pages_subparts_relationships, dependent: :destroy
