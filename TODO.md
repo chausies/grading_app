@@ -18,7 +18,8 @@ Implement multiple email support for students.
 
 ~~Create more course models (grading model, assignment/submission models)~~  
 ~~Make files submitted go to amazon s3, not stored locally.~~  
-Make assignments have parts. Make better grading.
+~~Make assignments have parts. Make better grading.~~
+Add javascript to make viewing pages sexier.
 Add meta-data collection capabilities (e.g. surveys) on assignments.  
 
 ~~Flush out Course pages (create a course, create assignments, add students, simple grading)~~  
