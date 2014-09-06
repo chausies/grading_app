@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :courses do
     resources :assignments do
-      resources :submissions, only: [:new, :create, :show] do
+      resources :submissions, only: [:new, :create, :show, :update] do
         member do
           get :configure_subparts 
         end

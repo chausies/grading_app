@@ -26,4 +26,20 @@ class Subpart < ActiveRecord::Base
 		end
 	end
 
+	def min_points
+		if self.children.any?
+			(self.children.map { |s| s.min_points }).sum
+		else
+			read_attribute(:min_points)
+		end
+	end
+
+	def max_points
+		if self.children.any?
+			(self.children.map { |s| s.max_points }).sum
+		else
+			read_attribute(:max_points)
+		end
+	end
+
 end

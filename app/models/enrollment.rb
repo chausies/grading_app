@@ -25,8 +25,9 @@ class Enrollment < ActiveRecord::Base
   	self.status == status
   end
 
+	# subpart_id's are for the assignment's subpart, not the submission's subpart
   def assign_grade(assignment_id, subpart_id, score)
-    grade = self.grades.where assignment_id: assignment_id, subpart_id: subpart_id
+    grade = self.grades.where(assignment_id: assignment_id, subpart_id: subpart_id).first
     if grade
       grade.update score: score
     else
@@ -34,13 +35,21 @@ class Enrollment < ActiveRecord::Base
     end
   end
 
-  def score_for(assignment_id)
-    grade = self.grades.find_by(assignment_id: assignment_id)
-    if grade
-      score = grade.score
-    else
-      grade
-    end
+  def score_for(assignment_id, subpart_id=nil)
+		assignment = Assignment.find(assignment_id)
+		subpart = subpart_id && Subpart.find(subpart_id)
+		if ((not subpart) and assignment.subparts.any?)
+			(assignment.subparts.map { |s| self.score_for(assignment_id, s.id)}).sum
+		elsif (subpart and subpart.children.any?)
+			(subpart.children.map { |s| self.score_for(assignment_id, s.id)}).sum
+		else
+			grade = self.grades.find_by(assignment_id: assignment_id, subpart_id: subpart_id)
+			if grade
+				score = grade.score
+			else
+				grade
+			end
+		end
   end
 
   def add_grading_to_do(assignment_id, subpart_id, gradee_id)

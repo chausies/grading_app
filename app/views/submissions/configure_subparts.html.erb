@@ -1,0 +1,13 @@
+<% provide(:title, "#{@course.name} | Configure subparts for submission") %>
+
+<h1>Assign pages to each part</h1>
+<div class="row">
+	<div class="span3">
+		<%= link_to "Assign pages sequentially", '#', class: "btn", id: "subm_page_assigner", type: "btn" %>
+	</div>
+</div>
+<div class="row">
+	<div class="span10">
+    <%= render 'subparts_config_form' %>
+	</div>
+</div>

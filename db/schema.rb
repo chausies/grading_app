@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140904204742) do
+ActiveRecord::Schema.define(version: 20140905221336) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -65,9 +65,10 @@ ActiveRecord::Schema.define(version: 20140904204742) do
     t.integer  "subpart_id"
   end
 
-  add_index "grades", ["assignment_id", "enrollment_id"], name: "index_grades_on_assignment_id_and_enrollment_id", unique: true
+  add_index "grades", ["assignment_id", "subpart_id", "enrollment_id"], name: "grade_uniqueness_index", unique: true
   add_index "grades", ["assignment_id"], name: "index_grades_on_assignment_id"
   add_index "grades", ["enrollment_id"], name: "index_grades_on_enrollment_id"
+  add_index "grades", ["subpart_id"], name: "index_grades_on_subpart_id"
 
   create_table "gradings", force: true do |t|
     t.integer  "assignment_id"
@@ -80,11 +81,12 @@ ActiveRecord::Schema.define(version: 20140904204742) do
     t.integer  "subpart_id"
   end
 
-  add_index "gradings", ["assignment_id", "gradee_id", "grader_id"], name: "index_gradings_on_assignment_id_and_gradee_id_and_grader_id", unique: true
+  add_index "gradings", ["assignment_id", "subpart_id", "gradee_id", "grader_id"], name: "grading_uniqueness_index", unique: true
   add_index "gradings", ["assignment_id"], name: "index_gradings_on_assignment_id"
   add_index "gradings", ["finished_grading"], name: "index_gradings_on_finished_grading"
   add_index "gradings", ["gradee_id"], name: "index_gradings_on_gradee_id"
   add_index "gradings", ["grader_id"], name: "index_gradings_on_grader_id"
+  add_index "gradings", ["subpart_id"], name: "index_gradings_on_subpart_id"
 
   create_table "pages", force: true do |t|
     t.integer  "assignment_id"

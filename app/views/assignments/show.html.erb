@@ -45,9 +45,12 @@
             </tr>
           </thead>
           <tbody>
-            <% @assignment.submissions.where(enrollment_id: @enrollment.id).each do |submission| %>
+            <% @assignment.submissions.where(enrollment_id: @enrollment.id).each.with_index do |submission, index| %>
               <tr>
                 <td><%= link_to "#{submission.created_at.getlocal.to_formatted_s(:long)} #{submission.created_at.getlocal.zone}", [@course, @assignment, submission] %></td>
+								<% if index==0 %>
+									<td><%= link_to "Configure Subparts", configure_subparts_course_assignment_submission_path(@course, @assignment, submission), type: "button", class: "btn btn-primary btn-small" %></td>
+								<% end %>
               </tr>
             <% end %>
           </tbody>

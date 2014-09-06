@@ -97,6 +97,7 @@ class Course < ActiveRecord::Base
 			leaves.each do |subpart|
 				touched_enrollments = []
 				grading_hash = {}
+				actual_subpart = subpart
 				subpart ||= assignment
 				subpart.gradings.each do |g|
 					if g.finished?
@@ -105,12 +106,12 @@ class Course < ActiveRecord::Base
 					end
 				end
 				grading_hash.each do |enrollment, assigned_grades|
-					enrollment.assign_grade(assignment.id, subpart.id, assigned_grades.sum.to_f/assigned_grades.size)
+					enrollment.assign_grade(assignment.id, (actual_subpart ? subpart.id : nil), assigned_grades.sum.to_f/assigned_grades.size)
 					touched_enrollments.append enrollment.id
 				end
 				touched_enrollments = touched_enrollments.to_set
 				gets_zero = enrollments.to_a.delete_if { |e| touched_enrollments.member? e.id }
-				gets_zero.each { |e| e.assign_grade(assignment.id, subpart.id, assignment.min_points) }
+				gets_zero.each { |e| e.assign_grade(assignment.id, (actual_subpart ? subpart.id : nil), subpart.min_points) }
 			end
     end
   end
@@ -120,7 +121,14 @@ class Course < ActiveRecord::Base
     self.enrollments.where(status: [Statuses::STUDENT, Statuses::READER]).each do |e|
       gradings = e.given_gradings.where assignment_id: assignments, finished_grading: true
       if gradings.any?
-        relative_errors = gradings.map { |g| (g.score - g.gradee.score_for(g.assignment_id)).abs.to_f/(g.assignment.max_points - g.assignment.min_points) }
+        relative_errors = gradings.map do |g| 
+					subpart = g.subpart || g.assignment # subpart is the assignment if subpart is nil
+					if subpart.max_points == subpart.min_points
+						0
+					else
+						(g.score - g.gradee.score_for(g.assignment_id, g.subpart_id)).abs.to_f/(subpart.max_points - subpart.min_points)
+					end
+				end
         e.update grading_score: 100 - 100*relative_errors.sum/relative_errors.size
       end
     end

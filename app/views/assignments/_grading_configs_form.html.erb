@@ -21,12 +21,12 @@
 
   <p>
     <%= label_tag :num_stud_gradings, "Number of gradings per student (including self-gradings). Recommended 3." %>
-    <%= number_field_tag :num_stud_gradings, nil, in: 2...[10, @course.enrollments.where(status: Statuses::STUDENT).count].min %>
+    <%= number_field_tag :num_stud_gradings, nil, in: 1...[10, @course.enrollments.where(status: Statuses::STUDENT).count].min %>
   </p>
 
   <p>
     <%= label_tag :num_reader_gradings, "Number of gradings per reader." %>
-    <%= number_field_tag :num_reader_gradings, nil, in: 1...(@course.enrollments.where(status: Statuses::STUDENT).count) %>
+    <%= number_field_tag :num_reader_gradings, nil, in: 0...(@course.enrollments.where(status: Statuses::STUDENT).count) %>
   </p>
 
 	<p>

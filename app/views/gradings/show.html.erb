@@ -1,5 +1,5 @@
 <% provide(:title, "#{@course.name} | #{@assignment.name} | Grading") %>
-<h1>Grading for <%= @assignment.name %></h1>
+<h3 align="center">Grading for <%= @assignment.name %><%= ", Part (" + @subpart.index + "): " + @subpart.name if @subpart %></h3>
 <div class="row">
   <div class="span3">
     <div class="pull-left">
@@ -16,32 +16,32 @@
       <%= link_to glyph(:fast_forward), @enrollment.next_grading_to_do(@grading.id), type: "button", class: "btn#{" disabled" if @enrollment.next_grading_to_do(@grading.id).nil? }", title: 'Next ungraded assignment (ctrl + →)', data: { keybinding: 'ctrl+right' } %>
     </div>
   </div>
-  <h2 class="span6">Solution/Rubric</h2>
-  <h2 class="span6">Submission</h2>
-  <div class="span6">
-    <% if @subpart %>
-      <%= @subpart.pages.each do |page| %>
-        <iframe class="span6" src="<%= page.page_file_url.to_s %>" style="height:500px;" frameborder="0">
-          Assignment Solution
-        </iframe>
-      <% end %>
-    <% else %>
-      <iframe class="span6" src="<%= @assignment.solution_file_url.to_s %>" style="height:500px;" frameborder="0">
-        Assignment
-      </iframe>
-    <% end %>
-  </div>
-  <div class="span6">
-    <% if @subm_subpart %>
-      <%= @subm_subpart.pages.each do |page| %>
-        <iframe class="span6" src="<%= page.page_file_url.to_s %>" style="height:500px;" frameborder="0">
-          Submission file
-        </iframe>
-      <% end %>
-    <% else %>
-      <iframe class="span6" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
-        Submission
-      </iframe>
-    <% end %>
-  </div>
+	<div class="span6">
+		<h2>Solution/Rubric</h2>
+		<% if @subpart %>
+			<% @subpart.pages.each do |page| %>
+				<div class="span6">
+					<%= image_tag page.page_file_url %>
+				</div>
+			<% end %>
+		<% else %>
+			<iframe class="span6" src="<%= @assignment.solution_file_url.to_s %>" style="height:500px;" frameborder="0">
+				Assignment
+			</iframe>
+		<% end %>
+	</div>
+	<div class="span6">
+		<h2>Submission</h2>
+		<% if @subm_subpart %>
+			<% @subm_subpart.pages.each do |page| %>
+				<div class="span6">
+					<%= image_tag page.page_file_url %>
+				</div>
+			<% end %>
+		<% else %>
+			<iframe class="span6" src="<%= @submission.pdf_url.to_s %>" style="height:500px;" frameborder="0">
+				Submission File
+			</iframe>
+		<% end %>
+	</div>
 </div> 

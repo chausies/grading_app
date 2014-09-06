@@ -1,0 +1,21 @@
+<% if f.object.children.any? %>
+	<%= f.fields_for :children do |builder| %>
+		<%= render "subpart_config_form", f: builder %>
+	<% end %>
+<% else %>
+	<div class="row">
+		<div class="span12">
+			<%= raw("<b>#{f.object.index}:</b> #{f.object.name}:") %>
+			<div class="control-group">
+				<%= f.label :pages, :class => 'control-label' %>
+				<div class="controls">
+					<%= f.collection_check_boxes :page_ids, @submission.pages, :id, :page_num do |b| %>
+						<div class="span1">
+							<%= b.label(class: "check_box") { b.check_box(class: "check_box") + " #{b.object.page_num}" } %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

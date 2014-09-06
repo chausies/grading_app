@@ -24,6 +24,22 @@ class Assignment < ActiveRecord::Base
 	after_save :update_assignment_pages
 	after_save :update_solution_pages
 
+	def min_points
+		if self.subparts.any?
+			(self.subparts.map { |s| s.min_points }).sum
+		else
+			read_attribute(:min_points)
+		end
+	end
+
+	def max_points
+		if self.subparts.any?
+			(self.subparts.map { |s| s.max_points }).sum
+		else
+			read_attribute(:max_points)
+		end
+	end
+
   def assign_gradings self_grading, num_stud_gradings, num_reader_gradings
 		num_other_stud_gradings = num_stud_gradings - ( self_grading ? 1 : 0 )
     enrollments = self.course.enrollments.where status: Statuses::STUDENT
@@ -41,7 +57,7 @@ class Assignment < ActiveRecord::Base
 			leaves = self.subpart_leaves
 			leaves = [nil] if leaves.empty?
 			leaves.each do |subpart|
-				subpart_id == subpart ? subpart.id : nil
+				subpart_id = subpart ? subpart.id : nil
 				submissions_array.shuffle!
 				submissions_array.length.times do
 					enrollment_ids = submissions_array[0..num_other_stud_gradings].map { |hash| hash[:enrollment_id] }

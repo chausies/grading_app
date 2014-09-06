@@ -15,7 +15,7 @@ class Submission < ActiveRecord::Base
   
   mount_uploader :pdf, PdfUploader
 
-	after_save :create_subparts
+	after_create :create_subparts
 	after_save :update_pages
 
 	def get_subpart index_arr_or_index_str
@@ -70,7 +70,7 @@ class Submission < ActiveRecord::Base
 					temp = Tempfile.new ["subm_page_#{i + 1}_", ".png"]
 					begin
 						page.save temp.path
-						self.assignment_pages.create! page_num: (i + 1), page_file: temp
+						self.pages.create! page_num: (i + 1), page_file: temp
 					ensure
 						temp.close
 						temp.unlink
