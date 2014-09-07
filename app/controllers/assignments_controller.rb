@@ -42,11 +42,7 @@ class AssignmentsController < ApplicationController
     @assignment = @course.assignments.build(assignment_params)
     if @assignment.save
       flash[:success] = 'Assignment was successfully created.'
-			if @assignment.assignment_file_changed?
-				redirect_to configure_subparts_course_assignment_path(@course, @assignment)
-			else
-				redirect_to [@course, @assignment]
-			end
+			redirect_to configure_subparts_course_assignment_path(@course, @assignment)
     else
       render :new
     end
