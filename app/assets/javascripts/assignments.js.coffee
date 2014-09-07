@@ -10,7 +10,6 @@ jQuery ->
 		$(this).before($(this).data('fields').replace(regexp, time))
 		event.preventDefault()
 
-window.onload = ->
 	a = document.getElementById("page_assigner")
 	if a
 		a.onclick = ->

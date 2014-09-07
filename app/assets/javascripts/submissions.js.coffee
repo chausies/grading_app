@@ -11,7 +11,7 @@
 # 		$(this).before($(this).data('fields').replace(regexp, time))
 # 		event.preventDefault()
 
-window.onload = ->
+jQuery ->
 	a = document.getElementById("subm_page_assigner")
 	if a
 		a.onclick = ->
