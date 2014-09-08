@@ -35,13 +35,16 @@ class Enrollment < ActiveRecord::Base
     end
   end
 
+	# Returns nil if no grade for that assignment/subpart
   def score_for(assignment_id, subpart_id=nil)
-		assignment = Assignment.find(assignment_id)
-		subpart = subpart_id && Subpart.find(subpart_id)
+		assignment = Assignment.find_by(id: assignment_id)
+		subpart = subpart_id && Subpart.find_by(id: subpart_id)
 		if ((not subpart) and assignment.subparts.any?)
-			(assignment.subparts.map { |s| self.score_for(assignment_id, s.id)}).sum
+			scores = (assignment.subparts.map { |s| self.score_for(assignment_id, s.id)})
+			(scores.all? or nil) and scores.sum
 		elsif (subpart and subpart.children.any?)
-			(subpart.children.map { |s| self.score_for(assignment_id, s.id)}).sum
+			scores = (subpart.children.map { |s| self.score_for(assignment_id, s.id)})
+			(scores.all? or nil) and scores.sum
 		else
 			grade = self.grades.find_by(assignment_id: assignment_id, subpart_id: subpart_id)
 			if grade
