@@ -50,6 +50,10 @@ class CoursesController < ApplicationController
         @enr_hash[@enrollment][grading.assignment].append grading
       end
     end
+    respond_to do |format|
+      format.html
+      format.csv { send_data @course.to_csv, disposition: "attachment; filename=#{@course.name.gsub(" ", "_").downcase}_grades.csv" }
+    end
   end
 
   def roster

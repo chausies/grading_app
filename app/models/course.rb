@@ -88,6 +88,34 @@ class Course < ActiveRecord::Base
     end
   end
 
+	def to_csv options = {}
+		@students = Enrollment.all.where course_id: self.id, status: Statuses::STUDENT
+		CSV.generate do |csv|
+			header = ["Student name", "SID", "email"]
+			self.assignments.all.each do |assignment|
+				header << assignment.name
+				if assignment.subparts.all.any?
+					assignment.subpart_leaves.each do |subpart|
+						header << "Part (#{subpart.index}): #{subpart.name}"
+					end
+				end 
+			end
+			csv << header
+			@students.each do |stud|
+				row = [stud.participant.name, stud.sid, stud.participant.email]
+				self.assignments.all.each do |assignment|
+					row << stud.score_for(assignment.id)
+					if assignment.subparts.all.any?
+						assignment.subpart_leaves.each do |subpart|
+							row << stud.score_for(assignment.id, subpart.id)
+						end
+					end 
+				end
+				csv << row
+			end
+		end
+	end
+
   def assign_grades
     assignments = self.assignments.where finished_grading: true
     enrollments = self.enrollments
