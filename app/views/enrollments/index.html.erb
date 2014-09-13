@@ -13,16 +13,18 @@
           <th>SID</th>
           <th>Email</th>
           <th>Status</th>
+					<th></th>
         </tr>
       </thead>
       <tbody>
         <% @enrollments.each do |enrollment| %>
           <% unless enrollment.status?(Statuses::ADMIN) %>
             <tr>
-              <td><%= enrollment.participant.name %></td>
-              <td><%= enrollment.sid %></td>
-              <td><%= enrollment.participant.email %></td>
-              <td><%= Statuses.status_to_string(enrollment.status).titleize %></td>
+              <td><%= link_to enrollment.participant.name, [@course, enrollment] %></td>
+              <td><%= link_to enrollment.sid, [@course, enrollment] %></td>
+              <td><%= link_to enrollment.participant.email, [@course, enrollment] %></td>
+              <td><%= link_to Statuses.status_to_string(enrollment.status).titleize, [@course, enrollment] %></td>
+              <td><%= link_to "Edit", edit_course_enrollment_path(@course, enrollment), type: "button", class: "btn btn-small btn-primary" %></td>
             </tr>
           <% end %>
         <% end %>

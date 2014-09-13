@@ -56,79 +56,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  def roster
-    if params[:search]
-      @enrollments = @course.enrollments.joins(:participant).
-                        where('"users"."name" LIKE :query OR "users"."email" LIKE :query OR sid LIKE :query',
-                                 query: "#{params[:search]}%")
-    else
-        @enrollments = @course.enrollments
-    end
-    @enrollments = @enrollments.to_a.sort do |a, b|
-      if a.status?(b.status)
-        # ASC order of name
-        a.participant.name.downcase <=> b.participant.name.downcase
-      else
-        # DESC order of status
-        b.status <=> a.status
-      end
-    end
-  end
-
-  def search_roster
-    @suggestions = ['suggestion1', 'suggestion2', 'suggestion3']
-    render json: @suggestions
-  end
-
-  def new_enrollment
-  end
-
-  def add_enrollment
-    messages = []
-    param_hash = enrollment_params
-    if param_hash[:email].blank?
-      messages.append( "Email can't be blank" )
-    end
-    if param_hash[:name].blank?
-      param_hash[:name] = "testing"
-    end
-    if messages.any?
-      flash[:error] = messages.join ", "
-      redirect_to new_enrollment_course_path(@course)
-      return
-    end
-    unless student = User.find_by(email: param_hash[:email])
-      student = User.create email: param_hash[:email], name: param_hash[:name], password: "testing", password_confirmation: "testing"
-      if student.errors.any?
-        messages.concat student.errors.full_messages
-        flash[:error] = messages.join ", "
-        redirect_to new_enrollment_course_path(@course)
-        return
-      end
-    end
-    if student.enrolled?(@course.id)
-        redirect_to new_enrollment_course_path(@course), notice: "Participant is already enrolled. Go to the roster if you want to edit this participant's parameters"
-        return
-    end
-    begin
-      if param_hash[:status].blank?
-        param_hash[:status] = Statuses::STUDENT
-      else
-        param_hash[:status] = Statuses.string_to_status param_hash[:status]
-        if param_hash[:status].nil?
-          param_hash[:status] = Statuses::STUDENT
-        end
-      end
-      student.enroll! @course.id, param_hash[:status], param_hash[:sid]
-    rescue
-      flash[:error] = "Error enrolling student! Probably because SID matches that of another student."
-      redirect_to new_enrollment_course_path(@course)
-      return
-    end
-    flash[:success] = "Participant has been successfully added!"
-    redirect_to @course
-  end
-
   def new_import
   end
 
@@ -139,7 +66,7 @@ class CoursesController < ApplicationController
     else
       flash[:error] = message
     end
-    redirect_to roster_course_path(@course)
+    redirect_to course_enrollments_path(@course)
   end
 
   private

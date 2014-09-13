@@ -1,5 +1,5 @@
 <% provide(:title, @course.name) %>
-<h1><%= @course.name + ": " + @course.subject%></h1>
+<h1><%= @course.name + ": " + @course.subject %></h1>
 <div class="row">
   <div class="span10 offset1">
 		<h3>School</h3>
@@ -8,13 +8,7 @@
 		<p>This is a description :3</p>
 
 		<% if @enrollment %>
-			<h3>Assignments</h3>
-			<%= render 'assignments/assignments_list' %>
-
-			<% if @enrollment.next_grading_to_do %>
-				<h3>Gradings</h3>
-				<%= render 'gradings/gradings_list' %>
-			<% end %>
+			<%= render 'enrollments/enrollment_view', new_enrollment: @enrollment %>
 		<% end %>
 
 		<% if @enrollment and @enrollment.status > Statuses::READER %>

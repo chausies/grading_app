@@ -56,7 +56,7 @@
 	<div class="row"></div>
 	<div class="row">
 		<div class="offset1">
-			<%= f.submit "Create Assignment", class: "btn btn-large btn-primary" %>
+			<%= f.submit "#{@assignment.new_record? ? "Create" : "Update"} Assignment", class: "btn btn-large btn-primary" %>
 		</div>
 	</div>
 <% end %>

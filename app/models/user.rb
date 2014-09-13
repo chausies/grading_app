@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :courses, through: :enrollments
 
   before_save { self.email = email.downcase }
+	before_save { self.name = self.name.titleize }
   before_create :create_remember_token
   
   validates :name,  presence: true,

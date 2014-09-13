@@ -1,0 +1,14 @@
+<% if new_enrollment.status? Statuses::STUDENT %>
+	<h3>Assignments</h3>
+	<%= render 'assignments/assignments_list', enrollment: new_enrollment %>
+<% end %>
+
+<% if new_enrollment.next_grading %>
+	<h3>Gradings</h3>
+	<%= render 'gradings/gradings_list', enrollment: new_enrollment %>
+<% end %>
+
+<% if @enrollment.status > Statuses::READER %>
+	<%= link_to "Edit Enrollment", edit_course_enrollment_path(@course, new_enrollment), type: "button", class: "btn btn-large btn-primary" %>
+	<%= link_to 'Delete Enrollment', [@course, new_enrollment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-large btn-danger" %>
+<% end %>

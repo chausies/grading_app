@@ -10,5 +10,5 @@
   <%= f.label "School" %>
   <%= f.text_field :school, placeholder: "e.g. UC Berkeley" %>
 
-  <%= f.submit "Create Course", class: "btn btn-large btn-primary" %>
+  <%= f.submit "#{@course.new_record? ? "Create" : "Update"} Course", class: "btn btn-large btn-primary" %>
 <% end %>

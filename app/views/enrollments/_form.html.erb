@@ -1,0 +1,18 @@
+<%= form_for [@course, @new_enrollment] do |f| %>
+	
+	<% if @new_enrollment.new_record? %>
+		<%= label_tag :name, "Name <small>(optional)</small>".html_safe %> 
+		<%= text_field_tag :name, nil, placeholder: "John Smith" %>
+
+		<%= label_tag :email %>
+		<%= text_field_tag :email, nil, placeholder: "john.smith@berkeley.edu" %>
+	<% end %>
+
+	<%= f.label :sid, "Student ID <small>(optional)</small>".html_safe, title: "If none provided, we'll generate a random one" %>
+	<%= f.text_field :sid, placeholder: "279a3bc5" %>
+
+	<%= f.label :status, "Role" %>
+	<%= f.select :status, options_for_select(Statuses.get_status_strings, (@new_enrollment.status || Statuses::STUDENT)) %>
+
+	<%= f.submit "#{@new_enrollment.new_record? ? "Add" : "Update"} Enrollment", class: "btn btn-large btn-primary" %>
+<% end %>

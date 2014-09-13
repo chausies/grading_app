@@ -40,8 +40,8 @@
 				<% end %>
 				<% if @enrollment and @enrollment.status >= Statuses::TA %>
 					<%= drop_down "Course Roster" do %>
-						<%= menu_item "View Roster", roster_course_path(@course) %>
-						<%= menu_item "Add Participant", new_enrollment_course_path(@course) %>
+						<%= menu_item "View Roster", course_enrollments_path(@course) %>
+						<%= menu_item "Add Participant", new_course_enrollment_path(@course) %>
 						<%= menu_item "Bulk enroll participants", new_import_course_path(@course) %>
 					<% end %>
 				<% end %>

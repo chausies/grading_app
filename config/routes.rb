@@ -16,11 +16,9 @@ Rails.application.routes.draw do
         put :end_grading
       end
     end
+    resources :enrollments
     member do
-      get :roster
-      get :new_enrollment
       get :new_import
-      post :add_enrollment
       post :import
     end
   end                                                                                                                               

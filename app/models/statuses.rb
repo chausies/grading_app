@@ -57,11 +57,11 @@ class Statuses
 
   def Statuses.get_status_strings
     statuses = [
-                "student",
-                "reader",
-                "teacher's assistant",
-                "instructor"
+                ["student", STUDENT],
+                ["reader", READER],
+                ["teacher's assistant", TA],
+                ["instructor", INSTRUCTOR]
               ]
-    statuses.map { |s| s.titleize }
+    statuses.map { |s, val| [s.titleize, val] }
   end
 end
