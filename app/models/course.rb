@@ -5,9 +5,9 @@ class Course < ActiveRecord::Base
   default_scope -> { order('id ASC') }
 	scope :persisted, -> { where "id IS NOT NULL" }
 
-  has_many :enrollments, foreign_key: "course_id", dependent: :destroy
+  has_many :enrollments,  foreign_key: "course_id", dependent: :destroy
   has_many :participants, through: :enrollments
-  has_many :assignments, dependent: :destroy
+  has_many :assignments,  dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :school, presence: true, length: { minimum: 2, maximum: 50 }
@@ -116,8 +116,88 @@ class Course < ActiveRecord::Base
 		end
 	end
 
-	def to_dict options = {}
-		{ "a" => 10, "b" => 20 }
+	def yaml_dict
+		helper_dict = {}
+		course_dict = {}
+		course_dict["name"] = self.name
+		course_dict["subject"] = self.subject
+		course_dict["school"] = self.school
+		participants = []
+		self.enrollments.all.each do |participant|
+			participant_dict = {}
+			participant_dict["id"] = "Participant #{participant.id}, #{participant.participant.name}"
+			participant_dict["name"] = participant.participant.name
+			participant_dict["email"] = participant.participant.email
+			participant_dict["status"] = Statuses.status_to_string participant.status
+			participant_dict["sid"] = participant.sid
+			participant_dict["grading_score"] = participant.grading_score.to_f
+			scores = {}
+			self.assignments.all.each do |assignment|
+				scores["Assignment #{assignment.id}, #{assignment.name}"] = participant.score_for(assignment.id).to_f
+				fringe = assignment.subparts.all.to_a
+				while fringe.any?
+					subpart = fringe.shift
+					scores["Subpart #{subpart.id}, Part (#{subpart.index})"] = participant.score_for(assignment.id, subpart.id).to_f
+					fringe.unshift subpart.children.all.to_a
+				end
+			end
+			participant_dict["scores"] = scores
+			participant_dict["gradings_by"] = []
+			participant_dict["gradings_for"] = []
+			participants << participant_dict
+			helper_dict[participant] = participant_dict
+		end
+		course_dict["participants"] = participants
+		course_dict["gradings"] = []
+		assignments = []
+		self.assignments.all.reverse.each do |assignment|
+			assignment_dict = {}
+			assignment_dict["id"] = "Assignment #{assignment.id}, #{assignment.name}"
+			assignment_dict["name"] = assignment.name
+			assignment_dict["min_points"] = assignment.min_points.to_f
+			assignment_dict["max_points"] = assignment.max_points.to_f
+			assignment_dict["subparts"] = []
+			fringe = assignment.subparts.all.to_a
+			fringe.map! { |s| [assignment_dict, s] }
+			while fringe.any?
+				parent, subpart = fringe.shift
+				subpart_dict = {}
+				subpart_dict["id"] = "Subpart #{subpart.id}, Part (#{subpart.index})"
+				subpart_dict["name"] = subpart.name
+				subpart_dict["index"] = subpart.index
+				subpart_dict["min_points"] = subpart.min_points.to_f
+				subpart_dict["max_points"] = subpart.max_points.to_f
+				subpart_dict["gradings"] = []
+				subpart_dict["parent"] = parent
+				subpart_dict["subparts"] = []
+				parent["subparts"] << subpart_dict
+				helper_dict[subpart] = subpart_dict
+				children = subpart.children.all.to_a
+				children.map! { |s| [subpart_dict, s] }
+				fringe.unshift children
+			end
+			gradings = []
+			assignment.gradings.all.each do |grading|
+				grading_dict = {}
+				grading_dict["id"] = "Grading #{grading.id}"
+				grading_dict["assignment"] = assignment_dict
+				grading_dict["subpart"] = helper_dict[grading.subpart]
+				grading_dict["gradee"] = helper_dict[grading.gradee]
+				grading_dict["grader"] = helper_dict[grading.grader]
+				grading_dict["score"] = grading.score.to_f
+				gradings << grading_dict
+				if grading_dict["subpart"]
+					grading_dict["subpart"]["gradings"] << grading_dict
+				end
+				grading_dict["gradee"]["gradings_for"] << grading_dict
+				grading_dict["grader"]["gradings_by"] << grading_dict
+				course_dict["gradings"] << grading_dict
+			end
+			assignment_dict["gradings"] = gradings
+			assignments << assignment_dict
+		end
+		course_dict["assignments"] = assignments
+		course_dict.to_yaml
 	end
 
   def assign_grades

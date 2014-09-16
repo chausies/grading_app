@@ -54,7 +54,6 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { send_data @course.to_csv, disposition: "attachment; filename=#{@course.name.gsub(" ", "_").downcase}_grades.csv" }
-      format.text { send_data @course.to_dict.to_yaml, filename: "#{@course.name.gsub(" ", "_").downcase}_data.yaml" }
     end
   end
 
@@ -74,7 +73,7 @@ class CoursesController < ApplicationController
   def data
     respond_to do |format|
       format.html
-      format.text { send_data @course.to_dict.to_yaml, filename: "#{@course.name.gsub(" ", "_").downcase}_data.yaml" }
+      format.text { send_data @course.yaml_dict, filename: "#{@course.name.gsub(" ", "_").downcase}_data.yaml" }
     end
   end
 

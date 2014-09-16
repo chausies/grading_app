@@ -44,7 +44,7 @@ for participant in participants:
     print "%s got an average assignment score of %.2f" % (student["name"], avg_assignment_score)
 
     # print out each of student's given gradings on the first assignment and its subparts
-    first_assignment = assignments.first
+    first_assignment = assignments[0]
     for grading in student["gradings_by"]: # "gradings_for" is for received gradings
       if grading["assignment"]["id"] == first_assignment["id"]:
         other_student = grading["gradee"]
@@ -52,6 +52,6 @@ for participant in participants:
         assignment_name = first_assignment["name"]
         subpart = grading["subpart"]
         if not (subpart == None):
-          assignment_name += ", Part (#{subpart["index"]}): #{subpart["name"]}"
+          assignment_name += ", Part (%s): %s" % (subpart["index"], subpart["name"])
         print "For " + assignment_name
         print "\t%s gave a score of %.2f/%.2f to %s" % (student["name"], grading["score"], first_assignment["max_points"], other_student["name"])
