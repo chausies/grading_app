@@ -221,6 +221,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-will_paginate (= 0.0.9)
   carrierwave
+  coderay
   coffee-rails (= 4.0.1)
   faker (= 1.1.2)
   fog

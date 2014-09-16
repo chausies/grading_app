@@ -116,6 +116,10 @@ class Course < ActiveRecord::Base
 		end
 	end
 
+	def to_dict options = {}
+		{ "a" => 10, "b" => 20 }
+	end
+
   def assign_grades
     assignments = self.assignments.where finished_grading: true
     enrollments = self.enrollments

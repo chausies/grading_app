@@ -1,0 +1,21 @@
+<% provide(:title, "#{@course.name} | Get course data") %>
+<h1>Download All Course Data</h1>
+
+<div class="row">
+  <div class="span10 offset1">
+		<p>
+			<%= link_to "Download YAML file", data_course_path(@course, format: 'text'), type: "button", class: "btn btn-large btn-success" %>
+		</p>
+		<p>
+		The course data will be conveniently downloaded as a <a href="http://www.yaml.org/">YAML</a> dictionary, which is a serialized format that can be easily accessed in many programming languages, including python and ruby. Below are examples of analyzing the course data in ruby and python.
+		</p>
+		<h3>Ruby Example</h3>
+		<p>
+			<%= raw(CodeRay.scan(File.open("app/views/courses/example.rb", 'rb').read, :ruby).div) %>
+		</p>
+		<h3>Python Example</h3>
+		<p>
+			<%= raw(CodeRay.scan(File.open("app/views/courses/example.py", 'rb').read, :python).div) %>
+		</p>
+	</div>
+</div>

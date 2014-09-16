@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
     resources :enrollments
     member do
+      get :data
       get :new_import
       post :import
     end
