@@ -59,7 +59,7 @@ class Statuses
     statuses = [
                 ["student", STUDENT],
                 ["reader", READER],
-                ["teacher's assistant", TA],
+                ["teachering assistant", TA],
                 ["instructor", INSTRUCTOR]
               ]
     statuses.map { |s, val| [s.titleize, val] }
