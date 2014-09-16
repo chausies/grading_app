@@ -10,6 +10,10 @@ module ApplicationHelper
     end
   end
 
+	def html_title
+		'<font color=ff00ff>M</font><font color=ff00cc>a</font><font color=ff0099>g</font><font color=ff0066>i</font><font color=ff0033>c</font><font color=ff0000>G</font><font color=ff3300>r</font><font color=ff6600>a</font><font color=ff9900>d</font><font color=ffcc00>e</font><font color=ffff00>r</font>'
+	end
+
   def instructor_or_more
     status_or_more Statuses::INSTRUCTOR
   end

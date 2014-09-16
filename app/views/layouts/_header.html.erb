@@ -1,4 +1,4 @@
-<%= nav_bar fixed: :top, brand: full_title, inverse: true, responsive: true do %>
+<%= nav_bar fixed: :top, brand: raw(html_title), inverse: true, responsive: true do %>
 	<%= menu_group pull: :left do %>
 		<% if not (signed_in? and current_user.courses.any?) %>
 			<%= menu_item "All Courses", courses_path %>
