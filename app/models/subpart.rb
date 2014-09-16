@@ -1,5 +1,5 @@
 class Subpart < ActiveRecord::Base
-  # Attributes: name, index, parent_id, parent_type, min_points, max_points, pages
+  # Attributes: name, parent_id, parent_type, min_points, max_points
 
   default_scope -> { order('id ASC') }
 	
