@@ -200,6 +200,113 @@ class Course < ActiveRecord::Base
 		course_dict.to_yaml
 	end
 
+	def execute_command(command, assignment_file=nil, solution_file=nil)
+    # 'command' should be of the form { "key" => "value" }
+		val = [true, []]
+		self.transaction do
+			command_name = command.keys[0]
+			command_contents = command.values[0]
+			case command_name
+			when "new_assignment"
+				if not (assignment_file or solution_file)
+					val = false, (assignment_file ? "" : "No assignment file submitted. ") + (solution_file ? "" : "No solution file submitted. ")
+				else
+					ass_cmds = command_contents
+					ass_params = { 
+												name: ass_cmds["name"], 
+												assignment_file: assignment_file, 
+												solution_file: solution_file
+											} 
+					unless ass_cmds["subparts"]
+						if not (ass_cmds["min_points"] and ass_cmds["max_points"])
+							val = false, "An assignment without subparts must have its min and max points specified"
+						else
+							ass_params.merge! min_points: ass_cmds["min_points"], max_points: ass_cmds["max_points"]
+						end
+					end
+					if val[0]
+						new_assignment = self.assignments.create ass_params 
+						if new_assignment.errors.any?
+							val = false, new_assignment.errors.full_messages
+						else
+							if not (subparts = ass_cmds["subparts"])
+								val = true, "Successfully created assignment!"
+							else
+								if not (subparts.map { |s| s["index"] }).all?
+									bad_subparts = subparts.select { |s| not s["index"] }
+									val = false, "#{pluralize(bad_subparts.size, "bad subpart")}: " + bad_subparts.join(', ')
+								elsif (repeats = subparts.select { |x| subparts.count(x) > 1 } .uniq).size > 0
+										val = false, "For #{ass_cmds["name"]}, the following "\
+																	"#{pluralize_phrase(repeats.size, "subpart index", "isn't", "aren't")} "\
+																	"unique for the assignment: " + repeats.join(', ')
+								else
+									subparts.sort! do |s1, s2| 
+										(s1["index"].zip(s2["index"]).map { |a, b| a <=> b } .find { |c| c and c.nonzero? }) or s1["index"].size <=> s2["index"].size
+									end
+									helper_dict = {}
+									current_index = [1]
+									while current_index.any?
+										current_subpart = subparts.find { |s| s["index"] == current_index }
+										if current_subpart.nil?
+											current_index.pop
+											current_index[current_index.size - 1] += 1 if current_index.any?
+										else
+											parent = Subpart.find_by id: helper_dict[current_index.first(current_index.size-1)]
+											subpart_params = { name: current_subpart["name"], 
+																				 min_points: current_subpart["min_points"], 
+																				 max_points: current_subpart["max_points"] }
+											if parent
+												child = parent.children.create subpart_params
+											else
+												child = new_assignment.subparts.create subpart_params
+											end
+											if child.errors.any?
+												val = false, child.errors.full_messages
+												break
+											else
+												helper_dict[current_index] = child.id
+												current_index += [1]
+											end
+										end
+									end
+									if val[0] == true
+										if not (subparts.map { |s| new_assignment.get_subpart(s["index"]) }).all?
+											val = false, "Indices of subparts weren't specified properly. Please check them."
+										else
+											helper_dict = helper_dict.invert
+											new_assignment.subpart_leaves.each do |subpart|
+												pages = (subparts.find { |s| s["index"] == helper_dict[subpart.id] })["pages"]
+												pages.each do |page_num|
+													page = new_assignment.solution_pages.find_by page_num: page_num
+													if not page
+														val = false, "The solution file provided doesn't have a page #{page_num}"
+														break
+													else
+														subpart.pages << page
+													end
+												end
+												subpart.save
+											end
+											if val[0]
+												val = true, "Successfully created assignment with subparts!"
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			else
+				val = false, "Unrecognized command #{command_name}"
+			end
+			unless val[0]
+				raise ActiveRecord::Rollback
+			end
+		end
+		val
+	end
+
   def assign_grades
     assignments = self.assignments.where finished_grading: true
     enrollments = self.enrollments
@@ -251,4 +358,14 @@ class Course < ActiveRecord::Base
       admin_users = User.where admin: true
       admin_users.each { |admin| admin.enroll! self, Statuses::ADMIN }
     end
+
+		# tells if a subpart with index array p is the parent of a subpart with index array c
+		def child_helper p, c
+			if p.size + 1 == c.size and p == c.first(p.size)
+				true
+			else
+				false
+			end
+		end
+
 end

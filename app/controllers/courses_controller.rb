@@ -1,7 +1,8 @@
 class CoursesController < ApplicationController
+  protect_from_forgery :except => [:api, :api_submit]
   before_action :set_course, except: [:new, :create, :index]
-  before_action :signed_in_user, except: [:index, :show]
-  before_action :set_enrollment, except: :index
+  before_action :signed_in_user, except: [:index, :show, :api, :api_submit]
+  before_action :set_enrollment, except: [:index, :api_submit]
   before_action :instructor_or_more, only: [:destroy]
   before_action :TA_or_more, only: [:update, :edit, :roster, :import, :new_import, :new_enrollment, :add_enrollment, :data]
 
@@ -75,6 +76,52 @@ class CoursesController < ApplicationController
       format.html
       format.text { send_data @course.yaml_dict, filename: "#{@course.name.gsub(" ", "_").downcase}_data.yaml" }
     end
+  end
+
+  def api
+  end
+
+  def api_submit
+    if not params[:file]
+      flash[:error] = "Please submit a valid YAML file"
+    else
+      commands = YAML.load_file params[:file].tempfile
+      credentials = (commands.find { |command| command["credentials"] })["credentials"]
+      commands.delete_if { |command| command["credentials"] }
+      if not credentials
+        flash[:error] = "Didn't submit any credentials. See the examples for more info."
+      else
+        user = User.find_by(email: credentials["email"].downcase)
+        if !user
+          flash[:error] = 'This email is not registered'
+        elsif !user.authenticate(credentials["password"])
+          flash[:error] = 'Invalid password'
+        else
+          enrollment = user.enrollments.find_by(course_id: params[:id])
+          if not enrollment
+            flash[:error] = "User given by credentials isn't enrolled in the course"
+          elsif enrollment.status <= Statuses::READER
+            flash[:error] = "User given by credentials doesn't have permissions. Must be TA or higher."
+          else
+            # All credentials pass
+            success_messages = []
+            commands.each do |command|
+              success, messages = @course.execute_command(command, params["assignment_file"], params["solution_file"])
+              if not success
+                flash[:error] = messages
+                break
+              else
+                success_messages.push *messages
+              end
+            end
+            if flash[:error].blank?
+              flash[:success] = success_messages
+            end
+          end
+        end
+      end
+    end
+    redirect_to api_course_path(@course)
   end
 
   private

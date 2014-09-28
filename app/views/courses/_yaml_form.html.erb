@@ -1,0 +1,11 @@
+<div class="row">
+	<%= form_tag api_submit_course_path(@course), multipart: true do %>
+		<div class="span3">
+			<%= label_tag :file, "Submit YAML file" %>
+			<%= file_field_tag :file, accept: 'text' %>
+		</div>
+		<div class="span2">
+			<%= submit_tag "Import", class: "btn btn-large btn-primary" %>
+		</div>
+	<% end %>
+</div>

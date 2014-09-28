@@ -19,7 +19,7 @@
 	<div class="span6">
 		<h2>Solution/Rubric</h2>
 		<% if @subpart %>
-			<% @subpart.pages.each do |page| %>
+			<% @subpart.pages.all.each do |page| %>
 				<div class="span6">
 					<%= image_tag page.page_file_url %>
 				</div>
@@ -33,7 +33,7 @@
 	<div class="span6">
 		<h2>Submission</h2>
 		<% if @subm_subpart %>
-			<% @subm_subpart.pages.each do |page| %>
+			<% @subm_subpart.pages.all.each do |page| %>
 				<div class="span6">
 					<%= image_tag page.page_file_url %>
 				</div>

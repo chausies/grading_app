@@ -10,16 +10,18 @@ Rails.application.routes.draw do
         end
       end
       member do
-        get :configure_subparts
-        get :configure_grading
+        get  :configure_subparts
+        get  :configure_grading
         post :begin_grading
-        put :end_grading
+        put  :end_grading
       end
     end
     resources :enrollments
     member do
-      get :data
-      get :new_import
+      get  :data
+      get  :api
+      post :api_submit
+      get  :new_import
       post :import
     end
   end                                                                                                                               

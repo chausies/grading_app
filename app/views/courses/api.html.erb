@@ -1,0 +1,20 @@
+<% provide(:title, "#{@course.name} | API") %>
+<h1>MagicGrader API</h1>
+
+<div class="row">
+  <div class="span10 offset1">
+		<p>
+			From here, you can programatically work with MagicGrader through a simple interface. This is useful for say automating the creation of homeworks.
+		</p>
+		<p>
+			<%= render 'yaml_form' %>
+		</p>
+		<p>
+			How the MagicGrader API (MAPI) works is you submit an array of commands as a YAML file. <a href="http://en.wikipedia.org/wiki/YAML">YAML</a> is a convenient and easy-to-use object serializer that has support for most programming languages, including python and ruby.
+		</p>
+		<h3>Sample python program that uses MAPI</h3>
+		<p>
+			<%= raw(CodeRay.scan(File.open("app/views/courses/api_example1.py", 'rb').read, :python).div) %>
+		</p>
+	</div>
+</div>

@@ -43,4 +43,12 @@ module ApplicationHelper
 		link_to name, '#', options
 	end
 
+	def pluralize_phrase count, noun, singular_verb, plural_verb
+		"#{count} " + ((count == 1) ? "#{noun} #{singular_verb}" : "#{noun.pluralize} plural_verb")
+	end
+
+	def plural_without_count count, noun
+		count == 1 ? noun : noun.pluralize
+	end
+
 end
