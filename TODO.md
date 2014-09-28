@@ -26,13 +26,17 @@ Add meta-data collection capabilities (e.g. surveys) on assignments.
 Add delayed jobs
 
 Implement Grading algorithms  
-  * ~~first simple (grade assigned is average of gradings, etc)~~
+  * ~~first simple (grade assigned is average of gradings, etc)~~  
   * then 1337 haxors (sick ass machine learning sk1llz)  
   * Implement better assignment of gradings  
 
 ~~Make better populate rake task.~~
 
-Add API for command-line interface.
+~~Add API for command-line interface.~~  
+Add more API tasks  
+  * Get a wishlist of API tasks that have demand
+
+Add sexy "suggest features" page.
 
 Make the site look amazing (fix all the CSS, html, make a gorgeous UI)
 
