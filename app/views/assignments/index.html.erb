@@ -3,7 +3,7 @@
 <h1>Assignments for <%= @course.name %></h1>
 <div class="row">
   <div class="span10 offset1">
-    <%= render 'assignments_list' %>
+    <%= render 'assignments_list', enrollment: @enrollment %>
   </div>
 </div>
 
