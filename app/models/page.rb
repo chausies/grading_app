@@ -1,7 +1,7 @@
 class Page < ActiveRecord::Base
   # Attributes: page_num, page_file, parent_id parent_type
 	
-	belongs_to :assignment, class_name: "Assignment", foreign_key: "assignment_id"
+	# belongs_to :assignment, class_name: "Assignment", foreign_key: "assignment_id"
 	belongs_to :solution,   class_name: "Assignment", foreign_key: "solution_id"
 	belongs_to :submission
 
@@ -16,7 +16,7 @@ class Page < ActiveRecord::Base
 
 		def only_one_parent
 			if [self.assignment_id, self.solution_id, self.submission_id].reject(&:blank?).size !=1
-				errors[:base] << ("Page must have exactly one parent")
+				errors.add(:page, "must have exactly one parent")
 			end
 		end
 end

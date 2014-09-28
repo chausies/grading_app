@@ -10,7 +10,7 @@ class Assignment < ActiveRecord::Base
   has_many :gradings, dependent: :destroy
   has_many :grades, dependent: :destroy
 	has_many :subparts, as: :parent, dependent: :destroy
-	has_many :assignment_pages, dependent: :destroy, class_name: "Page", foreign_key: "assignment_id"
+	# has_many :assignment_pages, dependent: :destroy, class_name: "Page", foreign_key: "assignment_id"
 	has_many :solution_pages, dependent: :destroy, class_name: "Page", foreign_key: "solution_id"
 
 	accepts_nested_attributes_for :subparts, allow_destroy: true
@@ -21,7 +21,7 @@ class Assignment < ActiveRecord::Base
   mount_uploader :assignment_file, PdfUploader
 	mount_uploader :solution_file,   PdfUploader
 
-	after_save :update_assignment_pages
+	# after_save :update_assignment_pages
 	after_save :update_solution_pages
 
 	def min_points
@@ -103,7 +103,7 @@ class Assignment < ActiveRecord::Base
 		if index_arr_or_index_str.is_a? String
 			index_arr = index_arr_or_index_str.split('.').map! { |str| str.to_i }
 		else
-			index_arr = index_arr_or_index_str
+			index_arr = Array.new(index_arr_or_index_str)
 		end
 		index_arr.map! { |ind| ind - 1 }
 		ind = index_arr.shift
