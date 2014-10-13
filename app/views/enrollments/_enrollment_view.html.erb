@@ -9,6 +9,6 @@
 <% end %>
 
 <% if @enrollment.status > Statuses::READER %>
-	<%= link_to "Edit Enrollment", edit_course_enrollment_path(@course, new_enrollment), type: "button", class: "btn btn-large btn-primary" %>
-	<%= link_to 'Delete Enrollment', [@course, new_enrollment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-large btn-danger" %>
+	<%= link_to "Edit Enrollment", edit_course_enrollment_path(@course, new_enrollment), type: "button", class: "btn btn-primary" %>
+	<%= link_to 'Delete Enrollment', [@course, new_enrollment], method: :delete, data: { confirm: 'Are you sure?' }, type: "button", class: "btn btn-danger" %>
 <% end %>

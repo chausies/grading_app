@@ -62,7 +62,12 @@ class SubmissionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def submission_params
-			params.require(:submission).permit(:name, :pdf).merge subparts_attributes: params.require(:submission)[:subparts_attributes]
+			subpart_stuff = params.require(:submission)[:subparts_attributes]
+			if subpart_stuff
+				params.require(:submission).permit(:name, :pdf).merge subparts_attributes: subpart_stuff
+			else
+				params.require(:submission).permit(:name, :pdf)
+			end
     end
 
     def check_submission_allowed

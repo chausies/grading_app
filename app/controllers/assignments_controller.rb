@@ -138,7 +138,12 @@ class AssignmentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def assignment_params
-			params.require(:assignment).permit(:name, :assignment_file, :solution_file, :max_points, :min_points).merge subparts_attributes: params.require(:assignment)[:subparts_attributes]
+			subpart_stuff = params.require(:assignment)[:subparts_attributes]
+			if subpart_stuff
+				params.require(:assignment).permit(:name, :assignment_file, :solution_file).merge subparts_attributes: subpart_stuff
+			else
+				params.require(:assignment).permit(:name, :assignment_file, :solution_file, :max_points, :min_points)
+			end
     end
 
 end

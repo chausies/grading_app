@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140905221336) do
+ActiveRecord::Schema.define(version: 20140929091059) do
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -39,6 +39,22 @@ ActiveRecord::Schema.define(version: 20140905221336) do
   end
 
   add_index "courses", ["name"], name: "index_courses_on_name"
+
+  create_table "delayed_jobs", force: true do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
   create_table "enrollments", force: true do |t|
     t.integer  "participant_id"
@@ -87,6 +103,16 @@ ActiveRecord::Schema.define(version: 20140905221336) do
   add_index "gradings", ["gradee_id"], name: "index_gradings_on_gradee_id"
   add_index "gradings", ["grader_id"], name: "index_gradings_on_grader_id"
   add_index "gradings", ["subpart_id"], name: "index_gradings_on_subpart_id"
+
+  create_table "meta_jobs", force: true do |t|
+    t.string   "identifier"
+    t.integer  "job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "meta_jobs", ["identifier"], name: "index_meta_jobs_on_identifier"
+  add_index "meta_jobs", ["job_id"], name: "index_meta_jobs_on_job_id"
 
   create_table "pages", force: true do |t|
     t.integer  "assignment_id"

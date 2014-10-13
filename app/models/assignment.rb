@@ -129,32 +129,24 @@ class Assignment < ActiveRecord::Base
 		def update_assignment_pages
 			if assignment_file_changed? and assignment_file
 				self.assignment_pages.destroy_all
-				assignment_file.grim.each_with_index do |page, i|
-					temp = Tempfile.new ["assignment_page_#{i + 1}_", ".png"]
-					begin
-						page.save temp.path
-						self.assignment_pages.create! page_num: (i + 1), page_file: temp
-					ensure
-						temp.close
-						temp.unlink
-					end
+				path = assignment_file.get_path
+				reader = PDF::Reader.new(path)
+				reader.page_count.times do |i|
+					self.assignment_pages.create! page_num: (i+1)
 				end
+				metajob = MetaJob.create_job PageJob.new(:assignment, self.id, :assignment_file), "Assignment #{self.id} Assignment File"
 			end
 		end
 
 		def update_solution_pages
 			if solution_file_changed? and solution_file
 				self.solution_pages.destroy_all
-				solution_file.grim.each_with_index do |page, i|
-					temp = Tempfile.new ["soln_page_#{i + 1}_", ".png"]
-					begin
-						page.save temp.path
-						self.solution_pages.create! page_num: (i + 1), page_file: temp
-					ensure
-						temp.close
-						temp.unlink
-					end
+				path = solution_file.get_path
+				reader = PDF::Reader.new(path)
+				reader.page_count.times do |i|
+					self.solution_pages.create! page_num: (i+1)
 				end
+				metajob = MetaJob.create_job PageJob.new(:assignment, self.id, :solution_file), "Assignment #{self.id} Solution File"
 			end
 		end
 

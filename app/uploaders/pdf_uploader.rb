@@ -20,9 +20,13 @@ class PdfUploader < CarrierWave::Uploader::Base
   end
 
 	def grim
-    cache_stored_file! unless cached?
-    Grim.reap(cache_path)
+    Grim.reap(self.get_path)
   end
+
+	def get_path
+    cache_stored_file! unless cached?
+		cache_path
+	end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
@@ -56,16 +60,5 @@ class PdfUploader < CarrierWave::Uploader::Base
   #   "something.jpg" if original_filename
   # end
 
-	#version :seq_of_imgs do
-		#process make_seq_of_imgs: [ [2, 3] ]
-	#end
-
-	#def make_seq_of_imgs(page_arr=[])
-		#manipulate! do |page, index, options|
-			#if page_arr.include?(index+1)
-				#page
-			#end
-		#end
-	#end
 
 end

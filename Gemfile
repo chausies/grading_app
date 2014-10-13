@@ -25,6 +25,10 @@ gem 'grim'
 gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
 gem 'gon'
 gem 'coderay'
+gem 'daemons'
+gem 'delayed_job_active_record'
+gem 'delayed_job_web'
+gem 'pdf-reader'
 
 group :development, :test do
   gem 'better_errors'

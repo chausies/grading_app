@@ -66,16 +66,12 @@ class Submission < ActiveRecord::Base
 		def update_pages
 			if pdf_changed? and pdf
 				self.pages.destroy_all
-				pdf.grim.each_with_index do |page, i|
-					temp = Tempfile.new ["subm_page_#{i + 1}_", ".png"]
-					begin
-						page.save temp.path
-						self.pages.create! page_num: (i + 1), page_file: temp
-					ensure
-						temp.close
-						temp.unlink
-					end
+				path = pdf.get_path
+				reader = PDF::Reader.new(path)
+				reader.page_count.times do |i|
+					self.pages.create! page_num: (i+1)
 				end
+				metajob = MetaJob.create_job PageJob.new(:submission, self.id, :pdf), "Submission #{self.id} PDF"
 			end
 		end
 
