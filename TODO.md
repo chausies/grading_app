@@ -23,7 +23,8 @@ Add javascript to make viewing pages sexier.
 Add meta-data collection capabilities (e.g. surveys) on assignments.  
 
 ~~Flush out Course pages (create a course, create assignments, add students, simple grading)~~  
-Add delayed jobs
+~~Add delayed jobs~~   
+  * Make sure delayed jobs is absolutely 100% robust
 
 Implement Grading algorithms  
   * ~~first simple (grade assigned is average of gradings, etc)~~  
