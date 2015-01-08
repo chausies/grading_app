@@ -5,7 +5,7 @@ Make better README.md file
 
 ~~Make basic site pages (home page, navbar, sign-in pages)~~  
 Update some site pages (make homepage nicer, fix the about and help pages, etc)  
-	* Fix it so that course staff can view another person's homework stuff.  
+  * Fix it so that course staff can view another person's homework stuff.  
 
 ~~Fix up stylings for various site pages (better navbar, better bootstrap, etc)~~
 
@@ -31,7 +31,7 @@ Implement Grading algorithms
   * ~~first simple (grade assigned is average of gradings, etc)~~  
   * then 1337 haxors (sick ass machine learning sk1llz)  
   * Implement better assignment of gradings  
-Make more sophisticated reader grading stuff (load balancing parameters, etc).
+  * Make more sophisticated reader grading stuff (load balancing parameters, etc).
 
 ~~Make better populate rake task.~~
 
